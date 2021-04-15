@@ -21,6 +21,30 @@ function startDB(){
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
 
+function insert(payload){
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO [GK7].[users] (name, email, gender, country, birthday, image) VALUES (@name, @email, @gender, @country, @birthday, @image)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('name', TYPES.VarChar, payload.name)
+        request.addParameter('email', TYPES.VarChar, payload.email)
+        request.addParameter('gender', TYPES.VarChar, payload.gender)
+        request.addParameter('country', TYPES.VarChar, payload.country)
+        request.addParameter('birthday', TYPES.Date, payload.birthday)
+        request.addParameter('image', TYPES.VarChar, payload.image)
+
+        request.on('requestCompleted', (row) => {
+            console.log('User inserted', row); 
+            resolve('user inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.insert = insert;
 
 function select(name){
     return new Promise((resolve, reject) => {
