@@ -12,9 +12,9 @@ const POST = require("../shared/db")
 // Describing method and route
 describe("/POST", () => {
     // What do we expect? 
-    it("it should post an user from the database", (done) => {
+    it("it should post a user from the database", (done) => {
         let user = {
-            name: "hej", email: "hejsa@gmail.com", gender: "female", country: "den", birthday: "1988-01-01", image: "p"
+            name: "Kasper", email: "hfe@gmail.com", gender: "male", country: "den", birthday: "1988-01-01", image: "p"
         }
         // Chai request is chained
         chai 
@@ -27,14 +27,15 @@ describe("/POST", () => {
                         //Validating http status code 
                         console.log(res.body, 'hej')
                         should.not.exist(err)
-                        res.should.have.status(200);
-                        //res.body.should.be.a("array")
-                        /*res.body.user.should.have.property('name')
-                        res.body.user.should.have.property('email')
-                        res.body.user.should.have.property('gender')
-                        res.body.user.should.have.property('country')
-                        res.body.user.should.have.property('birthday')
-                        res.body.user.should.have.property('image')*/
+                        console.log(res.status, "nice")
+                        res.status.should.equal(200);
+                        res.body.should.be.a("object")
+                        /*res.body.should.have.property('name')
+                        res.body.should.have.property('email')
+                        res.body.should.have.property('gender')
+                        res.body.should.have.property('country')
+                        res.body.should.have.property('birthday')
+                        res.body.should.have.property('image')*/
                         done();
         })
     })
