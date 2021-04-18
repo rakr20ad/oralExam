@@ -3,6 +3,8 @@ module.exports = async function (context, req) {
 
 }
 
+
+
 //Lidt ala nedenstående, hvor syntaks skal erstattes med databasen og ikke Json filen
 /*const fs = require('fs');
 const User = require('../Model/User');
