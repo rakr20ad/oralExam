@@ -21,6 +21,7 @@ function startDB(){
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
 
+//Tilhører CreateUser funktionen
 function insert(payload){
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO [GK7].[users] (name, email, gender, country, birthday, image) VALUES (@name, @email, @gender, @country, @birthday, @image)`
@@ -46,6 +47,7 @@ function insert(payload){
 }
 module.exports.insert = insert;
 
+//Tilhører GetUser funktionen
 function select(name){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where name = @name'
@@ -58,6 +60,27 @@ function select(name){
             }
         })
         request.addParameter('name', TYPES.VarChar, name)
+        request.on('row', (columns) => {
+            resolve(columns)
+        })
+        connection.execSql(request)
+    })
+}
+module.exports.select = select;
+
+//Tilhører Login funktionen - samme som ovenstående syntaks
+function select(email){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM [GK7].[users] where email = @email'
+        const request = new Request(sql, (err, rowcount) => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }else if (rowcount == 0) {
+                reject ({message: 'email does not exist'})
+            }
+        })
+        request.addParameter('email', TYPES.VarChar, email)
         request.on('row', (columns) => {
             resolve(columns)
         })
