@@ -1,6 +1,9 @@
 const db = require('../shared/db')
+//const router = express.router
 //const User = require("../Model/user");
 var fs = require('fs');
+
+
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -11,26 +14,26 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        /*case 'GET': 
+        case 'GET': 
             await get(context, req);
-            break; */
+            break; 
         case 'POST':
             console.log("test")
             await post(context, req);
             break; 
-        /*default:
+        default:
             context.res = {
                 body: "Please get or post"
             };
-            break*/
+            break
         }
     }
 
-   /* async function get(context, req) {
+   async function get(context, req) {
         try {
-            let name = req.query.name
-            console.log(name)
-            let user = await db.select(name)
+            let firstName = req.query.firstName
+            console.log(firstName)
+            let user = await db.select(firstName)
             context.res = {
                 body: user
             }
@@ -40,7 +43,7 @@ module.exports = async function (context, req) {
                 body: `no user - ${error.message}`
             }
         }
-    }*/
+    }
     async function post(context, req) {
         try {
             let user = req.body /*new User(
@@ -56,10 +59,8 @@ module.exports = async function (context, req) {
             )*/
             await db.insert(user)
             context.res = {
-            body: "<h1>Hello " + req.body.firstName + "</h1>",
-            headers: {
-                "Content-Type": "text/html"
-            }
+            body: {status: 'Success'}
+            
         }
         } catch(error) {
             context.res = {

@@ -48,9 +48,9 @@ function insert(payload){
 module.exports.insert = insert;
 
 //Tilhører GetUser funktionen
-function select(name){
+function select(firstName){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] where name = @name'
+        const sql = 'SELECT * FROM [GK7].[users] where firstName = @firstName'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -59,7 +59,7 @@ function select(name){
                 reject ({message: 'User does not exist'})
             }
         })
-        request.addParameter('name', TYPES.VarChar, name)
+        request.addParameter('firstName', TYPES.VarChar, firstName)
         request.on('row', (columns) => {
             resolve(columns)
         })
@@ -69,7 +69,7 @@ function select(name){
 module.exports.select = select;
 
 //Tilhører Login funktionen - samme som ovenstående syntaks
-function select(email){
+function logIn(email, password){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
@@ -81,6 +81,7 @@ function select(email){
             }
         })
         request.addParameter('email', TYPES.VarChar, email)
+        request.addParameter('password', TYPES.VarChar, password)
         request.on('row', (columns) => {
             resolve(columns)
         })

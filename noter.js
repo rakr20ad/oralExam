@@ -1,1 +1,1 @@
-SELECT * FROM users WHERE age BETWEEN '$age' AND '$age';
+//SELECT * FROM users WHERE age BETWEEN '$age' AND '$age';

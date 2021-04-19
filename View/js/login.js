@@ -7,6 +7,11 @@ var login = document.getElementById("login")
 login.addEventListener("click", function(e){
     e.preventDefault()
     var email = document.getElementById("email").value 
+    /*if(email!==email || password!==password){
+      return "Email or password is incorrect"
+    }else {
+      res.redirect('/homepage')
+    }*/
     fetch("http://localhost:7071/api/logIn",{
         method:"POST",
         body:json.stringify({email:email}),
@@ -23,27 +28,6 @@ login.addEventListener("click", function(e){
         console.log(err)
     })
 });
-var logInButton = document.getElementById("getUser"); 
-
-getButton.addEventListener('click', function(){
-    var name = document.getElementById('name').value 
-    fetch(`http://localhost:7071/api/createUser?name=${name}`)
-        .then(
-            function(response){
-                if(response.status !== 200){
-                    console.log("noget gik galt" + response.status);
-                    return;  
-                }
-                response.json().then(function (data) {
-                    console.log(data);
-                });
-            }
-
-        )
-            .catch(function (err) {
-                console.log(err);
-    });
-})
 
 
 

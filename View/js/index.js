@@ -12,7 +12,7 @@ form.addEventListener("submit", function(e) {
     var country = document.getElementById("country").value    
     var gender = document.getElementById("gender").value
     var preferred_gender = document.getElementById("preferred_gender").value
-
+    
     fetch("http://localhost:7071/api/createUser", {
         method: "POST",
         body: JSON.stringify({
