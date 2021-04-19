@@ -23,6 +23,27 @@ login.addEventListener("click", function(e){
         console.log(err)
     })
 });
+var logInButton = document.getElementById("getUser"); 
+
+getButton.addEventListener('click', function(){
+    var name = document.getElementById('name').value 
+    fetch(`http://localhost:7071/api/createUser?name=${name}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+})
 
 
 

@@ -1,4 +1,6 @@
 const db = require('../shared/db')
+//const User = require("../Model/user");
+var fs = require('fs');
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -9,22 +11,22 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'GET': 
+        /*case 'GET': 
             await get(context, req);
-            break; 
+            break; */
         case 'POST':
             console.log("test")
             await post(context, req);
             break; 
-        default:
+        /*default:
             context.res = {
                 body: "Please get or post"
             };
-            break
+            break*/
         }
     }
 
-    async function get(context, req) {
+   /* async function get(context, req) {
         try {
             let name = req.query.name
             console.log(name)
@@ -38,14 +40,27 @@ module.exports = async function (context, req) {
                 body: `no user - ${error.message}`
             }
         }
-    }
+    }*/
     async function post(context, req) {
         try {
-            let payload = req.body; 
-            await db.insert(payload); 
+            let user = req.body /*new User(
+                req.body.firstName,
+                req.body.lastName,
+                req.body.email,
+                req.body.password, 
+               // req.body.birthday,
+                req.body.city,
+                req.body.country,
+                req.body.gender,
+                req.body.preferred_gender
+            )*/
+            await db.insert(user)
             context.res = {
-                body: {status: 'Success'}
+            body: "<h1>Hello " + req.body.firstName + "</h1>",
+            headers: {
+                "Content-Type": "text/html"
             }
+        }
         } catch(error) {
             context.res = {
                 status: 400, 
@@ -53,7 +68,7 @@ module.exports = async function (context, req) {
             }
         }
     }
-
+    
 /*const name = (req.query.name || (req.body && req.body.name));
 const responseMessage = name
     ? "Hello, " + name + ". This HTTP triggered function executed successfully."

@@ -71,7 +71,7 @@ module.exports.select = select;
 //Tilhører Login funktionen - samme som ovenstående syntaks
 function select(email){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] where email = @email'
+        const sql = 'SELECT * FROM [GK7].[users] where email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -88,3 +88,31 @@ function select(email){
     })
 }
 module.exports.select = select;
+
+function insert(user){
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @city, @country, @gender, @preferred_gender)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('firstName', TYPES.VarChar, user.firstName)
+        request.addParameter('lastName', TYPES.VarChar, user.lastName)
+        request.addParameter('email', TYPES.VarChar, user.email)
+        request.addParameter('password', TYPES.VarChar, user.password)
+       // request.addParameter('birthday', TYPES.Date, user.birthday)
+        request.addParameter('city', TYPES.VarChar, user.city)        
+        request.addParameter('country', TYPES.VarChar, user.country)        
+        request.addParameter('gender', TYPES.VarChar, user.gender)
+        request.addParameter('preferred_gender', TYPES.VarChar, user.preferred_gender)
+
+        request.on('requestCompleted', (row) => {
+            console.log('User inserted', row); 
+            resolve('user inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.insert = insert;

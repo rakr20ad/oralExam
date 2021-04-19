@@ -8,14 +8,17 @@
 <body>
     <div>
         <h2>Create an account</h2>
-        <form method="post" id="form">
-            <input type="text" id="name" placeholder="Name">
+        <form method="post" action="/View/homepage.html" id="form">
+            <input type="text" id="firstName" placeholder="FirstName">
+            <input type="text" id="lastName" placeholder="LastName">            
             <input type="email" id="email" placeholder="Email">
+            <input type="text" id="password" placeholder="Password">
+           <!-- <input type="date" id="birthday" placeholder="Birthday">  -->          
+            <input type="text" id="city" placeholder="City">
+            <input type="text" id="country" placeholder="Country">            
             <input type="text" id="gender" placeholder="Gender">
-            <input type="text" id="country" placeholder="Country">
-            <input type="date" id="birthday" placeholder="Birthday">
-            <input type="text" id="image" placeholder="Image">
-            <button type="submit" name="Submit">Create your account!</button>
+            <input type="text" id="preferred_gender" placeholder="Preferred_gender">
+            <a href=homepage.html class ="btn btn-secondary" type="submit" name="Submit">Create your account!</a>
         </form>
     </div>
 
@@ -29,7 +32,7 @@
         <form method="post" id="login">
             <input type="email" id="email" placeholder="Email">
             <input type="password" id="password" placeholder="passsword">
-            <a href="./homepage.html" class="btn btn-secondary">Log in</a>
+            <a href="./homepage.html" class=>Log in</a>
         </form>
     </div>
 
