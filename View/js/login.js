@@ -5,6 +5,7 @@
 var login = document.getElementById("login")
 
 login.addEventListener("click", function(e){
+    //function login(e){
     e.preventDefault()
     var email = document.getElementById("email").value 
     var password = document.getElementById("password").value 
@@ -15,31 +16,34 @@ login.addEventListener("click", function(e){
     }*/
     fetch("http://localhost:7071/api/logIn",{
         method:"POST",
-        body:json.stringify({email: email, password: password}),
+        body:JSON.stringify({email: email, password: password}),
         headers: {
-            "Content-Type": "application/json; charset-UTG-8"
+            "Content-Type": "application/JSON; charset-UTG-8"
         }
-    }).then((response) => {
-      if (response.status == 200) {
+        .then((response) => {
+          return response.json()
+      })
+    }).then((data) => {
+      console.log(data)
+      /*if (status == 200) {
         console.log("Ja tak")
-        localStorage.setItem("loggedin", JSON.stringify(true));
+        /*localStorage.setItem("loggedin", JSON.stringify(true));
         localStorage.setItem("email", JSON.stringify(user.email));
-        localStorage.setItem("password", JSON.stringify(user.password));
-        window.location="account.html" 
+        localStorage.setItem("password", JSON.stringify(user.password));*/
+        /*window.location="homepage.html" 
       }
-      else if  (response.status == 404) {
+      else if  (status == 404) {
         console.log("Could not login")
       }
       else {
         console.log("What")
-      }
+      }*/
     })
     .catch((error) => {
       console.log(user)
       console.log(error)
       console.error("Kunne ikke logge ind");
     });
-    return response.json()
   })
      
 /*})
