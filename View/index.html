@@ -9,7 +9,7 @@
     <div>
         <h2>Create an account</h2>
         
-        <form method="post" href="homepage.html" id="form">
+        <form method="post" id="form">
             <input type="text" id="firstName" placeholder="FirstName" required>
             <input type="text" id="lastName" placeholder="LastName" required>            
             <input type="email" id="email" placeholder="Email" required>
@@ -19,7 +19,7 @@
             <input type="text" id="country" placeholder="Country" required>            
             <input type="text" id="gender" placeholder="Gender" required>
             <input type="text" id="preferred_gender" placeholder="Preferred_gender" required>
-            <button type="submit" name="Submit"> your account!</button>
+            <button type="submit" name="Submit">Create your account!</button>
         </form>
     </div>
 
@@ -30,16 +30,14 @@
 
      <div>
         <h2>Login</h2>
-        <form method="post">
+        <form method="post" id="login" action="profile.html">
             <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="passsword">
+            <input type="password" id="password" placeholder="Passsword">
             <!--<a href="./homepage.html" onclick=""  class="button">Log in</a>-->
-            <button id="login">log in</button>
+            <button type="submit" id="login" href="profile.html">log in</button>
         </form>
     </div>
 
-
-    <script src="js/login.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

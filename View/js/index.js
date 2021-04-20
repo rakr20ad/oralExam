@@ -41,8 +41,8 @@ form.addEventListener("submit", function(e) {
 var getButton = document.getElementById("getUser"); 
 
 getButton.addEventListener('click', function(){
-    var name = document.getElementById('name').value 
-    fetch(`http://localhost:7071/api/createUser?name=${name}`)
+    var firstName = document.getElementById('firstName').value 
+    fetch(`http://localhost:7071/api/createUser?firstName=${firstName}`)
         .then(
             function(response){
                 if(response.status !== 200){
@@ -59,3 +59,77 @@ getButton.addEventListener('click', function(){
                 console.log(err);
     });
 })
+
+var login = document.getElementById("login")
+login.addEventListener("submit", function(e) {
+    e.preventDefault()
+    var email = document.getElementById("email").value
+    var password = document.getElementById("password").value
+    fetch("http://localhost:7071/api/logIn", {
+        method: "post",
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        /*if (status == 200) {*/
+            console.log("Ja tak")
+            localStorage.setItem("loggedin", JSON.stringify(true));
+            localStorage.setItem("email", JSON.stringify(email));
+            localStorage.setItem("password", JSON.stringify(password));
+            window.location="profile.html" 
+          if  (status == 404) {
+            console.log("Could not login")
+          }
+          else {
+            console.log("What")
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          console.error("Kunne ikke logge ind");
+        });
+    })
+
+/*
+var login = document.getElementById("login");
+
+login.addEventListener("click", function(e) {
+    e.preventDefault()
+    var email = document.getElementById("email").value
+    var password = document.getElementById("password").value
+    
+    fetch("http://localhost:7071/api/logIn", {
+        method: "POST",
+        body: JSON.stringify({
+            email: email,
+            password: password,
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        if(data == status(200)){
+          window.location="homepage.html"
+        } else if (data == status(404)){
+          console.log("Could not log in")
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+
+})*/

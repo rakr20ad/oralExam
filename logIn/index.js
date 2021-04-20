@@ -12,23 +12,23 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'GET': 
+       /* case 'GET': 
             await get(context, req);
-            break; 
+            break;*/ 
         case 'POST':
             console.log("test")
             await post(context, req);
-            break; 
-        default:
+            break; }
+        /*default:
             context.res = {
                 body: "Please get or post"
             };
             break
-        }
+        }*/
     }
 
     //Ved ikke, om man først skal get'e, isåfald er jeg lidt på bar bund ift. hvorfor.  
-    async function get(context, req) {
+  /*  async function get(context, req) {
         try {
             let email = req.query.email
             console.log(email)
@@ -43,14 +43,14 @@ module.exports = async function (context, req) {
             }
         }
     }
-
+*/
     // Hvilken SQL statement tjekker om noget stemmer overens med databasen 
     // Eller er den logik i db.js? 
     async function post(context, req) {
         try {
-            let email = req.query.email
-            let password = req.query.password
-            let user = req.query
+            let email = req.body.email
+            let password = req.body.password
+            let user = req.body
             await db.select(email, password)
             context.res = {
             body: user, 

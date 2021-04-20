@@ -1,7 +1,7 @@
 //Herinde skal vores login funktion skrives, som skal kobles på "Button" til login der ligger under homepage.html
 //const { json } = require("express")
 
-var login = document.getElementById("login");
+/*var login = document.getElementById("login");
 
 login.addEventListener("click", function(e) {
     e.preventDefault()
@@ -34,7 +34,7 @@ login.addEventListener("click", function(e) {
     })
 
 })
-
+*/
 
 //Nikolajs syntaks fra index.js
 /*var login = document.getElementById("login")

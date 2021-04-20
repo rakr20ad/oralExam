@@ -73,22 +73,21 @@ module.exports.SELECT = SELECT;
 //Men tænker at dette er noget, vi kan bygge videre på.. 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT id FROM [GK7].[users] WHERE email = @email AND password = @password'
-        const request = new Request(sql, (err, rowcount) => {
+        const sql = 'SELECT * FROM [GK7].[users] WHERE email = @email AND password = @password'
+        const request = new Request(sql, (err) => {
             if(err) {
                 reject(err)
                 console.log(err)
-            }else if (rowcount == 0) {
-                reject ({message: 'email or password does not exist'})
             }
-        })
+            })
         request.addParameter('email', TYPES.VarChar, email)
         request.addParameter('password', TYPES.VarChar, password)
-        request.on('row', (columns) => {
-            resolve(columns)
-        })
-        connection.execSql(request)
-    })
+        request.on('requestCompleted', (row) => {
+            console.log('User inserted', row); 
+            resolve('user inserted', row)
+        });
+        connection.execSql(request);
+    });
 }
 module.exports.select = select;
 
