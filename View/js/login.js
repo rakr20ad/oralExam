@@ -1,8 +1,43 @@
 //Herinde skal vores login funktion skrives, som skal kobles på "Button" til login der ligger under homepage.html
 //const { json } = require("express")
 
+var login = document.getElementById("login");
+
+login.addEventListener("click", function(e) {
+    e.preventDefault()
+    var email = document.getElementById("email").value
+    var password = document.getElementById("password").value
+    
+    fetch("http://localhost:7071/api/logIn", {
+        method: "POST",
+        body: JSON.stringify({
+            email: email,
+            password: password,
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        if(data == status(200)){
+          window.location="homepage.html"
+        } else if (data == status(404)){
+          console.log("Could not log in")
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+
+})
+
+
 //Nikolajs syntaks fra index.js
-var login = document.getElementById("login")
+/*var login = document.getElementById("login")
 
 login.addEventListener("click", function(e){
     //function login(e){
@@ -14,7 +49,7 @@ login.addEventListener("click", function(e){
     }else {
       res.redirect('/homepage')
     }*/
-    fetch("http://localhost:7071/api/logIn",{
+    /*fetch("http://localhost:7071/api/logIn",{
         method:"POST",
         body:JSON.stringify({email: email, password: password}),
         headers: {
@@ -38,13 +73,13 @@ login.addEventListener("click", function(e){
       else {
         console.log("What")
       }*/
-    })
+    /*})
     .catch((error) => {
       console.log(user)
       console.log(error)
       console.error("Kunne ikke logge ind");
     });
-  })
+  })*/
      
 /*})
     .then((data) => {
