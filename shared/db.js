@@ -48,7 +48,7 @@ function insert(payload){
 module.exports.insert = insert;
 
 //Tilhører GetUser funktionen
-function select(firstName){
+function SELECT(firstName){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where firstName = @firstName'
         const request = new Request(sql, (err, rowcount) => {
@@ -66,18 +66,20 @@ function select(firstName){
         connection.execSql(request)
     })
 }
-module.exports.select = select;
+module.exports.SELECT = SELECT;
 
 //Tilhører Login funktionen - samme som ovenstående syntaks
-function logIn(email, password){
+//Rasmus: Jeg aner ikke, hvilken sql function, man skal vælge her????? 
+//Men tænker at dette er noget, vi kan bygge videre på.. 
+function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] where email = @email AND password = @password'
+        const sql = 'SELECT id FROM [GK7].[users] WHERE email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
                 console.log(err)
             }else if (rowcount == 0) {
-                reject ({message: 'email does not exist'})
+                reject ({message: 'email or password does not exist'})
             }
         })
         request.addParameter('email', TYPES.VarChar, email)

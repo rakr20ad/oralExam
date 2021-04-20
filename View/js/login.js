@@ -7,6 +7,7 @@ var login = document.getElementById("login")
 login.addEventListener("click", function(e){
     e.preventDefault()
     var email = document.getElementById("email").value 
+    var password = document.getElementById("password").value 
     /*if(email!==email || password!==password){
       return "Email or password is incorrect"
     }else {
@@ -14,34 +15,40 @@ login.addEventListener("click", function(e){
     }*/
     fetch("http://localhost:7071/api/logIn",{
         method:"POST",
-        body:json.stringify({email:email}),
+        body:json.stringify({email: email, password: password}),
         headers: {
             "Content-Type": "application/json; charset-UTG-8"
         }
     }).then((response) => {
-        
-        return response.json()
+      if (response.status == 200) {
+        console.log("Ja tak")
+        localStorage.setItem("loggedin", JSON.stringify(true));
+        localStorage.setItem("email", JSON.stringify(user.email));
+        localStorage.setItem("password", JSON.stringify(user.password));
+        window.location="account.html" 
+      }
+      else if  (response.status == 404) {
+        console.log("Could not login")
+      }
+      else {
+        console.log("What")
+      }
     })
+    .catch((error) => {
+      console.log(user)
+      console.log(error)
+      console.error("Kunne ikke logge ind");
+    });
+    return response.json()
+  })
+     
+/*})
     .then((data) => {
         console.log(data)
     }).catch((err) => {
         console.log(err)
-    })
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }) 
+});*/
 
 
 //Syntaks der måske kan bruges - man skal i hvert fald have en login funktion, som vist: 

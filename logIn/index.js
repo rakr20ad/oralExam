@@ -1,11 +1,10 @@
 //Vi har kopieret syntaks fra Nikolajs video, så alt det der også er inde fra createUser/index.js, 
 //(...) logikken bag, er at vi vil get mail for at tjekke om det er i databasen 
-const User = require("../Model/user");
+//const User = require("../Model/user");
 const db = require("../shared/db");
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
-    const db = require('../shared/db')
 
     try{
         await db.startDB(); // Start DB connection
@@ -13,20 +12,60 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-/*        case 'GET': 
+        case 'GET': 
             await get(context, req);
-            break; */
+            break; 
         case 'POST':
             console.log("test")
             await post(context, req);
             break; 
-        /*default:
+        default:
             context.res = {
                 body: "Please get or post"
             };
             break
-        }*/
-    }}
+        }
+    }
+
+    //Ved ikke, om man først skal get'e, isåfald er jeg lidt på bar bund ift. hvorfor.  
+    async function get(context, req) {
+        try {
+            let email = req.query.email
+            console.log(email)
+            let users = await db.SELECT(email)
+            context.res = {
+                body: users
+            }
+        } catch(error) {
+            context.res = {
+                status: 400, 
+                body: `no user - ${error.message}`
+            }
+        }
+    }
+
+    // Hvilken SQL statement tjekker om noget stemmer overens med databasen 
+    // Eller er den logik i db.js? 
+    async function post(context, req) {
+        try {
+            let email = req.query.email
+            let password = req.query.password
+            let user = req.query
+            await db.select(email, password)
+            context.res = {
+            body: user, 
+            status: 200
+            /*context.res.status(302) 
+            .set('location', 'homepage.html')
+            .send()*/
+        } }catch(error) {
+            context.res = {
+                status: 400, 
+                body: error.message
+            }
+        }
+    }
+    
 /*
     async function get(context, req) {
         try {
@@ -45,7 +84,7 @@ module.exports = async function (context, req) {
     };
 */
 
-    async function post(context, req) {
+   /* async function post(context, req) {
         try {
             let user = new User(
                 req.body.firstName,
@@ -83,7 +122,7 @@ module.exports = async function (context, req) {
                 body: err.message
             }
         }
-    };    
+    };  */  
   /*      
             let payload = req.body; 
             await db.insert(payload); 

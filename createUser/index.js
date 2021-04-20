@@ -33,7 +33,7 @@ module.exports = async function (context, req) {
         try {
             let firstName = req.query.firstName
             console.log(firstName)
-            let user = await db.select(firstName)
+            let user = await db.SELECT(firstName)
             context.res = {
                 body: user
             }
@@ -51,7 +51,7 @@ module.exports = async function (context, req) {
                 req.body.lastName,
                 req.body.email,
                 req.body.password, 
-               // req.body.birthday,
+                req.body.birthday,
                 req.body.city,
                 req.body.country,
                 req.body.gender,
