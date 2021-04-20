@@ -14,7 +14,7 @@ describe("/POST", () => {
     // What do we expect? 
     it("it should post a user from the database", (done) => {
         let user = {
-            name: "Kasper", email: "hfe@gmail.com", gender: "male", country: "den", birthday: "1988-01-01", image: "p"
+            firstName: "Kasper", lastName:"Johansen", email: "UnitTest@gmail.com", password: "1234", city: "Slangerup", country: "den", gender: "male", preferred_gender: "female"
         }
         // Chai request is chained
         chai 
