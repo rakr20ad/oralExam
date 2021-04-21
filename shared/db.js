@@ -118,3 +118,67 @@ function insert(user){
     });
 }
 module.exports.insert = insert;
+
+function insertAdmin(admin){
+    return new Promise((resolve, reject) => {
+        const sql = `INSERT INTO [GK7].[admin] (firstName, lastName, email, password) VALUES (@firstName, @lastName, @email, @password)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('firstName', TYPES.VarChar, admin.firstName)
+        request.addParameter('lastName', TYPES.VarChar, admin.lastName)
+        request.addParameter('email', TYPES.VarChar, admin.email)
+        request.addParameter('password', TYPES.VarChar, admin.password)
+       
+        request.on('requestCompleted', (row) => {
+            console.log('User inserted', row); 
+            resolve('user inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.insertAdmin = insertAdmin;
+
+function selectAdmin(email, password){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM [GK7].[admin] WHERE email = @email AND password = @password'
+        const request = new Request(sql, (err) => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }
+            })
+        request.addParameter('email', TYPES.VarChar, email)
+        request.addParameter('password', TYPES.VarChar, password)
+        request.on('requestCompleted', (row) => {
+            console.log('User inserted', row); 
+            resolve('user inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.selectAdmin = selectAdmin;
+
+//Tilhører view all users funktionen
+function viewAllUsers(){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM [GK7].[users]'
+        const request = new Request(sql, (err, rowcount) => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }else if (rowcount == 0) {
+                reject ({message: 'No users'})
+            }
+        })
+        //request.addParameter('firstName', TYPES.VarChar, firstName)
+        request.on('row', (columns) => {
+            resolve(columns)
+        })
+        connection.execSql(request)
+    })
+}
+module.exports.viewAllUsers = viewAllUsers;
