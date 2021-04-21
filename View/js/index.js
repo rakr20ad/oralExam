@@ -60,6 +60,7 @@ getButton.addEventListener('click', function(){
     });
 })
 
+
 var login = document.getElementById("login")
 login.addEventListener("submit", function(e) {
     e.preventDefault()
@@ -99,6 +100,45 @@ login.addEventListener("submit", function(e) {
         });
     })
 
+var logout = document.getElementById("logout")
+
+logout.addEventListener("click", function(e) {
+    e.preventDefault()
+    /*var email = document.getElementById("email").value
+    var password = document.getElementById("password").value*/
+    fetch("http://localhost:7071/api/logIn", {
+        method: "post",
+        body: JSON.stringify({
+            email: email,
+            password: password
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        /*if (status == 200) {*/
+            console.log("Ja tak")
+            localStorage.setItem("loggedin", JSON.stringify(false));
+            localStorage.removeItem("email", JSON.stringify(email));
+            localStorage.removeItem("password", JSON.stringify(password));
+            window.location="index.html" 
+          if  (status == 404) {
+            console.log("Could not login")
+          }
+          else {
+            console.log("Ej hvor galt")
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          console.error("Kunne ikke logge ud");
+        });
+    })
 /*
 var login = document.getElementById("login");
 
