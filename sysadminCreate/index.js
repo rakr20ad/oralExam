@@ -1,6 +1,6 @@
 const db = require('../shared/db')
 //const router = express.router
-//const User = require("../Model/user");
+const Admin = require("../Model/admin");
 
 
 module.exports = async function (context, req) {
@@ -30,7 +30,8 @@ module.exports = async function (context, req) {
 
     async function post(context, req) {
         try {
-            let admin = req.body /*new User(
+            let admin1 = req.body;
+            let admin = new Admin(admin1) /*new User(
                 req.body.firstName,
                 req.body.lastName,
                 req.body.email,

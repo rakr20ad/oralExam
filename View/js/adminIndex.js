@@ -48,7 +48,10 @@ adminLogin.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
-        /*if (status == 200) {*//*
+        /*if (status == 200) {*/
+//const { get } = require("superagent");
+
+/*
             localStorage.setItem("loggedIn", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
@@ -68,20 +71,20 @@ var getUsers = document.getElementById("getUsers")
 
     getUsers.addEventListener("click", function(){
         //var firstName = document.getElementById("firstName").value
-        fetch(`http://localhost:7071/api/statistics`)
-            .then(
-                function(response){
-                    if (response.status !== 200){
-                        console.log("Noget gik galt" + response.status);
-                        return;
-                    }
-    
-                    response.json().then(function (data) {
-                        console.log(data);
-                    });
+        fetch("http://localhost:7071/api/statistics")
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
                 }
-            )
-            .catch(function (err){
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
                 console.log(err);
-            });
-    })
+    });
+})

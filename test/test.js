@@ -26,9 +26,9 @@ describe("/POST", () => {
                     .end((err, res) => {
                         //Validating http status code 
                         //console.log(res.body, 'hej')
-                        //should.not.exist(err)
-                        console.log(res.status, "nice")
-                        res.status.should.equal(200);
+                        should.not.exist(err)
+                        //console.log(res.status, "nice")
+                        //res.status.should.equal(200);
                         res.body.should.be.a("object")
                         /*res.body.should.have.property('name')
                         res.body.should.have.property('email')

@@ -12,11 +12,12 @@ function startDB(){
                 throw err;
             } else {
                 console.log('Connected')
+                response = viewAllUsers()
                 resolve();
             }
         })
         connection.connect();
-    })
+    }) 
 }
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
@@ -164,21 +165,22 @@ module.exports.selectAdmin = selectAdmin;
 
 //Tilhører view all users funktionen
 function viewAllUsers(){
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users]'
-        const request = new Request(sql, (err, rowcount) => {
+    request = new Request('SELECT * FROM [GK7].[users] as Users', function(err) {
             if(err) {
-                reject(err)
                 console.log(err)
-            }else if (rowcount == 0) {
-                reject ({message: 'No users'})
             }
         })
-        //request.addParameter('firstName', TYPES.VarChar, firstName)
-        request.on('row', (columns) => {
-            resolve(columns)
-        })
         connection.execSql(request)
-    })
-}
+        var counter = 1
+        var message = {}
+        request.on('row', function (columns){
+            message[counter] = {}
+            columns.forEach(function(column) {
+                console.log(column)
+               message[column.metadata.colName]= column.value
+            })
+           counter += 1
+        })
+        return message 
+    }
 module.exports.viewAllUsers = viewAllUsers;

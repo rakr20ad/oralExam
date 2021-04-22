@@ -1,6 +1,6 @@
 const db = require('../shared/db')
 //const router = express.router
-//const User = require("../Model/user");
+const User = require("../Model/user");
 var fs = require('fs');
 
 
@@ -31,7 +31,8 @@ module.exports = async function (context, req) {
 
    async function get(context, req) {
         try {
-            let firstName = req.query.firstName
+            let firstName = (req.query.firstName || (req.body && req.body.firstName));
+            //let user = new User(firstName)
             console.log(firstName)
             let user = await db.SELECT(firstName)
             context.res = {
@@ -46,7 +47,8 @@ module.exports = async function (context, req) {
     }
     async function post(context, req) {
         try {
-            let user = req.body /*new User(
+            let user1 = req.body;
+            let user = new User(user1) /*new User(
                 req.body.firstName,
                 req.body.lastName,
                 req.body.email,

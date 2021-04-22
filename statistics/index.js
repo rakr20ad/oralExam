@@ -33,9 +33,9 @@ module.exports = async function (context, req) {
         try {
            // let firstName = req.query.firstName
             //console.log(firstName)
-            let allUsers = await db.viewAllUsers()
+            let response = await db.viewAllUsers()
             context.res = {
-                body: allUsers
+                body: response
             }
         } catch(error) {
             context.res = {
