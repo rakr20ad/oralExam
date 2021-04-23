@@ -46,25 +46,22 @@ adminLogin.addEventListener("submit", function(e) {
     .then((response) => {
         return response.json()
     })
-    .then((data) => {
-        console.log(data)
-
         if (status == 200){
             localStorage.setItem("loggedIn", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
             window.location="adminPage.html"; 
             console.log("Ja tak")
+        }
           if  (status == 404) {
             console.log("Could not login")
-    }
-        .catch((error) => {
-          console.log(error)
+    .then((data) => {
+        console.log(data)}).catch((err) => {
+          console.log(err)
           console.error("Kunne overhovedet ikke logge ind");
-        });
-     } });
-
-
+        })
+    }})
+    
 var getUsers = document.getElementById("getUsers")
 
     getUsers.addEventListener("click", function(){
