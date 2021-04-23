@@ -193,29 +193,30 @@ function viewAllUsers(){
         const sql = `DECLARE @json NVARCHAR(Max)
         SET @json = (SELECT * FROM [GK7].[users] FOR JSON PATH, ROOT('data'))
         SELECT value
-        FROM OPENJSON(@json,'$.data')
-        request = new Request;`
-        const request = new Request( sql, (err, rowCount) => {
+        FROM OPENJSON(@json,'$.data')`
+        //request = new Request;
+        const request = new Request( sql, (err) => {
             if (err) {
                 reject(err)
                 console.log(err);
-            } else if (rowcount == 0) {
+            } /*else if (rowcount == 0) {
                 reject ({message: 'User does not exist'})
-            } else {
-            console.log(`${rowCount} row(s) returned`);
-          }
+             } else {
+            console.log(`${rowCount} row(s) returned`);*/
+          
       jsonArray = []
       request.on('row', function (columns){
       columns.forEach(function (columns) {
           var rowObject = {}
           columns.forEach(function(column) {
-              rowObject[column.metadata.colName] = column.value;
+              console.log(column)
+             rowObject[column.metadata.colName] = column.value;
           })
           jsonArray.push(rowObject)   
-          //return rowObject && rowCount && jsonArray
-      });// 
+          return rowObject && jsonArray
+        })
    resolve(columns) })
-    })
+          })
       connection.execSql(request);
 })}
 module.exports.viewAllUsers = viewAllUsers;
