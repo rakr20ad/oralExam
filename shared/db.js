@@ -12,7 +12,7 @@ function startDB(){
                 throw err;
             } else {
                 console.log('Connected')
-                response = viewAllUsers()
+                //viewAllUsers()
                 resolve();
             }
         })
@@ -94,7 +94,7 @@ module.exports.select = select;
 
 function insert(user){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @city, @country, @gender, @preferred_gender)`
+        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
@@ -105,7 +105,7 @@ function insert(user){
         request.addParameter('lastName', TYPES.VarChar, user.lastName)
         request.addParameter('email', TYPES.VarChar, user.email)
         request.addParameter('password', TYPES.VarChar, user.password)
-       // request.addParameter('birthday', TYPES.Date, user.birthday)
+        request.addParameter('age', TYPES.Int, user.age)
         request.addParameter('city', TYPES.VarChar, user.city)        
         request.addParameter('country', TYPES.VarChar, user.country)        
         request.addParameter('gender', TYPES.VarChar, user.gender)
@@ -120,6 +120,29 @@ function insert(user){
 }
 module.exports.insert = insert;
 
+//Delete user account
+function deleteUser(firstName){
+    return new Promise((resolve, reject) => {
+        const sql = 'DELETE * FROM [GK7].[users] where firstName = @firstName'
+        const request = new Request(sql, (err, rowcount) => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }else if (rowcount == 0) {
+                reject ({message: 'User does not exist'})
+            }
+        })
+        request.addParameter('firstName', TYPES.VarChar, firstName)
+        request.on('row', (columns) => {
+            resolve(columns)
+        })
+        connection.execSql(request)
+    })
+}
+module.exports.deleteUser = deleteUser;
+
+
+//Admin create account
 function insertAdmin(admin){
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO [GK7].[admin] (firstName, lastName, email, password) VALUES (@firstName, @lastName, @email, @password)`
@@ -143,6 +166,7 @@ function insertAdmin(admin){
 }
 module.exports.insertAdmin = insertAdmin;
 
+//Admin login
 function selectAdmin(email, password){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[admin] WHERE email = @email AND password = @password'
@@ -163,14 +187,67 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
-//Tilhører view all users funktionen
 function viewAllUsers(){
-    request = new Request('SELECT * FROM [GK7].[users] as Users', function(err) {
+    //Tilhører view all users funktionen
+    return new Promise((resolve, reject) => {
+        const sql = `DECLARE @json NVARCHAR(Max)
+        SET @json = (SELECT * FROM [GK7].[users] FOR JSON PATH, ROOT('data'))
+        SELECT value
+        FROM OPENJSON(@json,'$.data')
+        request = new Request;`
+        const request = new Request( sql, (err, rowCount) => {
+            if (err) {
+                reject(err)
+                console.log(err);
+            } else if (rowcount == 0) {
+                reject ({message: 'User does not exist'})
+            } else {
+            console.log(`${rowCount} row(s) returned`);
+          }
+      jsonArray = []
+      request.on('row', function (columns){
+      columns.forEach(function (columns) {
+          var rowObject = {}
+          columns.forEach(function(column) {
+              rowObject[column.metadata.colName] = column.value;
+          })
+          jsonArray.push(rowObject)   
+          //return rowObject && rowCount && jsonArray
+      });// 
+   resolve(columns) })
+    })
+      connection.execSql(request);
+})}
+
+    // Create query to execute against the database
+/*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
+    //console.log(queryText);
+    request = new Request(queryText, function(err) {
+        if (err) {
+            // Error in executing query
+            console.log(err);
+        } 
+    })            
+    
+        let rowData = {}
+        let result = []
+    // Manipulate the results and create JSON
+    request.on('row', function (columns) {
+
+        columns.forEach(function (column) {
+            // IMPORTANT: Change the conversion logic here to adjust the JSON format
+            //console.log(column)//
+            rowData = column
+        });
+        result.push(rowData);
+        connection.execSql(request) 
+        return result
+    })
+    /*;request = new Request('SELECT * FROM [GK7].[users] as Users', function(err) {
             if(err) {
                 console.log(err)
             }
         })
-        connection.execSql(request)
         var counter = 1
         var message = {}
         request.on('row', function (columns){
@@ -182,5 +259,61 @@ function viewAllUsers(){
            counter += 1
         })
         return message 
-    }
+   }*/
 module.exports.viewAllUsers = viewAllUsers;
+   
+
+//DELE AF UPDATE INSPO
+// Create array to store the query results
+
+    
+    // Create Request object
+    
+/*
+    var _currentData = {};
+
+    function updateUser() {
+
+        request = new Request("SELECT *'firstName' = firstName FROM RunnerPerformance;", function(err) {
+        if (err) {
+            context.log(err);}
+        });
+
+        request.on('row', function(columns) {
+            _currentData.Best = columns[0].value;
+            _currentData.Average = columns[1].value;;
+            context.log(_currentData);
+        });
+
+        request.on('requestCompleted', function () {
+            saveStatistic();
+        });
+        connection.execSql(request);
+    }
+
+
+    function saveStatistic() {
+
+        request = new Request("UPDATE Statistic SET BestTime=@best, AverageTime=@average;", function(err) {
+         if (err) {
+            context.log(err);}
+        });
+        request.addParameter('best', TYPES.VarChar, _currentData.Best);
+        request.addParameter('average', TYPES.VarChar, _currentData.Average);
+        request.on('row', function(columns) {
+            columns.forEach(function(column) {
+              if (column.value === null) {
+                context.log('NULL');
+              } else {
+                context.log("Statistic Updated.");
+              }
+            });
+        });
+
+        connection.execSql(request);
+    }
+
+    context.done();
+};
+
+module.exports.viewAllUsers = viewAllUsers;*/

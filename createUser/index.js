@@ -47,8 +47,9 @@ module.exports = async function (context, req) {
     }
     async function post(context, req) {
         try {
-            let user1 = req.body;
-            let user = new User(user1) /*new User(
+            let user = req.body;
+            //let user = new User(user1) 
+            /*new User(
                 req.body.firstName,
                 req.body.lastName,
                 req.body.email,
