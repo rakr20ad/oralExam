@@ -94,7 +94,7 @@ module.exports.select = select;
 
 function insert(user){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
+        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
@@ -105,7 +105,7 @@ function insert(user){
         request.addParameter('lastName', TYPES.VarChar, user.lastName)
         request.addParameter('email', TYPES.VarChar, user.email)
         request.addParameter('password', TYPES.VarChar, user.password)
-        request.addParameter('age', TYPES.Int, user.age)
+        //request.addParameter('age', TYPES.Int, user.age)
         request.addParameter('city', TYPES.VarChar, user.city)        
         request.addParameter('country', TYPES.VarChar, user.country)        
         request.addParameter('gender', TYPES.VarChar, user.gender)
@@ -218,6 +218,29 @@ function viewAllUsers(){
     })
       connection.execSql(request);
 })}
+module.exports.viewAllUsers = viewAllUsers;
+
+
+// GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
+function SELECTFullUser(city){
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM [GK7].[users] where city = @city'
+        const request = new Request(sql, (err, rowcount) => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }else if (rowcount == 0) {
+                reject ({message: 'No users in area'})
+            }
+        })
+        request.addParameter('city', TYPES.VarChar, city)
+        request.on('done', 'row', (rows) => {
+            resolve(rows)
+        })
+        connection.execSql(request)
+    })
+}
+module.exports.SELECTFullUser = SELECTFullUser;
 
     // Create query to execute against the database
 /*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
@@ -260,8 +283,9 @@ function viewAllUsers(){
         })
         return message 
    }*/
-module.exports.viewAllUsers = viewAllUsers;
+
    
+
 
 //DELE AF UPDATE INSPO
 // Create array to store the query results

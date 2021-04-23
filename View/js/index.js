@@ -6,7 +6,7 @@ form.addEventListener("submit", function(e) {
     var lastName = document.getElementById("lastName").value
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    //var birthday = document.getElementById("birthday").value
+    //var age = document.getElementById("age").value
     var city = document.getElementById("city").value     
     var country = document.getElementById("country").value    
     var gender = document.getElementById("gender").value
@@ -18,7 +18,7 @@ form.addEventListener("submit", function(e) {
             lastName: lastName, 
             email: email,
             password: password,
-            //birthday: birthday,            
+            //age: age,            
             city: city,
             country: country,
             gender: gender,
@@ -116,6 +116,29 @@ logout.addEventListener("click", userLogout)
           console.error("Kunne ikke logge ud");
         });
     }
+
+
+    var getButton = document.getElementById("getFullUser"); 
+
+    getButton.addEventListener('click', function(){
+        var city = document.getElementById('city').value 
+        fetch(`http://localhost:7071/api/getFullUser?city=${city}`)
+            .then(
+                function(response){
+                    if(response.status !== 200){
+                        console.log("noget gik galt" + response.status);
+                        return;  
+                    }
+                    response.json().then(function (data) {
+                        console.log(data);
+                    });
+                }
+    
+            )
+                .catch(function (err) {
+                    console.log(err);
+        });
+    })  
 /*
 var login = document.getElementById("login");
 
