@@ -14,41 +14,17 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'GET': 
-            await get(context, req);
-            break; 
         case 'DELETE':
             console.log("test")
-            await delete(context, req);
+            await deleteUser(context, req);
             break; 
-        default:
-            context.res = {
-                body: "Please get or delete"
-            };
-            break
         }
     }
 
-   async function get(context, req) {
+    async function deleteUser(context, req) {
         try {
             let firstName = (req.query.firstName || (req.body && req.body.firstName));
-            //let user = new User(firstName)
-            console.log(firstName)
-            let user = await db.selectUser(firstName)
-            context.res = {
-                body: user
-            }
-        } catch(error) {
-            context.res = {
-                status: 400, 
-                body: `no user - ${error.message}`
-            }
-        }
-    }
-
-    async function get(context, req) {
-        try {
-            let firstName = (req.query.firstName || (req.body && req.body.firstName));
+            let lastName = (req.query.lastName || (req.body && req.body.lastName));
             //let user = new User(firstName)
             console.log(firstName)
             let user = await db.deleteUser(firstName)

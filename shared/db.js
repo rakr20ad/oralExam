@@ -123,7 +123,7 @@ module.exports.insert = insert;
 //Delete user account
 function deleteUser(firstName){
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE * FROM [GK7].[users] where firstName = @firstName'
+        const sql = 'DELETE FROM [GK7].[users] where firstName = @firstName'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -226,21 +226,21 @@ module.exports.viewAllUsers = viewAllUsers;
 function SELECTFullUser(city){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where city = @city'
-        const request = new Request(sql, (err, rowcount) => {
+        const request = new Request(sql, (err, rowCount) => {
             if(err) {
                 reject(err)
                 console.log(err)
-            }else if (rowcount == 0) {
+            }else if (rowCount == 0) {
                 reject ({message: 'No users in area'})
             }
         })
         request.addParameter('city', TYPES.VarChar, city)
-        request.on('done', 'row', (rows) => {
+        request.on('done', function (rows) {
+            console.log(rows)
             resolve(rows)
-        })
+      })
         connection.execSql(request)
-    })
-}
+})}
 module.exports.SELECTFullUser = SELECTFullUser;
 
     // Create query to execute against the database

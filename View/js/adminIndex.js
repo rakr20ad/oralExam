@@ -1,4 +1,4 @@
-/*var adminForm = document.getElementById("adminForm");
+var adminForm = document.getElementById("adminForm");
 
 adminForm.addEventListener("submit", function(e) {
     e.preventDefault()
@@ -48,10 +48,8 @@ adminLogin.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
-        /*if (status == 200) {*/
-//const { get } = require("superagent");
 
-/*
+        if (status == 200){
             localStorage.setItem("loggedIn", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
@@ -59,14 +57,14 @@ adminLogin.addEventListener("submit", function(e) {
             console.log("Ja tak")
           if  (status == 404) {
             console.log("Could not login")
-    }})
+    }
         .catch((error) => {
           console.log(error)
           console.error("Kunne overhovedet ikke logge ind");
         });
-    });
+     } });
 
-*/
+
 var getUsers = document.getElementById("getUsers")
 
     getUsers.addEventListener("click", function(){

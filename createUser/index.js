@@ -32,9 +32,7 @@ module.exports = async function (context, req) {
    async function get(context, req) {
         try {
             let firstName = (req.query.firstName || (req.body && req.body.firstName));
-            //let user = new User(firstName)
-            console.log(firstName)
-            let user = await db.SELECT(firstName)
+            let user = new User(await db.SELECT(firstName))
             context.res = {
                 body: user
             }
