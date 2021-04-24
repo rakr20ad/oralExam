@@ -1,3 +1,4 @@
+const { request } = require('chai');
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('./config.json'); 
 
@@ -74,10 +75,7 @@ module.exports.selectFirstname = selectFirstname;
 //Men tænker at dette er noget, vi kan bygge videre på.. 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `DECLARE @json NVARCHAR(Max)
-        SET @json = (SELECT * FROM [GK7].[users] where email = @email AND password = @password FOR JSON PATH, ROOT('data'))
-        SELECT value
-        FROM OPENJSON(@json,'$.data')`
+        const sql = `SELECT * FROM [GK7].[users] where email = @email AND password = @password`
         const request = new Request(sql, (err) => {
             if(err) {
                 reject(err)
@@ -153,59 +151,37 @@ function deleteUser(email, password){
     })
 }
 module.exports.deleteUser = deleteUser;
-/*
-function update(age){
-    var passParameter = {};
 
-    passParameter.age = req.query.age;
-
-    passParameter.firstName = req.query.firstName;
-
-    passParameter.password
-        var _currentData = {};
-        request = new Request("SELECT 'Best' = MIN(FivekmTime), 'Average' = AVG(FivekmTime) FROM RunnerPerformance;", function(err) {
-        if (err) {
-            context.log(err);}
-        });
-
-        request.on('row', function(columns) {
-            _currentData.Best = columns[0].value;
-            _currentData.Average = columns[1].value;;
-            context.log(_currentData);
-        });
-
-        request.on('requestCompleted', function () {
-            saveUpdate();
-        });
-        connection.execSql(request);
-    }
-
-
-    function saveUpdate() {
-
-        request = new Request(`UPDATE [GK7].[users] SET age = @age WHERE firstName = @firstName AND lastName = @lastName`, function(err) {
+function update(age, email, password) {
+    return new Promise((resolve, reject) => {
+         let sql = `UPDATE [GK7].[users] SET age = @age
+         WHERE email = @email AND password = @password`
+         let request = new Request(sql, (err) => {
          if (err) {
-            context.log(err);}
+            reject(err);}
         });
-        request.addParameter('age', TYPES.Int, _currentData.Best);
-        request.addParameter('average', TYPES.Int, _currentData.Average);
-        request.on('row', function(columns) {
+        request.addParameter('age', TYPES.Int, age);
+        request.addParameter('email', TYPES.VarChar, email);
+        request.addParameter('password', TYPES.VarChar, password);
+        request.on('requestCompleted', (row) => {
+            resolve ('User updated', row)
+            console.log('row')
+       
+        });
+
+        connection.execSql(request);
+    })
+};
+module.exports.update = update;
+
+/* function(columns) {
             columns.forEach(function(column) {
-              if (column.value === null) {
+              if (column.value === req.query.age) {
                 context.log('NULL');
               } else {
                 context.log("Statistic Updated.");
               }
-            });
-        });
-
-        connection.execSql(request);
-    }
-
-    context.done();
-};
-module.exports.update = update*/
-
+            });*/
 //Admin create account
 function insertAdmin(admin){
     return new Promise((resolve, reject) => {
@@ -284,28 +260,23 @@ module.exports.viewAllUsers = viewAllUsers;
 // GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
 function getUsersNearby(city){
     return new Promise((resolve, reject) => {
-        const sql = `DECLARE @json NVARCHAR(Max)
-        SET @json = (SELECT * FROM [GK7].[users] where city = @city FOR JSON PATH, ROOT('data'))
-        SELECT value
-        FROM OPENJSON(@json,'$.data')`
+        const sql = `SELECT * FROM [GK7].[users] where city = @city`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
             request.addParameter('city', TYPES.VarChar, city)
-            const results = [];
-            request.on('row', columns => {
+            let results = [];
+            request.on('row', async function(columns)  {
             let result = {};
-            columns.forEach(column => {
-            result[column.metadata.colName] = column.value;
-          results.push(result);
-        });
-          
-        request.on('doneProc', (rowCount) => {
-            resolve(result)  
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
         });  
-      });
         connection.execSql(request)
 })}
 module.exports.getUsersNearby = getUsersNearby;

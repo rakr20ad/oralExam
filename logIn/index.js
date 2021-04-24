@@ -52,13 +52,15 @@ module.exports = async function (context, req) {
             let password = req.body.password
             let result = await db.select(email, password)
             context.res = {
-                status: 200,
+                //If statement, user lig det db.select returnere, hvis det er - tjekker her om brugeren eksisterer
+               status: 200,
                 //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }
+            context.res
      }catch(error) {
             context.res = {
                 status: 400, 

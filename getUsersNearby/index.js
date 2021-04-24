@@ -1,31 +1,27 @@
 const db = require('../shared/db')
-//const router = express.router
-const User = require("../Model/user");
-var fs = require('fs');
-
-
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
-
     try{
         await db.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'PUT': 
-            await put(context, req);
+        case 'GET': 
+            await get(context, req);
             break; 
-         }
-    }
 
-   async function put(context, req) {
+    };
+}
+
+
+    async function get(context, req) {
         try {
-            let age = (req.query.age || (req.body && req.body.age));
-            let email = (req.query.email || (req.body && req.body.email));
-            let password = (req.query.password || (req.body && req.body.password));
-            let result = await db.update(age, email, password)
+            let city = (req.query.city || (req.body && req.body.city));
+            //let user = new User(firstName)
+            console.log(city)
+            let result = await db.getUsersNearby(city)
             context.res = {
                 status: 200,
                 //isRaw: true,
@@ -37,7 +33,7 @@ module.exports = async function (context, req) {
         } catch(error) {
             context.res = {
                 status: 400, 
-                body: `no user - ${error}`
+                body: `no user - ${error.message}`
             }
         }
     }
