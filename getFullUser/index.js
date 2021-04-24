@@ -21,9 +21,14 @@ module.exports = async function (context, req) {
             let city = (req.query.city || (req.body && req.body.city));
             //let user = new User(firstName)
             console.log(city)
-            let user = await db.SELECTFullUser(city)
+            let result = await db.getUsersNearby(city)
             context.res = {
-                body: user
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         } catch(error) {
             context.res = {

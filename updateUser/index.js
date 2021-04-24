@@ -14,22 +14,23 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'DELETE':
-            console.log("test")
-            await deleteUser(context, req);
+        case 'PUT': 
+            await get(context, req);
             break; 
-        }
+         }
     }
 
-    async function deleteUser(context, req) {
+   async function get(context, req) {
         try {
-            let email = (req.query.email || (req.body && req.body.email));
-            let password = (req.query.password || (req.body && req.body.password));
-            //let user = new User(firstName)
-            console.log(email, password)
-            let user = await db.deleteUser(email, password)
+            let age = (req.query.age || (req.body && req.body.age));
+            let result = await db.update(age)
             context.res = {
-                body: user
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         } catch(error) {
             context.res = {

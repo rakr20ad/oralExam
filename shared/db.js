@@ -49,7 +49,7 @@ function insert(payload){
 module.exports.insert = insert;
 
 //Tilhører GetUser funktionen
-function SELECT(firstName){
+function selectFirstname(firstName){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where firstName = @firstName'
         const request = new Request(sql, (err, rowcount) => {
@@ -67,14 +67,17 @@ function SELECT(firstName){
         connection.execSql(request)
     })
 }
-module.exports.SELECT = SELECT;
+module.exports.selectFirstname = selectFirstname;
 
 //Tilhører Login funktionen - samme som ovenstående syntaks
 //Rasmus: Jeg aner ikke, hvilken sql function, man skal vælge her????? 
 //Men tænker at dette er noget, vi kan bygge videre på.. 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] WHERE email = @email AND password = @password'
+        const sql = `DECLARE @json NVARCHAR(Max)
+        SET @json = (SELECT * FROM [GK7].[users] where email = @email AND password = @password FOR JSON PATH, ROOT('data'))
+        SELECT value
+        FROM OPENJSON(@json,'$.data')`
         const request = new Request(sql, (err) => {
             if(err) {
                 reject(err)
@@ -83,18 +86,27 @@ function select(email, password){
             })
         request.addParameter('email', TYPES.VarChar, email)
         request.addParameter('password', TYPES.VarChar, password)
-        request.on('requestCompleted', (row) => {
-            console.log('User inserted', row); 
-            resolve('user inserted', row)
-        });
-        connection.execSql(request);
-    });
-}
+              const results = [];
+              request.on('row', columns => {
+                let result = {};
+                columns.forEach(column => {
+                  result[column.metadata.colName] = column.value;
+                });
+        
+                results.push(result);
+              });
+        
+              request.on('doneProc', (rowCount) => {
+                resolve(results);
+              });
+       
+          connection.execSql(request);
+      })}
 module.exports.select = select;
 
 function insert(user){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @city, @country, @gender, @preferred_gender)`
+        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
@@ -105,7 +117,7 @@ function insert(user){
         request.addParameter('lastName', TYPES.VarChar, user.lastName)
         request.addParameter('email', TYPES.VarChar, user.email)
         request.addParameter('password', TYPES.VarChar, user.password)
-        //request.addParameter('age', TYPES.Int, user.age)
+        request.addParameter('age', TYPES.Int, user.age)
         request.addParameter('city', TYPES.VarChar, user.city)        
         request.addParameter('country', TYPES.VarChar, user.country)        
         request.addParameter('gender', TYPES.VarChar, user.gender)
@@ -121,9 +133,9 @@ function insert(user){
 module.exports.insert = insert;
 
 //Delete user account
-function deleteUser(firstName){
+function deleteUser(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM [GK7].[users] where firstName = @firstName'
+        const sql = 'DELETE FROM [GK7].[users] where email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -132,7 +144,8 @@ function deleteUser(firstName){
                 reject ({message: 'User does not exist'})
             }
         })
-        request.addParameter('firstName', TYPES.VarChar, firstName)
+        request.addParameter('email', TYPES.VarChar, email)
+        request.addParameter('password', TYPES.VarChar, password)
         request.on('row', (columns) => {
             resolve(columns)
         })
@@ -140,7 +153,58 @@ function deleteUser(firstName){
     })
 }
 module.exports.deleteUser = deleteUser;
+/*
+function update(age){
+    var passParameter = {};
 
+    passParameter.age = req.query.age;
+
+    passParameter.firstName = req.query.firstName;
+
+    passParameter.password
+        var _currentData = {};
+        request = new Request("SELECT 'Best' = MIN(FivekmTime), 'Average' = AVG(FivekmTime) FROM RunnerPerformance;", function(err) {
+        if (err) {
+            context.log(err);}
+        });
+
+        request.on('row', function(columns) {
+            _currentData.Best = columns[0].value;
+            _currentData.Average = columns[1].value;;
+            context.log(_currentData);
+        });
+
+        request.on('requestCompleted', function () {
+            saveUpdate();
+        });
+        connection.execSql(request);
+    }
+
+
+    function saveUpdate() {
+
+        request = new Request(`UPDATE [GK7].[users] SET age = @age WHERE firstName = @firstName AND lastName = @lastName`, function(err) {
+         if (err) {
+            context.log(err);}
+        });
+        request.addParameter('age', TYPES.Int, _currentData.Best);
+        request.addParameter('average', TYPES.Int, _currentData.Average);
+        request.on('row', function(columns) {
+            columns.forEach(function(column) {
+              if (column.value === null) {
+                context.log('NULL');
+              } else {
+                context.log("Statistic Updated.");
+              }
+            });
+        });
+
+        connection.execSql(request);
+    }
+
+    context.done();
+};
+module.exports.update = update*/
 
 //Admin create account
 function insertAdmin(admin){
@@ -187,61 +251,64 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
-function viewAllUsers(){
-    //Tilhører view all users funktionen
+function viewAllUsers() {
     return new Promise((resolve, reject) => {
         const sql = `DECLARE @json NVARCHAR(Max)
         SET @json = (SELECT * FROM [GK7].[users] FOR JSON PATH, ROOT('data'))
         SELECT value
         FROM OPENJSON(@json,'$.data')`
-        //request = new Request;
-        const request = new Request( sql, (err) => {
-            if (err) {
-                reject(err)
-                console.log(err);
-            } /*else if (rowcount == 0) {
-                reject ({message: 'User does not exist'})
-             } else {
-            console.log(`${rowCount} row(s) returned`);*/
-          
-      jsonArray = []
-      request.on('row', function (columns){
-      columns.forEach(function (columns) {
-          var rowObject = {}
-          columns.forEach(function(column) {
-              console.log(column)
-             rowObject[column.metadata.colName] = column.value;
-          })
-          jsonArray.push(rowObject)   
-          return rowObject && jsonArray
-        })
-   resolve(columns) })
-          })
-      connection.execSql(request);
+        let request = new Request(sql, err => {
+          if (err) {
+            reject(err);
+          }
+        });
+        const results = [];
+        request.on('row', columns => {
+          let result = {};
+          columns.forEach(column => {
+            result[column.metadata.colName] = column.value;
+          });
+  
+          results.push(result);
+        });
+  
+        request.on('doneProc', (rowCount) => {
+          resolve(results);
+        });
+ 
+    connection.execSql(request);
 })}
 module.exports.viewAllUsers = viewAllUsers;
 
 
 // GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
-function SELECTFullUser(city){
+function getUsersNearby(city){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] where city = @city'
-        const request = new Request(sql, (err, rowCount) => {
+        const sql = `DECLARE @json NVARCHAR(Max)
+        SET @json = (SELECT * FROM [GK7].[users] where city = @city FOR JSON PATH, ROOT('data'))
+        SELECT value
+        FROM OPENJSON(@json,'$.data')`
+        const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
-            }else if (rowCount == 0) {
-                reject ({message: 'No users in area'})
-            }
-        })
-        request.addParameter('city', TYPES.VarChar, city)
-        request.on('done', function (rows) {
-            console.log(rows)
-            resolve(rows)
-      })
+            }})      
+            request.addParameter('city', TYPES.VarChar, city)
+            const results = [];
+            request.on('row', columns => {
+            let result = {};
+            columns.forEach(column => {
+            result[column.metadata.colName] = column.value;
+          results.push(result);
+        });
+          
+        request.on('doneProc', (rowCount) => {
+            resolve(result)  
+        });  
+      });
         connection.execSql(request)
 })}
-module.exports.SELECTFullUser = SELECTFullUser;
+module.exports.getUsersNearby = getUsersNearby;
 
     // Create query to execute against the database
 /*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";

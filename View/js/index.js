@@ -6,7 +6,7 @@ form.addEventListener("submit", function(e) {
     var lastName = document.getElementById("lastName").value
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    //var age = document.getElementById("age").value
+    var age = document.getElementById("age").value
     var city = document.getElementById("city").value     
     var country = document.getElementById("country").value    
     var gender = document.getElementById("gender").value
@@ -18,7 +18,7 @@ form.addEventListener("submit", function(e) {
             lastName: lastName, 
             email: email,
             password: password,
-            //age: age,            
+            age: age,            
             city: city,
             country: country,
             gender: gender,
@@ -86,7 +86,7 @@ login.addEventListener("submit", function(e) {
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
-            window.location="profile.html" 
+            window.location=`http://localhost:7071/api/statistics` 
           if  (status == 404) {
             console.log("Could not login")
           }
@@ -118,9 +118,9 @@ logout.addEventListener("click", userLogout)
     }
 
 
-    var getButton = document.getElementById("getFullUser"); 
+    var getUsersNearby = document.getElementById("getFullUser"); 
 
-    getButton.addEventListener('click', function(){
+    getUsersNearby.addEventListener('click', function(){
         var city = document.getElementById('city').value 
         fetch(`http://localhost:7071/api/getFullUser?city=${city}`)
             .then(
@@ -131,6 +131,7 @@ logout.addEventListener("click", userLogout)
                     }
                     response.json().then(function (data) {
                         console.log(data);
+                        window.location=`http://localhost:7071/api/getFullUser?city=${city}`
                     });
                 }
     

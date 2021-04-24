@@ -50,15 +50,16 @@ module.exports = async function (context, req) {
         try {
             let email = req.body.email
             let password = req.body.password
-            let user = req.body
-            await db.select(email, password)
+            let result = await db.select(email, password)
             context.res = {
-            body: user, 
-            status: 200
-            /*context.res.status(302) 
-            .set('location', 'homepage.html')
-            .send()*/
-        } }catch(error) {
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+     }catch(error) {
             context.res = {
                 status: 400, 
                 body: error.message

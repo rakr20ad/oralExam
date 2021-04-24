@@ -32,9 +32,14 @@ module.exports = async function (context, req) {
    async function get(context, req) {
         try {
             let firstName = (req.query.firstName || (req.body && req.body.firstName));
-            let user = new User(await db.SELECT(firstName))
+            let result = await db.selectFirstname(firstName)
             context.res = {
-                body: user
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         } catch(error) {
             context.res = {

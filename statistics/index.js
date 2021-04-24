@@ -29,7 +29,7 @@ module.exports = async function (context, req) {
         }
     }
 
-   async function get(context, req) {
+   async function get(context) {
         try {
            // let firstName = req.query.firstName
             //console.log(firstName)

@@ -75,6 +75,7 @@ var getUsers = document.getElementById("getUsers")
                 }
                 response.json().then(function (data) {
                     console.log(data);
+                    window.location = `http://localhost:7071/api/statistics`
                 });
             }
 
