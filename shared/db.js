@@ -76,30 +76,25 @@ module.exports.selectFirstname = selectFirstname;
 function select(email, password){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] where email = @email AND password = @password`
-        const request = new Request(sql, (err) => {
+        const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
-            }
-            })
-        request.addParameter('email', TYPES.VarChar, email)
-        request.addParameter('password', TYPES.VarChar, password)
-              const results = [];
-              request.on('row', columns => {
-                let result = {};
-                columns.forEach(column => {
-                  result[column.metadata.colName] = column.value;
-                });
+            }})      
+            request.addParameter('email', TYPES.VarChar, user.email)
+            request.addParameter('password', TYPES.VarChar, user.password)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
         
-                results.push(result);
-              });
-        
-              request.on('doneProc', (rowCount) => {
-                resolve(results);
-              });
-       
-          connection.execSql(request);
-      })}
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
 module.exports.select = select;
 
 function insert(user){

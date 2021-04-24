@@ -81,13 +81,13 @@ login.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
-        /*if (status == 200) {*/
+        if (status == 200) {
             console.log("Ja tak")
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
-            window.location=`http://localhost:7071/api/statistics` 
-          if  (status == 404) {
+        }
+          else if  (status == 404) {
             console.log("Could not login")
           }
           else {

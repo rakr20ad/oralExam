@@ -50,25 +50,28 @@ module.exports = async function (context, req) {
         try {
             let email = req.body.email
             let password = req.body.password
-            let result = await db.select(email, password)
+            let user = await db.select(email, password);
+            console.log(user)
+        if (email == user.email){
             context.res = {
-                //If statement, user lig det db.select returnere, hvis det er - tjekker her om brugeren eksisterer
-               status: 200,
-                //isRaw: true,
-                body: result,
+                status: 200, 
+                body: {msg:'You have succesfully logged in'},
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }
-            context.res
-     }catch(error) {
+        }}
+             else {
+             context.res = {
+                status: 401
+             } 
+        }
+    } catch(error) {
             context.res = {
                 status: 400, 
                 body: error.message
             }
         }
-    }
-    
+    };
 /*
     async function get(context, req) {
         try {
