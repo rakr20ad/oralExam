@@ -41,7 +41,7 @@ form.addEventListener("submit", function(e) {
 var getButton = document.getElementById("getUser"); 
 
 
-getButton.addEventListener('click', function(){
+/*getButton.addEventListener('click', function(){
     var firstName = document.getElementById('firstName').value 
     fetch(`http://localhost:7071/api/createUser?firstName=${firstName}`)
         .then(
@@ -59,7 +59,7 @@ getButton.addEventListener('click', function(){
             .catch(function (err) {
                 console.log(err);
     });
-})
+})*/
 
 
 var login = document.getElementById("login")
@@ -67,8 +67,8 @@ login.addEventListener("submit", function(e) {
     e.preventDefault()
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    fetch("http://localhost:7071/api/logIn", {
-        method: "post",
+    fetch("http://localhost:7071/api/login", {
+        method: "POST",
         body: JSON.stringify({
             email: email,
             password: password
@@ -82,22 +82,22 @@ login.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
-        if (status == 200) {
+        //if (status == 200) {
             console.log("Ja tak")
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
-        }
+        /*
           else if  (status == 404) {
             console.log("Could not login")
           }
           else {
             console.log("What")
-          }
+          }*/
         })
-        .catch((error) => {
-          console.log(error)
-          console.error("Kunne ikke logge ind");
+        .catch((err) => {
+          console.log(err)
+          window.alert("Vi kunne desværre ikke finde dig i systemet")
         });
     })
 
@@ -116,12 +116,7 @@ logout.addEventListener("click", userLogout)
           console.log(error)
           console.error("Kunne ikke logge ud");
         });
-<<<<<<< HEAD
-    } 
-=======
     }
-
-
     var getUsersNearby = document.getElementById("getFullUser"); 
 
     getUsersNearby.addEventListener('click', function(){
@@ -145,27 +140,44 @@ logout.addEventListener("click", userLogout)
         });
     })  
 
-var genderButton = document.getElementById("filterGender"); 
+    var genderButton = document.getElementById("filterGender"); 
 
-genderButton.addEventListener('click', function(){
-    var gender = document.getElementById('gender').value 
-    fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
-        .then(
-            function(response){
-                if(response.status !== 200){
-                    console.log("noget gik galt" + response.status);
-                    return;  
+    genderButton.addEventListener('click', function(){
+        var gender = document.getElementById('gender').value 
+        fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
+            .then(
+                function(response){
+                    if(response.status !== 200){
+                        console.log("noget gik galt" + response.status);
+                        return;  
+                    }
+                    response.json().then(function (data) {
+                            var out = "";
+                            var i;
+                            for(i = 0; i<data.length; i++) {
+                              out += '<a href="' + data[i].id + '">' + 
+                              data[i].firstName + data[i].email + '</a><br>'; 
+                            }
+                            document.getElementById("filter1").innerHTML = JSON.stringify(out); 
+                        })/*.then(function (out) {
+                            var fields = "<div>
+                            <form action="get">
+                                <input type="text" id="city" placeholder="City" required>
+                            </form>
+                        </div><form";
+                            var n;
+                            for(n = 0; n<fields.length; i++) {
+                                fields += '<p' + fields[i].id + '">' + 
+                                data[i].firstName + data[i].email + '</p><br>';
+                              }
+                              document.getElementById("id01").innerHTML = JSON.stringify(out); 
+                        })*/
                 }
-                response.json().then(function (data) {
-                    console.log(data);
-                });
-            }
-
-        )
-            .catch(function (err) {
-                console.log(err);
-    });
-})
+                )
+                .catch(function (err) {
+                    console.log(err);
+           });
+    })
 
 var ageButton = document.getElementById("filterAge"); 
 
@@ -181,6 +193,7 @@ ageButton.addEventListener('click', function(){
                 }
                 response.json().then(function (data) {
                     console.log(data);
+                    ageButton.innerHTML = JSON.stringify(data) 
                 });
             }
 
@@ -189,7 +202,36 @@ ageButton.addEventListener('click', function(){
                 console.log(err);
     });
 })
->>>>>>> 88cbc3fb86199b8d7259a2d008cb47835d0b62a4
+   /* 
+    var getProfile = document.getElementById("getProfile");
+    
+    getProfile.addEventListener('click', function(){
+        let data = data[i].id
+        fetch(`http://localhost:7071/api/getProfile?id=${id}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    var out = "";
+                    var i;
+                    for(i = 0; i<data.length; i++) {
+                      out += '<p' + data[i].id + '">' + 
+                      data[i].firstName + '</p><br>';
+                    }
+                    document.getElementById("id01").innerHTML = JSON.stringify(out); 
+                });
+            }
+    
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+    
+    })*/
+
 /*
 var login = document.getElementById("login");
 
