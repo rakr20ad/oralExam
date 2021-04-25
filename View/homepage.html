@@ -5,9 +5,10 @@
     <title>Dating Homepage</title>
 </head>
 <body>
-    <h1>Welcome</h1>
+
+    <h1>Welcome to your homepage!</h1>
     <div>
-        <h2>Login</h2>
+        <h2>Login (er det her admin login eller hvad er det?)</h2>
         <button type="button" id="login">Login</button>
         <form method="get" action="/View/profile.html" id="form">
            <input type="email" id="email" placeholder="Email">
@@ -15,11 +16,34 @@
            <a href="profile" class=>Log in</a>
        </form>
    </div>
-   <div>
-    <h2>Get full user</h2>
-    <button type="button" id="getUser">get user</button>
-</div>
 
-   <script src="js/index.js"></script>
+<!--Dette er den der hedder get full user - men skal den bruges til noget? Vel ikke et krav
+   <div>
+    <h2>get full user</h2>
+    <input type="city" id="city" placeholder="city">
+    <button type="button" id="getUser">Get user</button>
+</div>-->
+
+<br>
+<br>
+
+<a href="matches.html" class="btn">Click here to find potential matches!</a>
+
+
+<br>
+<br>
+
+    <!--TIL HVIS BRUGEREN SELV SKAL SLETTE SIN BRUGER-->
+<h2 id="deleteUser">Enter your email and password and push the button to delete your user</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="passsword">
+<button onclick="deleteUser()">Try it</button>
+
+<script src="js/deleteUser.js"></script>
+<script src="js/index.js"></script>
+
+<ahref></ahref>
+
 </body>
 </html>
+
