@@ -5,20 +5,43 @@
     <title>Dating Profile</title>
 </head>
 <body>
-    <h1>Name: </h1>
-<!--
+    <h1>YOUR PROFILE</h1>
+
+
+    <!--HVIS MAN SKAL OPDATERE SIN BRUGER-->
+    <h2 id="updateUser">Enter your email, password and age to update your user</h2>
+    <input type="age" id="age" placeholder="Age">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="password">
+    <button type="submit" id="updateUser">Update User</button>
+
+
+    <br>
+    <br>
+
+    <!--TIL HVIS BRUGEREN SELV SKAL SLETTE SIN BRUGER-->
+<h2 id="deleteUser">Enter your email and password and push the button to delete your user</h2>
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="password">
+<button onclick="deleteUser()">Delete</button>
+
+<br>
+<br>
+<a href="matches.html" class="btn">Click here to find potential matches!</a>
+<br>
+<br>
+
+<!--Logout-->
     <div id="logout">
+    <H3>You can logout down below</H3>
     <button type="button" id="logout" class="btn btn-secondary">Log out</a>
     </div>
-    <script src="js/index.js"></script>-->
-    <div>
-        <input type="text" id="city" placeholder="City" required>
-    </div>
-    <br>
-    <div>
-        <button type="button" id="getFullUser" class="button">Get all users nearby</a>
-    </div>
-    <script src="js/getFullUser.js"></script>
+
+    <script src="js/updateUser.js"></script>
+    <!--<script src="js/index.js"></script>-->
+    <script src="js/deleteUser.js"></script>
+
+
 </body>
 
 </html>

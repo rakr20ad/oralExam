@@ -1,4 +1,4 @@
-//Til at få alle brugerne, så admin kan se antal brugere
+//slet bruger
 function deleteUser() {
     var deleteUser = document.getElementById("deleteUser") 
     {
