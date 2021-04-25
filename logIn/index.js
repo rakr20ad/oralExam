@@ -50,21 +50,21 @@ module.exports = async function (context, req) {
         try {
             let email = req.body.email
             let password = req.body.password
-            let user = await db.select(email, password);
-            console.log(user)
-        if (email == user.email){
+            let result = await db.select(email, password);
+            //console.log(user)
+       // if (email == user.email){
             context.res = {
                 status: 200, 
-                body: {msg:'You have succesfully logged in'},
+                body: result,
                 headers: {
                     'Content-Type': 'application/json'
                 }
-        }}
+        }/*
              else {
              context.res = {
                 status: 401
              } 
-        }
+        }*/
     } catch(error) {
             context.res = {
                 status: 400, 

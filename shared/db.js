@@ -83,7 +83,7 @@ function select(email, password){
             }})      
             request.addParameter('email', TYPES.VarChar, email)
             request.addParameter('password', TYPES.VarChar, password)
-            let results = [];
+            /*let results = [];
             request.on('row', async function(columns)  {
             let result = {};
             await columns.forEach(column => {  
@@ -92,7 +92,10 @@ function select(email, password){
         
       });request.on('doneProc', (rowCount) => {
              resolve(results) 
-        });  
+        });  */
+        request.on('row', (columns) => {
+            resolve(columns)
+        })
         connection.execSql(request)
 })}
 module.exports.select = select;
