@@ -171,7 +171,7 @@ module.exports.update = update;
 
 function filterGender(gender){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] where gender = @gender`
+        const sql = `SELECT * FROM [GK7].[users] WHERE gender = @gender`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -194,9 +194,7 @@ module.exports.filterGender = filterGender;
 
 function filterAge(minAge, maxAge){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users]
-        where age >= @minAge
-          AND age <= @maxAge`
+        const sql = `SELECT * FROM [GK7].[users] WHERE age >= @minAge AND age <= @maxAge`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
