@@ -166,9 +166,9 @@ genderButton.addEventListener('click', function(){
 var ageButton = document.getElementById("filterAge"); 
 
 ageButton.addEventListener('click', function(){
-    var age1 = document.getElementById('age1').value 
-    var age2 = document.getElementById('age2').value 
-    fetch(`http://localhost:7071/api/filterGender?age=${age1}&age=${age2}`)
+    var minAge = document.getElementById('minAge').value 
+    var maxAge = document.getElementById('maxAge').value 
+    fetch(`http://localhost:7071/api/filterAge?minAge=${minAge}&maxAge=${maxAge}`)
         .then(
             function(response){
                 if(response.status !== 200){
