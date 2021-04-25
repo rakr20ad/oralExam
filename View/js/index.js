@@ -116,7 +116,80 @@ logout.addEventListener("click", userLogout)
           console.log(error)
           console.error("Kunne ikke logge ud");
         });
+<<<<<<< HEAD
     } 
+=======
+    }
+
+
+    var getUsersNearby = document.getElementById("getFullUser"); 
+
+    getUsersNearby.addEventListener('click', function(){
+        var city = document.getElementById('city').value 
+        fetch(`http://localhost:7071/api/getFullUser?city=${city}`)
+            .then(
+                function(response){
+                    if(response.status !== 200){
+                        console.log("noget gik galt" + response.status);
+                        return;  
+                    }
+                    response.json().then(function (data) {
+                        console.log(data);
+                        window.location=`http://localhost:7071/api/getFullUser?city=${city}`
+                    });
+                }
+    
+            )
+                .catch(function (err) {
+                    console.log(err);
+        });
+    })  
+
+var genderButton = document.getElementById("filterGender"); 
+
+genderButton.addEventListener('click', function(){
+    var gender = document.getElementById('gender').value 
+    fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+})
+
+var ageButton = document.getElementById("filterAge"); 
+
+ageButton.addEventListener('click', function(){
+    var minAge = document.getElementById('minAge').value 
+    var maxAge = document.getElementById('maxAge').value 
+    fetch(`http://localhost:7071/api/filterAge?minAge=${minAge}&maxAge=${maxAge}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+})
+>>>>>>> 88cbc3fb86199b8d7259a2d008cb47835d0b62a4
 /*
 var login = document.getElementById("login");
 

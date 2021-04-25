@@ -81,8 +81,8 @@ function select(email, password){
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('email', TYPES.VarChar, user.email)
-            request.addParameter('password', TYPES.VarChar, user.password)
+            request.addParameter('email', TYPES.VarChar, email)
+            request.addParameter('password', TYPES.VarChar, password)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -169,6 +169,53 @@ function update(age, email, password) {
 };
 module.exports.update = update;
 
+function filterGender(gender){
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM [GK7].[users] WHERE gender = @gender`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('gender', TYPES.VarChar, gender)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.filterGender = filterGender;
+
+function filterAge(minAge, maxAge){
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM [GK7].[users] WHERE age >= @minAge AND age <= @maxAge`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('minAge', TYPES.Int, minAge)
+            request.addParameter('maxAge', TYPES.Int, maxAge)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.filterAge = filterAge;
+
 /* function(columns) {
             columns.forEach(function(column) {
               if (column.value === req.query.age) {
@@ -251,6 +298,31 @@ function viewAllUsers() {
 })}
 module.exports.viewAllUsers = viewAllUsers;
 
+function getMatches() {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM [GK7].[matches]`
+        let request = new Request(sql, err => {
+          if (err) {
+            reject(err);
+          }
+        });
+        const results = [];
+        request.on('row', columns => {
+          let result = {};
+          columns.forEach(column => {
+            result[column.metadata.colName] = column.value;
+          });
+  
+          results.push(result);
+        });
+  
+        request.on('doneProc', (rowCount) => {
+          resolve(results);
+        });
+ 
+    connection.execSql(request);
+})}
+module.exports.getMatches = getMatches;
 
 //GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
 function getUsersNearby(city){
