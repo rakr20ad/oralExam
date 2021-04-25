@@ -58,16 +58,9 @@ describe("Firstname must not be null", () => {
                     .end((err, res) => {
                         //Validating http status code 
                         console.log(res.body, 'cool')
-                        
                         console.log(res.status, 'nice')
                         res.status.should.equal(400);
                         res.body.should.be.a("object")
-                        /*res.body.should.have.property('name')
-                        res.body.should.have.property('email')
-                        res.body.should.have.property('gender')
-                        res.body.should.have.property('country')
-                        res.body.should.have.property('birthday')
-                        res.body.should.have.property('image')*/
                         done();
         })
     })
