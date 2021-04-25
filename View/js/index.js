@@ -40,6 +40,7 @@ form.addEventListener("submit", function(e) {
 
 var getButton = document.getElementById("getUser"); 
 
+
 getButton.addEventListener('click', function(){
     var firstName = document.getElementById('firstName').value 
     fetch(`http://localhost:7071/api/createUser?firstName=${firstName}`)
@@ -114,6 +115,9 @@ logout.addEventListener("click", userLogout)
           console.log(error)
           console.error("Kunne ikke logge ud");
         });
+<<<<<<< HEAD
+    } 
+=======
     }
 
 
@@ -229,8 +233,13 @@ ageButton.addEventListener('click', function(){
             .catch(function (err) {
                 console.log(err);
     });
+<<<<<<< HEAD
     
     })*/
+=======
+})
+>>>>>>> 88cbc3fb86199b8d7259a2d008cb47835d0b62a4
+>>>>>>> 6d8b0c9f029d4d6e2774453d7fd3b59ebc44d3fa
 /*
 var login = document.getElementById("login");
 
