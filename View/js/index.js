@@ -140,6 +140,51 @@ logout.addEventListener("click", userLogout)
                     console.log(err);
         });
     })  
+
+var genderButton = document.getElementById("filterGender"); 
+
+genderButton.addEventListener('click', function(){
+    var gender = document.getElementById('gender').value 
+    fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+})
+
+var ageButton = document.getElementById("filterAge"); 
+
+ageButton.addEventListener('click', function(){
+    var age1 = document.getElementById('age1').value 
+    var age2 = document.getElementById('age2').value 
+    fetch(`http://localhost:7071/api/filterGender?age=${age1}&age=${age2}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+                response.json().then(function (data) {
+                    console.log(data);
+                });
+            }
+
+        )
+            .catch(function (err) {
+                console.log(err);
+    });
+})
 /*
 var login = document.getElementById("login");
 
