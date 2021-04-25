@@ -14,7 +14,7 @@ describe("/POST", () => {
     // What do we expect? 
     it("it should post a user from the database", (done) => {
         let user = {
-            firstName: "Kasper", lastName:"Johansen", email: "UnitTest@gmail.com", password: "1234", city: "Slangerup", country: "den", gender: "male", preferred_gender: "female"
+            firstName: "Line", lastName:"Carlsen", email: "hejjjj@gmail.com", password: "1234", age: "21", city: "Hørsholm", country: "den", gender: "male", preferred_gender: "female"
         }
         // Chai request is chained
         chai 
@@ -25,10 +25,42 @@ describe("/POST", () => {
                     //Handling response 
                     .end((err, res) => {
                         //Validating http status code 
-                        //console.log(res.body, 'hej')
+                        console.log(res.body, 'hej')
                         should.not.exist(err)
-                        //console.log(res.status, "nice")
-                        //res.status.should.equal(200);
+                        console.log(res.status, "nice")
+                        res.status.should.equal(200);
+                        res.body.should.be.a("object")
+                        /*res.body.should.have.property('name')
+                        res.body.should.have.property('email')
+                        res.body.should.have.property('gender')
+                        res.body.should.have.property('country')
+                        res.body.should.have.property('birthday')
+                        res.body.should.have.property('image')*/
+                        done();
+        })
+    })
+})
+
+// Describing method and route
+describe("Firstname must not be null", () => {
+    // What do we expect? 
+    it("it should throw an error, because firstname is null", (done) => {
+        let user = {
+            firstName: null, lastName:"Carlsen", email: "hejjjj@gmail.com", password: "1234", age: "21", city: "Hørsholm", country: "den", gender: "male", preferred_gender: "female"
+        }
+        // Chai request is chained
+        chai 
+            .request(baseURL)
+                //Route is added 
+                .post("/createUser")
+                    .send(user)
+                    //Handling response 
+                    .end((err, res) => {
+                        //Validating http status code 
+                        console.log(res.body, 'cool')
+                        
+                        console.log(res.status, 'nice')
+                        res.status.should.equal(400);
                         res.body.should.be.a("object")
                         /*res.body.should.have.property('name')
                         res.body.should.have.property('email')
