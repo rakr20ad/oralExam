@@ -29,6 +29,7 @@ module.exports = async function (context, req) {
         }
     }
 
+    //Dette er funktionen til vores get all users for ADMIN 
    async function get(context) {
         try {
            // let firstName = req.query.firstName

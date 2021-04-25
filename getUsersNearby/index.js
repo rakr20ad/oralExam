@@ -1,4 +1,6 @@
 const db = require('../shared/db')
+var fs = require('fs');
+
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -14,12 +16,9 @@ module.exports = async function (context, req) {
 
     };
 }
-
-
     async function get(context, req) {
         try {
             let city = (req.query.city || (req.body && req.body.city));
-            //let user = new User(firstName)
             console.log(city)
             let result = await db.getUsersNearby(city)
             context.res = {

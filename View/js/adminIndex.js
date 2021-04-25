@@ -28,6 +28,7 @@ adminForm.addEventListener("submit", function(e) {
     }) 
 })
 
+//DETTE ER TIL ADMINLOGIN
 var adminLogin = document.getElementById("adminLogin")
 adminLogin.addEventListener("submit", function(e) {
     e.preventDefault()
@@ -50,6 +51,7 @@ adminLogin.addEventListener("submit", function(e) {
             localStorage.setItem("loggedIn", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
+            //Så kommer du videre ind på adminpage
             window.location="adminPage.html"; 
             console.log("Ja tak")
         }
@@ -62,25 +64,27 @@ adminLogin.addEventListener("submit", function(e) {
         })
     }})
     
-var getUsers = document.getElementById("getUsers")
-
-    getUsers.addEventListener("click", function(){
-        //var firstName = document.getElementById("firstName").value
-        fetch("http://localhost:7071/api/statistics")
-        .then(
-            function(response){
-                if(response.status !== 200){
-                    console.log("noget gik galt" + response.status);
-                    return;  
+//Til at få alle brugerne, så admin kan se antal brugere
+function getUsers() {
+    var getUsers = document.getElementById("getUsers") 
+    {
+            fetch("http://localhost:7071/api/statistics")
+            .then(
+                function(response){
+                    if(response.status !== 200){
+                        console.log("noget gik galt" + response.status);
+                        return;  
+                    }
+                    //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+                    //Derefter displayer vi objekterne ved at bruge JSON.stringify
+                    response.json().then(function (data) {
+                        console.log(data);
+                        getUsers.innerHTML = JSON.stringify(data)                    
+                    });
                 }
-                response.json().then(function (data) {
-                    console.log(data);
-                    window.location = `http://localhost:7071/api/statistics`
-                });
-            }
-
-        )
-            .catch(function (err) {
-                console.log(err);
-    });
-})
+            )
+                .catch(function (err) {
+                    console.log(err);
+        });
+    }};
+    

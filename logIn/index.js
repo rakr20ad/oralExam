@@ -12,9 +12,6 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-       /* case 'GET': 
-            await get(context, req);
-            break;*/ 
         case 'POST':
             console.log("test")
             await post(context, req);
@@ -27,25 +24,7 @@ module.exports = async function (context, req) {
         }*/
     }
 
-    //Ved ikke, om man først skal get'e, isåfald er jeg lidt på bar bund ift. hvorfor.  
-  /*  async function get(context, req) {
-        try {
-            let email = req.query.email
-            console.log(email)
-            let users = await db.SELECT(email)
-            context.res = {
-                body: users
-            }
-        } catch(error) {
-            context.res = {
-                status: 400, 
-                body: `no user - ${error.message}`
-            }
-        }
-    }
-*/
-    // Hvilken SQL statement tjekker om noget stemmer overens med databasen 
-    // Eller er den logik i db.js? 
+    // Vores login
     async function post(context, req) {
         try {
             let email = req.body.email
@@ -143,45 +122,3 @@ module.exports = async function (context, req) {
         }
     }
 */
-/*
-//Lidt ala nedenstående, hvor syntaks skal erstattes med databasen og ikke Json filen - men logikken er den samme:
-//(...)læs databasen, hvis mail og password er der, hvis de gør 200 sendes tilbage
-/*const fs = require('fs');
-const User = require('../Model/User');
-
-module.exports = function (app) {
-
-    app.post('/login', (req, res) => {
-        let user = new User(
-            req.body.firstName,
-            req.body.lastName,
-        )
-
-        // Læser database
-        var users
-        try {
-            const data = fs.readFileSync('./users.json', 'utf8')
-            users = JSON.parse(data)
-        } catch (err) {
-            users = []
-        }
-
-        // Tjekker om brugeren allerede eksistere i database
-        var exists = false
-        users.forEach(item => {
-            if ((item.firstName == user.firstName) && (item.lastName == user.lastName)) {
-                exists = true
-            }
-        });
-
-        if (exists) {
-            res.sendStatus(200)
-            return
-        }
-        else {
-            res.sendStatus(404)
-            return
-        }
-
-    })
-}*/

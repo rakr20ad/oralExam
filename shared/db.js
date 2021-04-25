@@ -324,7 +324,7 @@ function getMatches() {
 })}
 module.exports.getMatches = getMatches;
 
-// GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
+//GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
 function getUsersNearby(city){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] where city = @city`
