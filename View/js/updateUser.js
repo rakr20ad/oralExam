@@ -1,3 +1,4 @@
+function updateUser() {
 var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("submit", function(e) {
     e.preventDefault()
@@ -23,11 +24,12 @@ updateUser.addEventListener("submit", function(e) {
         if (status == 200) {
             JSON.stringify(data)
             updateUser.innerHTML = JSON.stringify(data)  
+            console.log("Succes")
         }
         })
         .catch((err) => {
           console.log(err)
         });
     })
-
+};
     
