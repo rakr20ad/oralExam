@@ -15,13 +15,12 @@ module.exports = async function (context, req) {
     }
     switch(req.method){
         case 'DELETE':
-            console.log("test")
-            await deleteUser(context, req);
+            await deleteAccount(context, req);
             break; 
         }
     }
 
-    async function deleteUser(context, req) {
+    async function deleteAccount(context, req) {
         try {
             let email = (req.query.email || (req.body && req.body.email));
             let password = (req.query.password || (req.body && req.body.password));

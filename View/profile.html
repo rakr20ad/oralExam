@@ -9,38 +9,37 @@
 
 
     <!--HVIS MAN SKAL OPDATERE SIN BRUGER-->
-    <h2 id="updateUser">Enter your email, password and age to update your user</h2>
-    <input type="age" id="age" placeholder="Age">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="password">
-    <button onclick="updateUser()" id="updateUser">Update User</button>
+    <h2 >Enter your email, password and age to update your user</h2>
+    <div> 
+        <form>
+            <input type="hidden" name="_method" value="PUT">
+            <input type="number" id="age" placeholder="Age">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button type="button" id="updateUser" value="put">Update User</button>
+        </form>
+    </div>
+ 
+    <!--Slette konto-->
+    <h2>Enter your email and password and push the button to delete your user</h2>
+    <div>
+        <form>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="password">
+            <button id = "deleteUser">Delete</button>
+        </form>
+    </div>
+    <a href="matches.html" class="btn">Click here to find potential matches!</a>
 
-
-    <br>
-    <br>
-
-    <!--TIL HVIS BRUGEREN SELV SKAL SLETTE SIN BRUGER-->
-<h2 id="deleteUser">Enter your email and password and push the button to delete your user</h2>
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="password">
-<button onclick="deleteUser()">Delete</button>
-
-<br>
-<br>
-<a href="matches.html" class="btn">Click here to find potential matches!</a>
-<br>
-<br>
 
 <!--Logout-->
-    <div id="logout">
-    <H3>You can logout down below</H3>
-    <button type="button" id="logout" class="btn btn-secondary">Log out</a>
+    <div>
+    <h3>You can logout down below</h3>
+        <button type="button" id="logout" class="btn btn-secondary">Log out</a>
     </div>
 
-    <script src="js/updateUser.js"></script>
-    <!--<script src="js/index.js"></script>-->
-    <script src="js/deleteUser.js"></script>
-
+    <script src="js/profile.js"></script>
 
 </body>
 

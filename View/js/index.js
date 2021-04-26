@@ -101,22 +101,7 @@ login.addEventListener("submit", function(e) {
         });
     })
 
-var logout = document.getElementById("logout")
 
-logout.addEventListener("click", userLogout)
-
-    function userLogout() {
-            localStorage.setItem("loggedin", JSON.stringify(false));
-            localStorage.removeItem("email", JSON.stringify(email));
-            localStorage.removeItem("password", JSON.stringify(password));
-            window.location="index.html"; 
-            console.log("User logged out")
-        
-        .catch((error) => {
-          console.log(error)
-          console.error("Kunne ikke logge ud");
-        });
-    }
     var getUsersNearby = document.getElementById("getFullUser"); 
 
     getUsersNearby.addEventListener('click', function(){
@@ -202,7 +187,9 @@ ageButton.addEventListener('click', function(){
                 console.log(err);
     });
 })
-   /* 
+
+
+/*
     var getProfile = document.getElementById("getProfile");
     
     getProfile.addEventListener('click', function(){
@@ -232,37 +219,4 @@ ageButton.addEventListener('click', function(){
     
     })*/
 
-/*
-var login = document.getElementById("login");
 
-login.addEventListener("click", function(e) {
-    e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    
-    fetch("http://localhost:7071/api/logIn", {
-        method: "POST",
-        body: JSON.stringify({
-            email: email,
-            password: password,
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        console.log(data)
-        if(data == status(200)){
-          window.location="homepage.html"
-        } else if (data == status(404)){
-          console.log("Could not log in")
-        }
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-
-})*/
