@@ -62,11 +62,11 @@ var getButton = document.getElementById("getUser");
 })*/
 
 
-var login = document.getElementById("login")
-login.addEventListener("submit", function(e) {
+/*var login = document.getElementById("login")
+login.addEventListener("click", function(e) {
     e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
+    var email = document.getElementById("loginEmail").value
+    var password = document.getElementById("loginPassword").value
     fetch("http://localhost:7071/api/login", {
         method: "POST",
         body: JSON.stringify({
@@ -87,6 +87,7 @@ login.addEventListener("submit", function(e) {
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", JSON.stringify(email));
             localStorage.setItem("password", JSON.stringify(password));
+            window.location="homepage.html"
         /*
           else if  (status == 404) {
             console.log("Could not login")
@@ -94,12 +95,12 @@ login.addEventListener("submit", function(e) {
           else {
             console.log("What")
           }*/
-        })
+       /* })
         .catch((err) => {
           console.log(err)
           window.alert("Vi kunne desværre ikke finde dig i systemet")
         });
-    })
+    })*/
 
 
     var getUsersNearby = document.getElementById("getFullUser"); 
