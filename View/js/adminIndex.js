@@ -1,3 +1,4 @@
+//Opret admin
 var adminForm = document.getElementById("adminForm");
 
 adminForm.addEventListener("submit", function(e) {
