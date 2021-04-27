@@ -351,6 +351,33 @@ function getUsersNearby(city){
 })}
 module.exports.getUsersNearby = getUsersNearby;
 
+
+//til fetch user 
+function fetchUser(id){
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM [GK7].[users] where id = @id`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('id', TYPES.Int, id)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.fetchUser = fetchUser;
+
+
+
     // Create query to execute against the database
 /*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
     //console.log(queryText);

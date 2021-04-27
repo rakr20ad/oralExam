@@ -1,3 +1,4 @@
+//Vores create User 
 var form = document.getElementById("form");
 
 form.addEventListener("submit", function(e) {
@@ -125,69 +126,6 @@ login.addEventListener("click", function(e) {
                     console.log(err);
         });
     })  
-
-    var genderButton = document.getElementById("filterGender"); 
-
-    genderButton.addEventListener('click', function(){
-        var gender = document.getElementById('gender').value 
-        fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
-            .then(
-                function(response){
-                    if(response.status !== 200){
-                        console.log("noget gik galt" + response.status);
-                        return;  
-                    }
-                    response.json().then(function (data) {
-                            var out = "";
-                            var i;
-                            for(i = 0; i<data.length; i++) {
-                              out += '<a href="' + data[i].id + '">' + 
-                              data[i].firstName + data[i].email + '</a><br>'; 
-                            }
-                            document.getElementById("filter1").innerHTML = JSON.stringify(out); 
-                        })/*.then(function (out) {
-                            var fields = "<div>
-                            <form action="get">
-                                <input type="text" id="city" placeholder="City" required>
-                            </form>
-                        </div><form";
-                            var n;
-                            for(n = 0; n<fields.length; i++) {
-                                fields += '<p' + fields[i].id + '">' + 
-                                data[i].firstName + data[i].email + '</p><br>';
-                              }
-                              document.getElementById("id01").innerHTML = JSON.stringify(out); 
-                        })*/
-                }
-                )
-                .catch(function (err) {
-                    console.log(err);
-           });
-    })
-
-var ageButton = document.getElementById("filterAge"); 
-
-ageButton.addEventListener('click', function(){
-    var minAge = document.getElementById('minAge').value 
-    var maxAge = document.getElementById('maxAge').value 
-    fetch(`http://localhost:7071/api/filterAge?minAge=${minAge}&maxAge=${maxAge}`)
-        .then(
-            function(response){
-                if(response.status !== 200){
-                    console.log("noget gik galt" + response.status);
-                    return;  
-                }
-                response.json().then(function (data) {
-                    console.log(data);
-                    ageButton.innerHTML = JSON.stringify(data) 
-                });
-            }
-
-        )
-            .catch(function (err) {
-                console.log(err);
-    });
-})
 
 
 /*

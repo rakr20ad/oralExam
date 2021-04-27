@@ -15,15 +15,6 @@ module.exports = async function (context, req) {
         case 'GET': 
             await get(context, req);
             break; 
-        /*case 'POST':
-            console.log("test")
-            await post(context, req);
-            break; */
-        /*default:
-            context.res = {
-                body: "Please get or post"
-            };
-            break*/
         }
     }
 
