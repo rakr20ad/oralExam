@@ -1,3 +1,37 @@
+/*function myProfile() {
+    var x = localStorage.getItem("email");
+    document.getElementById("userProfile").innerHTML = x;
+  }*/
+  var getProfile = document.getElementById("getProfile"); 
+
+  getProfile.addEventListener('click', function(){
+              var email = localStorage.getItem("email")
+              fetch(`http://localhost:7071/api/getProfile?email=${email}`)
+              .then(
+                  function(response){
+                      if(response.status !== 200){
+                          console.log("noget gik galt" + response.status);
+                          return;  
+                      }
+                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
+                      response.json().then(function (data) {
+                          document.getElementById("getMyProfile").innerHTML = `
+                          ${data.map(function(user) {
+                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
+                                      <span> Your lucky number: ${user.id} </span>
+                                      `
+                          }).join('')}
+                          `
+                    
+                      })
+                  }
+              )
+                  .catch(function (err) {
+                      console.log(err);
+          });
+      });
+
 var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("click", function(e) {
     e.preventDefault()
@@ -26,24 +60,8 @@ updateUser.addEventListener("click", function(e) {
 })
 
 
-var logout = document.getElementById("logout")
-
-logout.addEventListener("click", (userLogout))
-    function userLogout() {
-        localStorage.setItem("loggedin", JSON.stringify(false));
-        localStorage.removeItem("email", JSON.stringify(email));
-        localStorage.removeItem("password", JSON.stringify(password));
-        window.location="index.html"; 
-        console.log("User logged out")
-            
-        .catch((error) => {
-        console.log(error)
-        console.error("Kunne ikke logge ud");
-        });
-    }
 
 var deleteUser = document.getElementById("deleteUser")
-
 deleteUser.addEventListener('click', function(e) {
     e.preventDefault()
     var email = document.getElementById("email").value

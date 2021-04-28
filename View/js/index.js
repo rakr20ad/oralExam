@@ -61,70 +61,6 @@ var getButton = document.getElementById("getUser");
     });
 })*/
 
-
-var login = document.getElementById("login")
-login.addEventListener("submit", function(e) {
-    e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch("http://localhost:7071/api/login", {
-        method: "POST",
-        body: JSON.stringify({
-            email: email,
-            password: password
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-    .then((response) => {
-        return response.json()
-    })
-    .then((data) => {
-        console.log(data)
-        //if (status == 200) {
-            console.log("Ja tak")
-            localStorage.setItem("loggedin", JSON.stringify(true));
-            localStorage.setItem("email", JSON.stringify(email));
-            localStorage.setItem("password", JSON.stringify(password));
-        /*
-          else if  (status == 404) {
-            console.log("Could not login")
-          }
-          else {
-            console.log("What")
-          }*/
-        })
-        .catch((err) => {
-          console.log(err)
-          window.alert("Vi kunne desværre ikke finde dig i systemet")
-        });
-    })
-
-
-    var getUsersNearby = document.getElementById("getFullUser"); 
-
-    getUsersNearby.addEventListener('click', function(){
-        var city = document.getElementById('city').value 
-        fetch(`http://localhost:7071/api/getFullUser?city=${city}`)
-            .then(
-                function(response){
-                    if(response.status !== 200){
-                        console.log("noget gik galt" + response.status);
-                        return;  
-                    }
-                    response.json().then(function (data) {
-                        console.log(data);
-                        window.location=`http://localhost:7071/api/getFullUser?city=${city}`
-                    });
-                }
-    
-            )
-                .catch(function (err) {
-                    console.log(err);
-        });
-    })  
-
     var genderButton = document.getElementById("filterGender"); 
 
     genderButton.addEventListener('click', function(){
@@ -144,7 +80,8 @@ login.addEventListener("submit", function(e) {
                               data[i].firstName + data[i].email + '</a><br>'; 
                             }
                             document.getElementById("filter1").innerHTML = JSON.stringify(out); 
-                        })/*.then(function (out) {
+                        })
+                        /*.then(function (out) {
                             var fields = "<div>
                             <form action="get">
                                 <input type="text" id="city" placeholder="City" required>
