@@ -43,11 +43,11 @@ genderBtn.addEventListener('click', function(){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersGender").innerHTML = `
-                                ${data.map(function(users) {
-                                    return `<h5> Name: ${users.firstName} ${users.lastName}</h5>
-                                            <span> Lucky Number: ${users.id}</span>
-                                            <p> Age: ${users.age}</p>
-                                            <p> Dating preferences: ${users.preferred_gender}</p>
+                                ${data.map(function(user1) {
+                                    return `<h5> Name: ${user1.firstName} ${user1.lastName}</h5>
+                                            <span> Lucky Number: ${user1.id}</span>
+                                            <p> Age: ${user1.age}</p>
+                                            <p> Dating preferences: ${user1.preferred_gender}</p>
                                             `
                                 }).join('')}
                                 `
@@ -75,11 +75,11 @@ ageBtn.addEventListener('click', function(){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersAge").innerHTML = `
-                                ${data.map(function(users) {
-                                    return `<h3> Name: ${users.firstName} ${users.lastName}</h3>
-                                            <span> email: ${users.email}</span>
-                                            <h4> Age: ${users.age}</h4>
-                                            <h4> Dating preferences: ${users.preferred_gender}</h4>
+                                ${data.map(function(user2) {
+                                    return `<h3> Name: ${user2.firstName} ${users.lastName}</h3>
+                                            <span> email: ${user2.email}</span>
+                                            <h4> Age: ${user2.age}</h4>
+                                            <h4> Dating preferences: ${user2.preferred_gender}</h4>
                                             `
                                 }).join('')}
                                 `
