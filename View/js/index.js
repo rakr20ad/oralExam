@@ -78,7 +78,7 @@ var getButton = document.getElementById("getUser");
     });
 })*/
 
-    var genderButton = document.getElementById("filterGender"); 
+    /*var genderButton = document.getElementById("filterGender"); 
 
     genderButton.addEventListener('click', function(){
         var gender = document.getElementById('gender').value 
@@ -111,14 +111,14 @@ var getButton = document.getElementById("getUser");
                               }
                               document.getElementById("id01").innerHTML = JSON.stringify(out); 
                         })*/
-                }
+               /* }
                 )
                 .catch(function (err) {
                     console.log(err);
            });
-    })
+    })*/
 
-var ageButton = document.getElementById("filterAge"); 
+/*var ageButton = document.getElementById("filterAge"); 
 
 ageButton.addEventListener('click', function(){
     var minAge = document.getElementById('minAge').value 

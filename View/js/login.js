@@ -1,9 +1,11 @@
+
 var login = document.getElementById("login")
-login.addEventListener("click", function(e) {
+// HAS TO BE A SUBMIT bubtton
+login.addEventListener("submit", function(e) {
     e.preventDefault()
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`, {
+    fetch("http://localhost:7071/api/login", {
         method: "POST",
         body: JSON.stringify({
             email: email,
@@ -14,7 +16,7 @@ login.addEventListener("click", function(e) {
         }
     })
     .then((response) => {
-        return response.json()
+        return response
     })
     .then((data) => {
         console.log(data)
@@ -30,3 +32,4 @@ login.addEventListener("click", function(e) {
           window.alert("Vi kunne desværre ikke finde dig i systemet")
         });
     })
+    //?email=${email}&password=${password}
