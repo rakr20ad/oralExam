@@ -80,7 +80,7 @@ module.exports.selectFirstname = selectFirstname;
 //Men tænker at dette er noget, vi kan bygge videre på.. 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] where email = @email AND password = @password`
+        const sql = `SELECT * FROM [GK7].[users] WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -99,7 +99,7 @@ function select(email, password){
              resolve(results) 
         });  */
         request.on('row', (columns) => {
-            console.log('logg')
+            console.log('log')
             resolve(columns)
         })
         connection.execSql(request)
@@ -299,7 +299,7 @@ module.exports.insertAdmin = insertAdmin;
 function selectAdmin(email, password){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[admin] WHERE email = @email AND password = @password'
-        const request = new Request(sql, (err) => {
+        const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
@@ -307,9 +307,9 @@ function selectAdmin(email, password){
             })
         request.addParameter('email', TYPES.VarChar, email)
         request.addParameter('password', TYPES.VarChar, password)
-        request.on('requestCompleted', (row) => {
-            console.log('User inserted', row); 
-            resolve('user inserted', row)
+        request.on("row", (coloumns) => {
+            console.log('Admin logged in'); 
+            resolve(coloumns)
         });
         connection.execSql(request);
     });

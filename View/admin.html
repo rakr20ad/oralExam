@@ -19,26 +19,16 @@
         <h2>Create an account</h2>
         
         <form method="post" id="adminForm">
-            <!--<input type="text" id="firstName" placeholder="FirstName" required>-->
-            <input type="text" id="lastName" placeholder="LastName" required>            
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>            
             <input type="email" id="email" placeholder="Email" required>
             <input type="text" id="password" placeholder="Password" required> <br>
             <button class="btn btn-primary btn-sm" type="submit" name="Submit">Create your account!</button>
         </form>
     </div>
-<br>
-    <!--DETTE TILHØRER LOGINFUNKTIONEN TIL ADIMIN tror jeg-->
-     <div>
-        <h2>Login</h2>
-        <form method="post" id="adminLogin" action="adminPage.html">
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Passsword"> <br>
-            <!--<a href="./homepage.html" onclick=""  class="button">Log in</a>-->
-            <button class="btn btn-primary btn-sm" type="submit" id="adminLogin" >Login as administrator</button>
-        </form>
-    </div>
 
 
+    <div><a href="adminLogin.html"> Or, want to login as an admin? Click here</a></div>
     <script src="js/adminIndex.js"></script>
 </body>
 </html>

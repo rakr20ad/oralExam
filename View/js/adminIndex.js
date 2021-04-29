@@ -7,7 +7,7 @@ adminForm.addEventListener("submit", function(e) {
     var lastName = document.getElementById("lastName").value
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    fetch("http://localhost:7071/api/sysadminCreate", {
+    fetch("http://localhost:7071/api/insertAdmin", {
         method: "POST",
         body: JSON.stringify({
             firstName: firstName,
@@ -29,41 +29,6 @@ adminForm.addEventListener("submit", function(e) {
     }) 
 })
 
-//This is for the admin to login, after creating account
-var adminLogin = document.getElementById("adminLogin")
-adminLogin.addEventListener("submit", function(e) {
-    e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch("http://localhost:7071/api/sysadminLogin", {
-        method: "post",
-        body: JSON.stringify({
-            email: email,
-            password: password
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-    .then((response) => {
-        return response.json()
-    })
-        if (status == 200){
-            localStorage.setItem("loggedIn", JSON.stringify(true));
-            localStorage.setItem("email", JSON.stringify(email));
-            localStorage.setItem("password", JSON.stringify(password));
-            //Så kommer du videre ind på adminpage
-            window.location="adminPage.html"; 
-            console.log("Ja tak")
-        }
-          if  (status == 404) {
-            console.log("Could not login")
-    .then((data) => {
-        console.log(data)}).catch((err) => {
-          console.log(err)
-          console.error("Kunne overhovedet ikke logge ind");
-        })
-    }})
     
 //Til at få alle brugerne, så admin kan se antal brugere
 function getUsers() {

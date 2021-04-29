@@ -23,8 +23,9 @@ module.exports = async function (context, req) {
 
     async function post(context, req) {
         try {
-            let admin1 = req.body;
-            let admin = new Admin(admin1) /*new User(
+            let admin = req.body;
+            //*det virker ikke med new Admin - derfor er den udkommenteret 
+            /*let admin = new Admin(admin1) new User(
                 req.body.firstName,
                 req.body.lastName,
                 req.body.email,
