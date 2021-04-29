@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <meta charset="UTF-8">
     <title>Dating Profile</title>
 </head>
 <body>
+    <div class="topnav">
+    <a href="homepage.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="explore.html">Explore</a>
+    <a href="yourMatches.html">Your matches</a>
+    <a href="settings.html">Settings</a>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    
     <h1>YOUR PROFILE</h1>
     <div id = "getMyProfile">
         <form method="get">
@@ -23,27 +37,8 @@
         </form>
     </div>
  
-    <!--Slette konto-->
-    <h2>Enter your email and password and push the button to delete your user</h2>
-    <div>
-        <form>
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="password">
-            <button id = "deleteUser">Delete</button>
-        </form>
-    </div>
-    <a href="matches.html" class="btn">Click here to find potential matches!</a>
-
-
-<!--Logout-->
-    <div>
-    <h3>You can logout down below</h3>
-        <button type="button" id="logout" class="btn btn-secondary">Log out</a>
-    </div>
-
-    <script src="js/profile.js"></script>
-
+    
+<script src="js/profile.js"></script>
 </body>
 
 </html>

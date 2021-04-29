@@ -4,9 +4,8 @@
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
     <link rel="stylesheet" href="css/index.css">
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Matches</title>
+    <title>Settings</title>
 </head>
 <body>
     <div class="topnav">
@@ -19,11 +18,20 @@
     <br>
     <br>
     <br>
-    
-<H1>Your Matches</H1>
-<p>Click here to get all your matches</p>
-<button onclick="getMatches()">See your matches</button>
+    <!--Slette konto-->
+    <h2>Enter your email and password and push the button to delete your user</h2>
+    <div>
+        <form>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="password">
+            <button id = "deleteUser">Delete</button>
+        </form>
+    </div>
 
-<script src="js/getMatches.js"></script>
+
+
+    <script src="js/profile.js"></script>
+    
 </body>
 </html>

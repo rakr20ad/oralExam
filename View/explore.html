@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <meta charset="UTF-8">
+    <title>Matches</title>
+</head>
+<body>
+    <div class="topnav">
+    <a href="homepage.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="explore.html">Explore</a>
+    <a href="yourMatches.html">Your matches</a>
+    <a href="settings.html">Settings</a>
+    </div>
+    <br>
+    <br>
+    <br>
+<H1>See matches here!</H1>
+    <!--den der tidligere lå på index.html - MEN ER DEN IKKE DET SAMME SOM OVENSTÅENDE-->
+<h2>Enter a city and see potential matches in your area below!</h2>
+<input type="city" id="city" placeholder="enter city ">
+<p id="getUsersNearby">Click the button to see matches in area</p>
+<button onclick="getUsersNearby()">Try it</button>
+
+<br>
+<br>
+
+<h2>Select your preferences and find a match</h2>
+<div>
+    <form method="post" id="filter1">
+    <input type="text" id="gender" placeholder="Sexual preferences" >
+    <button type="button" id="filterGender" class="button">Filter users by gender!</a>
+        </button>
+</div>
+<div>
+    <form method="post" id="filter2">
+    <input type="number" id="minAge" placeholder="Minimum age" >
+    <input type="number" id="maxAge" placeholder="Maximum age" >
+    <button type="button" id="filterAge" class="button">Filter users by age!</a>
+</div>
+
+<br>
+<br>
+
+<h2>Lastly, find you match to find your match</h2>
+<input type="fistName" id="fistName" placeholder="Enter first name">
+<p id="...">Click the button to see if it is a match</p>
+<button onclick="">Like</button>
+
+<br>
+<br>
+
+<a href="yourMatches.html" class="btn">Click here to see your matches!</a>
+<a href="profile.html" class="btn">Or go back to profile</a>
+
+
+
+<!--Indsæt nye script med firstname match delen når det er der-->
+<script src="js/getUsersNearby.js"></script>
+</body>
+</html>
