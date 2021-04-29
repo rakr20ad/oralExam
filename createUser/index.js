@@ -1,7 +1,6 @@
 const db = require('../shared/db')
 //const router = express.router
-const User = require("../Model/user");
-var fs = require('fs');
+const User = require('../Model/user')
 
 
 

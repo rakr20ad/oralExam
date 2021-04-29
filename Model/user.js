@@ -1,11 +1,11 @@
+
 class User{
-    constructor(id,firstName, lastName, email, password,  city, country, gender, preferred_gender) {
-        this.id = id; 
+    constructor(firstName, lastName, email, password, age, city, country, gender, preferred_gender) {
         this.firstName = firstName; 
         this.lastName = lastName;
         this.email = email;
         this.password = password; 
-        //this.birthday = birthday
+        this.age = age
         this.city = city
         this.country = country
         this.gender = gender

@@ -1,3 +1,18 @@
+
+class User{
+    constructor(firstName, lastName, email, password, age, city, country, gender, preferred_gender) {
+        this.firstName = firstName; 
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password; 
+        this.age = age
+        this.city = city
+        this.country = country
+        this.gender = gender
+        this.preferred_gender = preferred_gender
+    }
+}
+
 var form = document.getElementById("form");
 
 form.addEventListener("submit", function(e) {
@@ -11,6 +26,8 @@ form.addEventListener("submit", function(e) {
     var country = document.getElementById("country").value    
     var gender = document.getElementById("gender").value
     var preferred_gender = document.getElementById("preferred_gender").value
+    let user = new User(firstName, lastName, email, password, age, city, country, gender, preferred_gender)
+    console.log(user)
     fetch("http://localhost:7071/api/createUser", {
         method: "POST",
         body: JSON.stringify({
@@ -31,8 +48,8 @@ form.addEventListener("submit", function(e) {
     .then((response) => {
         return response.json()
     })
-    .then((data) => {
-        console.log(data)
+    .then((user) => {
+        console.log(user)
     }).catch((err) => {
         console.log(err)
     }) 
