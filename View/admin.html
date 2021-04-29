@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        h1 {text-align: center;}
+        h3 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+    </style>
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="css/admin.css">
     <meta charset="UTF-8">
     <title>Welcome to the Dating Universe Admin Site</title>
 </head>
 
 <body>
     <div>
+        <br>
         <h2>Create an account</h2>
         
         <form method="post" id="adminForm">
             <!--<input type="text" id="firstName" placeholder="FirstName" required>-->
             <input type="text" id="lastName" placeholder="LastName" required>            
             <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="password" placeholder="Password" required>
-            <button type="submit" name="Submit">Create your account!</button>
+            <input type="text" id="password" placeholder="Password" required> <br>
+            <button class="btn btn-primary btn-sm" type="submit" name="Submit">Create your account!</button>
         </form>
     </div>
-
+<br>
     <!--DETTE TILHØRER LOGINFUNKTIONEN TIL ADIMIN tror jeg-->
      <div>
         <h2>Login</h2>
         <form method="post" id="adminLogin" action="adminPage.html">
             <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Passsword">
+            <input type="password" id="password" placeholder="Passsword"> <br>
             <!--<a href="./homepage.html" onclick=""  class="button">Log in</a>-->
-            <button type="submit" id="adminLogin" >Login as administrator</button>
+            <button class="btn btn-primary btn-sm" type="submit" id="adminLogin" >Login as administrator</button>
         </form>
     </div>
 

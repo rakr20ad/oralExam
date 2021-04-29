@@ -1,4 +1,4 @@
-//Opret admin
+//This is for creating an admin account
 var adminForm = document.getElementById("adminForm");
 
 adminForm.addEventListener("submit", function(e) {
@@ -29,7 +29,7 @@ adminForm.addEventListener("submit", function(e) {
     }) 
 })
 
-//DETTE ER TIL ADMINLOGIN
+//This is for the admin to login, after creating account
 var adminLogin = document.getElementById("adminLogin")
 adminLogin.addEventListener("submit", function(e) {
     e.preventDefault()

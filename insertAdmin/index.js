@@ -1,3 +1,4 @@
+
 const db = require('../shared/db')
 //const router = express.router
 const Admin = require("../Model/admin");
@@ -12,18 +13,10 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        /*case 'GET': 
-            await get(context, req);
-            break; */
         case 'POST':
             console.log("test")
             await post(context, req);
-            break; /*
-        default:
-            context.res = {
-                body: "Please get or post"
-            };
-            break*/
+            break; 
         }
     }
 
@@ -54,3 +47,4 @@ module.exports = async function (context, req) {
             }
         }
     }
+    

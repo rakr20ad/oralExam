@@ -152,6 +152,7 @@ function deleteUser(email, password){
 }
 module.exports.deleteUser = deleteUser;
 
+//update an user
 function update(age, email, password) {
     return new Promise((resolve, reject) => {
          let sql = `UPDATE [GK7].[users] SET age = @age
@@ -174,6 +175,7 @@ function update(age, email, password) {
 };
 module.exports.update = update;
 
+//Filter users by gender and age
 function filterGender(gender){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] WHERE gender = @gender`
@@ -268,6 +270,7 @@ function createMatch(){
                 context.log("Statistic Updated.");
               }
             });*/
+
 //Admin create account
 function insertAdmin(admin){
     return new Promise((resolve, reject) => {
@@ -313,6 +316,7 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
+//For the admin to view all users 
 function viewAllUsers() {
     return new Promise((resolve, reject) => {
         const sql = `DECLARE @json NVARCHAR(Max)
@@ -344,9 +348,7 @@ module.exports.viewAllUsers = viewAllUsers;
 
 
 
-
-
-//GetFullUser baseret på by. Man kan evt. videreudvikle til at match efter by. 
+//GetFullUser based on city - may be used when finding a match
 function getUsersNearby(city){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] WHERE city = @city`

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        h1 {text-align: center;}
+        h2 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+    </style>
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
     <link rel="stylesheet" href="css/index.css">
     <meta charset="UTF-8">
@@ -19,21 +25,23 @@
     <br>
 
     
-    <h1>YOUR PROFILE</h1>
+    <h2>YOUR PROFILE</h2>
     <div id = "getMyProfile">
         <form method="get">
-            <button type="button" id="getProfile" class="button">Filter users by gender!</a>
-                </button>
+            <button class="btn btn-primary btn-sm" type="button" id="getProfile" class="button">See your profile!</a></button>
         </div>
-    <!--HVIS MAN SKAL OPDATERE SIN BRUGER-->
-    <h2 >Enter a users email and password so you can change their password</h2>
+
+        <br>
+
+    <!--Update your user-->
+    <h2 >Enter email and password so you can update informations</h2>
     <div> 
         <form>
             <input type="hidden" name="_method" value="PUT">
             <input type="number" id="age" placeholder="Age">
             <input type="email" id="email" placeholder="Email">
             <input type="password" id="password" placeholder="Password">
-            <button type="button" id="updateUser" value="put">Update User</button>
+            <button type="button" class="btn btn-primary btn-sm" id="updateUser" value="put">Update User</button>
         </form>
     </div>
  
