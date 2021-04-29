@@ -195,6 +195,7 @@ function filterGender(gender){
         });  
         connection.execSql(request)
 })}
+module.exports.getUsersNearby = getUsersNearby;
 module.exports.filterGender = filterGender;
 
 function filterAge(minAge, maxAge){
@@ -205,8 +206,8 @@ function filterAge(minAge, maxAge){
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('minAge', TYPES.Int, minAge)
-            request.addParameter('maxAge', TYPES.Int, maxAge)
+            request.addParameter('minAge', TYPES.VarChar, minAge)
+            request.addParameter('maxAge', TYPES.VarChar, maxAge)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};

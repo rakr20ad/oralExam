@@ -17,32 +17,36 @@
     <br>
     <br>
     <br>
-<H1>See matches here!</H1>
+<p><b>See matches here!</b></p>
     <!--den der tidligere lå på index.html - MEN ER DEN IKKE DET SAMME SOM OVENSTÅENDE-->
-<h2>Enter a city and see potential matches in your area below!</h2>
-<input type="city" id="city" placeholder="enter city ">
-<p id="getUsersNearby">Click the button to see matches in area</p>
-<button onclick="getUsersNearby()">Try it</button>
-
+    <p>Enter a city and see potential matches in your area below!</p>
+    <div id = "usersNearby">
+    <form method="get">
+        <input type="text" id="city" placeholder="City" required>
+        <button type="button" id="getUsersNearby" class="button">Find users in your city!</a>
+            </button>
+    </div>
 <br>
-<br>
 
-<h2>Select your preferences and find a match</h2>
-<div>
-    <form method="post" id="filter1">
-    <input type="text" id="gender" placeholder="Sexual preferences" >
-    <button type="button" id="filterGender" class="button">Filter users by gender!</a>
-        </button>
-</div>
-<div>
-    <form method="post" id="filter2">
+<p>Select your preferences and find a match</p>
+<div id = "usersGender">
+    <form method="get">
+        <input type="text" id="gender" placeholder="Sexual preferences" required>
+        <button type="button" id="getUsersByGender" class="button">Filter users by gender!</a>
+            </button>
+    </div>
+    <br>    
+
+<div id="usersAge">
+    <form method="get" >
     <input type="number" id="minAge" placeholder="Minimum age" >
     <input type="number" id="maxAge" placeholder="Maximum age" >
-    <button type="button" id="filterAge" class="button">Filter users by age!</a>
+    <button type="button" id="getUsersByAge" class="button">Filter users by age!</a>
+        </button>
 </div>
 
 <br>
-<br>
+
 
 <h2>Lastly, find you match to find your match</h2>
 <input type="fistName" id="fistName" placeholder="Enter first name">
@@ -58,6 +62,6 @@
 
 
 <!--Indsæt nye script med firstname match delen når det er der-->
-<script src="js/getUsersNearby.js"></script>
+<script src="js/explore.js"></script>
 </body>
 </html>
