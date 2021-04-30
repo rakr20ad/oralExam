@@ -20,7 +20,7 @@ module.exports = async function (context, req) {
         try {
             let email = (req.query.email || (req.body && req.body.email));
             //let user = new User(firstName)
-            console.log(gender)
+            console.log(email)
             let result = await db.getMyMatches(email)
             context.res = {
                 status: 200,

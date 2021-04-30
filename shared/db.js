@@ -224,17 +224,17 @@ function filterAge(minAge, maxAge){
 })}
 module.exports.filterAge = filterAge;
 
-function likeUser(sender, receiver){
+function likeUser(sender_id, receiver_id){
     return new Promise((resolve, reject) => {
-        var sql = `INSERT INTO [GK7].[likes] (sender, receiver) VALUES (@sender, @receiver)`
+        var sql = `INSERT INTO [GK7].likes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
                 console.log(err)
             }
         });
-        request.addParameter('sender', TYPES.VarChar, sender)
-        request.addParameter('receiver', TYPES.VarChar, receiver)
+        request.addParameter('sender_id', TYPES.VarChar, sender_id)
+        request.addParameter('receiver_id', TYPES.VarChar, receiver_id)
         request.on('requestCompleted', (row) => {
             console.log('Like inserted', row); 
             resolve('Like inserted', row)
@@ -243,33 +243,93 @@ function likeUser(sender, receiver){
     });
 }
 module.exports.likeUser = likeUser;
-/*
-function createMatch(){
-        let request = new Request( `INSERT INTO GK7.matches (email1, email2)
-        SELECT u1.email, u2.email
-        FROM GK7.likes l1, GK7.likes l2, GK7.users u1, GK7.users u2
-        WHERE (l1.sender = l2.receiver AND l2.sender = l1.receiver)
-        AND (l1.sender = u1.email  AND l1.receiver = u2.email)
-        AND u1.email < u2.email`, function (err) {
-            if (err) {
-                console.log(err)
-            }
-            
 
-        });request.on('requestCompleted', (row) => {
-            console.log('Match inserted', row); 
-            resolve('match inserted', row)
+function createMatch(){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                        INSERT INTO GK7.matches (like_id, user1, user2)
+                        SELECT l1.id, l1.sender_id, l1.receiver_id
+                        FROM GK7.likes l1, GK7.likes l2
+                        WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
+                        AND l1.id < l2.id
+                    END`
+                const request = new Request(sql, err => {
+                    if (err) {
+                        reject (err)
+                        console.log(err)
+                    }
+                    
+            });request.on('requestCompleted', (row) => {
+                console.log('Match inserted', row); 
+                resolve('match inserted', row)
         });
+        connection.execSql(request) 
+    
+})}
+
+module.exports.createMatch = createMatch
+
+//Get all matches that the logged in user has (email found in localStorage)
+function getMyMatches(email){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                        SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, u.email, l.id, m.like_id
+                        FROM ((GK7.likes AS l
+                        INNER JOIN GK7.matches AS m ON l.id = m.like_id)
+                        INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
+                        WHERE email = @email
+                    END`
+              const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('email', TYPES.VarChar, email)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
         connection.execSql(request)
-}*/
-/* function(columns) {
-            columns.forEach(function(column) {
-              if (column.value === req.query.age) {
-                context.log('NULL');
-              } else {
-                context.log("Statistic Updated.");
-              }
-            });*/
+})}
+module.exports.getMyMatches = getMyMatches
+
+//Delete a match by like_id (user sees it as Match Number)
+function deleteMatch(matchNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                        SELECT *
+                        from GK7.matches as m
+                        inner join GK7.likes as l on l.id = m.like_id
+
+                        delete from  GK7.matches where like_id = @matchNumber;
+                        delete from GK7.likes where id = @matchNumber
+                    END`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('matchNumber', TYPES.VarChar, matchNumber)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.deleteMatch = deleteMatch
+
 
 //Admin create account
 function insertAdmin(admin){

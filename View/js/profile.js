@@ -2,7 +2,6 @@
     var x = localStorage.getItem("email");
     document.getElementById("userProfile").innerHTML = x;
   }*/
-  //EMILIA
   var getProfile = document.getElementById("getProfile"); 
 
   getProfile.addEventListener('click', function(){
