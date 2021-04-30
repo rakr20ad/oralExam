@@ -7,7 +7,7 @@ updateUser.addEventListener("click", function(e) {
         method: "PUT",
         body: JSON.stringify({
             password: password,
-            email: email
+            email: email,
         }),
         headers: {
             "Content-Type": "application/json; charset-UTG-8"
@@ -15,7 +15,7 @@ updateUser.addEventListener("click", function(e) {
     })
     .then((data) => {
         console.log(data)
-        window.alert("User/'s password has succesfully been updated")
+        window.alert("User's password has succesfully been updated")
         
         })
         .catch((err) => {

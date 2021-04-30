@@ -374,7 +374,7 @@ module.exports.getUsersNearby = getUsersNearby;
 
 
 //update an user as admin
-function updateUser(email, password) {
+function updateUser(password, email) {
     return new Promise((resolve, reject) => {
          let sql = `UPDATE [GK7].[users] SET password = @password
          WHERE email = @email`
@@ -382,6 +382,7 @@ function updateUser(email, password) {
          if (err) {
             reject(err);}
         });
+        //request.addParameter('city', TYPES.VarChar, city);
         request.addParameter('password', TYPES.VarChar, password);
         request.addParameter('email', TYPES.VarChar, email);
         request.on('requestCompleted', (row) => {
