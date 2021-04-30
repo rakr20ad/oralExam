@@ -1,4 +1,3 @@
-const { request } = require('chai');
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('./config.json'); 
 
@@ -166,10 +165,7 @@ module.exports.update = update;
 //GetFullUser based on city - may be used when finding a match
 function getUsersNearby(city){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT firstName, lastName, age, preferred_gender, id
-                    FROM GK7.users
-                    WHERE city = @city AND id NOT IN
-                    (SELECT receiver_id FROM GK7.dislikes)`
+        const sql = ``
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -285,11 +281,7 @@ module.exports.dislikeUser = dislikeUser;
 function createMatch(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        INSERT INTO GK7.matches (like_id, user1, user2)
-                        SELECT l1.id, l1.sender_id, l1.receiver_id
-                        FROM GK7.likes l1, GK7.likes l2
-                        WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
-                        AND l1.id < l2.id
+
                     END`
                 const request = new Request(sql, err => {
                     if (err) {
@@ -311,11 +303,7 @@ module.exports.createMatch = createMatch
 function getMyMatches(email){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, u.email, l.id, m.like_id
-                        FROM ((GK7.likes AS l
-                        INNER JOIN GK7.matches AS m ON l.id = m.like_id)
-                        INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
-                        WHERE email = @email
+
                     END`
               const request = new Request(sql, err => {
             if(err) {
@@ -341,12 +329,7 @@ module.exports.getMyMatches = getMyMatches
 function deleteMatch(matchNumber) {
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT *
-                        from GK7.matches as m
-                        inner join GK7.likes as l on l.id = m.like_id
 
-                        delete from  GK7.matches where like_id = @matchNumber;
-                        delete from GK7.likes where id = @matchNumber
                     END`
         const request = new Request(sql, err => {
             if(err) {
