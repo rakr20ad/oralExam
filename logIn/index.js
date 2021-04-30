@@ -1,6 +1,3 @@
-//Vi har kopieret syntaks fra Nikolajs video, så alt det der også er inde fra createUser/index.js, 
-//(...) logikken bag, er at vi vil get mail for at tjekke om det er i databasen 
-//const User = require("../Model/user");
 const db = require("../shared/db");
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -24,7 +21,7 @@ module.exports = async function (context, req) {
         }*/
     }
 
-    // Vores login
+    // Our login 
     async function post(context, req) {
         try {
             let email = req.body.email

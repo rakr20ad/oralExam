@@ -20,8 +20,10 @@ module.exports = async function (context, req) {
         }
     }
 
+    //Delete user
     async function deleteAccount(context, req) {
         try {
+            // We're using email and password to verify deletion
             let email = (req.query.email || (req.body && req.body.email));
             let password = (req.query.password || (req.body && req.body.password));
             //let user = new User(firstName)

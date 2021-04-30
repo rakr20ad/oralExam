@@ -15,6 +15,7 @@ module.exports = async function (context, req) {
     };
 }
 
+//get user via id
 async function get(context, req) {
     try {
         let id = (req.query.id || (req.body && req.body.id));

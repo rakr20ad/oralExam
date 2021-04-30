@@ -16,7 +16,7 @@ module.exports = async function (context, req) {
             }
         };
 
-
+        //Admin update users password: require users email
         async function put(context, req) {
             try {
                 let password = (req.query.password || (req.body && req.body.password));

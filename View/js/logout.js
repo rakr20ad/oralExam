@@ -1,5 +1,5 @@
 var logout = document.getElementById("logout")
-
+//Log out function
 logout.addEventListener("click", (userLogout))
     function userLogout() {
         localStorage.setItem("loggedin", JSON.stringify(false));
