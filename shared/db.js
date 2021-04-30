@@ -175,6 +175,33 @@ function update(age, email, password) {
 };
 module.exports.update = update;
 
+//GetFullUser based on city - may be used when finding a match
+function getUsersNearby(city){
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT firstName, lastName, age, preferred_gender, id
+                    FROM GK7.users
+                    WHERE city = @city AND id NOT IN
+                    (SELECT receiver_id FROM GK7.dislikes)`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('city', TYPES.VarChar, city)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.getUsersNearby = getUsersNearby;
+
 //Filter users by gender and age
 function filterGender(gender){
     return new Promise((resolve, reject) => {
@@ -197,9 +224,9 @@ function filterGender(gender){
         });  
         connection.execSql(request)
 })}
-module.exports.getUsersNearby = getUsersNearby;
 module.exports.filterGender = filterGender;
 
+//Filter users by age
 function filterAge(minAge, maxAge){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] WHERE age >= @minAge AND age <= @maxAge`
@@ -224,6 +251,7 @@ function filterAge(minAge, maxAge){
 })}
 module.exports.filterAge = filterAge;
 
+//Like user by entering your ID and the interesting user's ID
 function likeUser(sender_id, receiver_id){
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO [GK7].likes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
@@ -244,6 +272,7 @@ function likeUser(sender_id, receiver_id){
 }
 module.exports.likeUser = likeUser;
 
+//A match is inserted, if both users have liked each other
 function createMatch(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
@@ -269,7 +298,7 @@ function createMatch(){
 
 module.exports.createMatch = createMatch
 
-//Get all matches that the logged in user has (email found in localStorage)
+//View all matches that the logged in user has (email found in localStorage)
 function getMyMatches(email){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
@@ -330,6 +359,7 @@ function deleteMatch(matchNumber) {
 })}
 module.exports.deleteMatch = deleteMatch
 
+//---------------------------ADMINISTRATOR FUNCTIONALITIES BELOW----------------------------------
 
 //Admin create account
 function insertAdmin(admin){
@@ -406,34 +436,7 @@ function viewAllUsers() {
 })}
 module.exports.viewAllUsers = viewAllUsers;
 
-
-
-//GetFullUser based on city - may be used when finding a match
-function getUsersNearby(city){
-    return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] WHERE city = @city`
-        const request = new Request(sql, err => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }})      
-            request.addParameter('city', TYPES.VarChar, city)
-            let results = [];
-            request.on('row', async function(columns)  {
-            let result = {};
-            await columns.forEach(column => {  
-            result[column.metadata.colName] = column.value;          
-        });results.push(result);         
-        
-      });request.on('doneProc', (rowCount) => {
-             resolve(results) 
-        });  
-        connection.execSql(request)
-})}
-module.exports.getUsersNearby = getUsersNearby;
-
-
-//update an user as admin
+//Admin can reset a user's password
 function updateUser(password, email) {
     return new Promise((resolve, reject) => {
          let sql = `UPDATE [GK7].[users] SET password = @password
@@ -442,7 +445,6 @@ function updateUser(password, email) {
          if (err) {
             reject(err);}
         });
-        //request.addParameter('city', TYPES.VarChar, city);
         request.addParameter('password', TYPES.VarChar, password);
         request.addParameter('email', TYPES.VarChar, email);
         request.on('requestCompleted', (row) => {
@@ -455,6 +457,7 @@ function updateUser(password, email) {
     })
 };
 module.exports.updateUser = updateUser;
+
 
     // Create query to execute against the database
 /*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
