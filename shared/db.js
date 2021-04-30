@@ -23,9 +23,7 @@ function startDB(){
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
 
-
-
-//Tilhører CreateUser funktionen
+//A user creates an account, when his information is posted to the database
 function insert(user){
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
@@ -54,7 +52,7 @@ function insert(user){
 }
 module.exports.insert = insert;
 
-//Tilhører GetUser funktionen
+//
 function selectFirstname(firstName){
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM [GK7].[users] where firstName = @firstName'
@@ -75,9 +73,7 @@ function selectFirstname(firstName){
 }
 module.exports.selectFirstname = selectFirstname;
 
-//Tilhører Login funktionen - samme som ovenstående syntaks
-//Rasmus: Jeg aner ikke, hvilken sql function, man skal vælge her????? 
-//Men tænker at dette er noget, vi kan bygge videre på.. 
+// A user signs in, and SQL finds if his information exists in database
 function select(email, password){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] WHERE email = @email AND password = @password`
@@ -88,24 +84,16 @@ function select(email, password){
             }})      
             request.addParameter('email', TYPES.VarChar, email)
             request.addParameter('password', TYPES.VarChar, password)
-            /*let results = [];
-            request.on('row', async function(columns)  {
-            let result = {};
-            await columns.forEach(column => {  
-            result[column.metadata.colName] = column.value;          
-        });results.push(result);         
-        
-      });request.on('doneProc', (rowCount) => {
-             resolve(results) 
-        });  */
+
         request.on('row', (columns) => {
             console.log('log')
             resolve(columns)
         })
-        connection.execSql(request)
+    connection.execSql(request)
 })}
 module.exports.select = select;
 
+//A user can see his profile, if he is logged in (email is in localStorage)
 function getProfile(email){
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM [GK7].[users] WHERE email = @email`
@@ -271,6 +259,27 @@ function likeUser(sender_id, receiver_id){
     });
 }
 module.exports.likeUser = likeUser;
+
+//Like user by entering your ID and the interesting user's ID
+function dislikeUser(sender_id, receiver_id){
+    return new Promise((resolve, reject) => {
+        var sql = `INSERT INTO [GK7].dislikes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('sender_id', TYPES.VarChar, sender_id)
+        request.addParameter('receiver_id', TYPES.VarChar, receiver_id)
+        request.on('requestCompleted', (row) => {
+            console.log('Dislike inserted', row); 
+            resolve('Dislike inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.dislikeUser = dislikeUser;
 
 //A match is inserted, if both users have liked each other
 function createMatch(){

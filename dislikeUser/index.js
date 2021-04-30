@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
         try {
             let sender_id = req.query.sender_id;
             let receiver_id = req.query.receiver_id;
-            await db.likeUser(sender_id, receiver_id)
+            await db.dislikeUser(sender_id, receiver_id)
             context.res = {
             body: {status: 'Success'}
             
