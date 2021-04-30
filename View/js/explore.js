@@ -32,7 +32,8 @@ usersNearbyBtn.addEventListener('click', function(){
 //Filtering users by gender 
 var genderBtn = document.getElementById("getUserByGender"); 
 
-genderBtn.addEventListener('click', function(){
+genderBtn.addEventListener('click', function(e){
+    e.preventDefault();
             var gender = document.getElementById("gender").value
             fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
                     .then(
@@ -63,7 +64,8 @@ genderBtn.addEventListener('click', function(){
 //Filtering users by age
 var ageBtn = document.getElementById("getUserByAge"); 
 
-ageBtn.addEventListener('click', function(){
+ageBtn.addEventListener('click', function(e){
+    e.preventDefault()
             var minAge = document.getElementById('minAge').value 
             var maxAge = document.getElementById('maxAge').value 
             fetch(`http://localhost:7071/api/filterAge?minAge=${minAge}&maxAge=${maxAge}`)
@@ -76,7 +78,7 @@ ageBtn.addEventListener('click', function(){
                             response.json().then(function (data) {
                                 document.getElementById("usersAge").innerHTML = `
                                 ${data.map(function(user2) {
-                                    return `<h3> Name: ${user2.firstName} ${users.lastName}</h3>
+                                    return `<h3> Name: ${user2.firstName} ${user2.lastName}</h3>
                                             <span> email: ${user2.email}</span>
                                             <h4> Age: ${user2.age}</h4>
                                             <h4> Dating preferences: ${user2.preferred_gender}</h4>
