@@ -21,6 +21,7 @@ login.addEventListener("submit", function(e) {
     .then((data) => {
         console.log(data)
             console.log("Ja tak")
+            //How we stay logged in
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);

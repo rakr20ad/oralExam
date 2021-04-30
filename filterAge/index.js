@@ -15,7 +15,7 @@ module.exports = async function (context, req) {
     };
 }
 
-
+    
     async function get(context, req) {
         try {
             let minAge = (req.query.minAge || (req.body && req.body.minAge));
