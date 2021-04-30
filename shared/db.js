@@ -372,6 +372,29 @@ function getUsersNearby(city){
 })}
 module.exports.getUsersNearby = getUsersNearby;
 
+
+//update an user as admin
+function updateUser(email, password) {
+    return new Promise((resolve, reject) => {
+         let sql = `UPDATE [GK7].[users] SET password = @password
+         WHERE email = @email`
+         let request = new Request(sql, (err) => {
+         if (err) {
+            reject(err);}
+        });
+        request.addParameter('password', TYPES.VarChar, password);
+        request.addParameter('email', TYPES.VarChar, email);
+        request.on('requestCompleted', (row) => {
+            resolve ('User updated', row)
+            console.log('row')
+       
+        });
+
+        connection.execSql(request);
+    })
+};
+module.exports.updateUser = updateUser;
+
     // Create query to execute against the database
 /*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
     //console.log(queryText);

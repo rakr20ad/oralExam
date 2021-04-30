@@ -23,15 +23,16 @@
         <br>
         <br>
     <h3>Update</h3>
-    <h2 >Enter a users email and password so you can change their password</h2>
+    <h2 >Enter a users email so you can change their password</h2>
     <div> 
         <form>
             <input type="hidden" name="_method" value="PUT">
-            <input type="number" id="age" placeholder="Age">
-            <input type="email" id="email" placeholder="Email">
             <input type="password" id="password" placeholder="Password">
-            <button type="button" class="btn btn-primary btn-sm" id="updateUser" value="put">Update User</button>
+            <input type="email" id="email" placeholder="Email">
+            <button type="button" class="btn btn-primary btn-sm" id="updateUserAdmin" value="put">Update User</button>
         </form>
     </div>
+
+    <script src="js/adminUpdateUser.js"></script>
 </body>
 </html>
