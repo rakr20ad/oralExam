@@ -17,6 +17,7 @@ usersNearbyBtn.addEventListener('click', function(){
                                             <p> Lucky number: ${users.id}</p> <br>
                                             <p> Age: ${users.age}</p> <br>
                                             <p> Dating preferences: ${users.preferred_gender}</p> <br>
+                                            <button id = "...">Like this user</button>
                                             `
                                 }).join('')}
                                 `
@@ -48,7 +49,8 @@ genderBtn.addEventListener('click', function(e){
                                     return `<h5> Name: ${user1.firstName} ${user1.lastName}</h5>
                                             <span> Lucky Number: ${user1.id}</span>
                                             <p> Age: ${user1.age}</p>
-                                            <p> Dating preferences: ${user1.preferred_gender}</p>
+                                            <p> Dating preferences: ${user1.preferred_gender}</p> <br>
+                                            <button id = "...">Like this user</button>
                                             `
                                 }).join('')}
                                 `
@@ -81,7 +83,8 @@ ageBtn.addEventListener('click', function(e){
                                     return `<h3> Name: ${user2.firstName} ${user2.lastName}</h3>
                                             <span> email: ${user2.email}</span>
                                             <h4> Age: ${user2.age}</h4>
-                                            <h4> Dating preferences: ${user2.preferred_gender}</h4>
+                                            <h4> Dating preferences: ${user2.preferred_gender}</h4> <br>
+                                            <button id = "...">Like this user</button>
                                             `
                                 }).join('')}
                                 `
