@@ -15,7 +15,7 @@ module.exports = async function (context, req) {
     };
 }
 
-
+    //Show nearby users
     async function get(context, req) {
         try {
             let city = (req.query.city || (req.body && req.body.city));
