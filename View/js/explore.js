@@ -27,7 +27,7 @@ likeUserBtn.addEventListener("submit", function(e) {
    })
 })
         
-//Like user by id
+//Like user by id.
 var dislikeUserBtn = document.getElementById("dislikeUser"); 
 
 dislikeUserBtn.addEventListener("submit", function(e) {
