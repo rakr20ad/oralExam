@@ -3,7 +3,7 @@ const { Connection, Request, TYPES } = require('tedious');
 const config = require('./config.json'); 
 const datingUser = require('../Model/user')
 const admin = require('../Model/user')
-cc
+
 var connection = new Connection(config); 
 
 function startDB(){
@@ -310,7 +310,7 @@ function getMyMatches(id){
                         FROM ((GK7.likes AS l
                         INNER JOIN GK7.matches AS m ON l.id = m.like_id)
                         INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
-                        WHERE u.id = @id
+                        WHERE u.id = @id 
                     END`
               const request = new Request(sql, err => {
             if(err) {

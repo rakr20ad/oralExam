@@ -27,7 +27,30 @@ likeUserBtn.addEventListener("submit", function(e) {
    })
 })
 
-//
+//Check if the like is a match
+var checkMatchBtn = document.getElementById("checkMatch")
+checkMatchBtn.addEventListener("click", function(e) {
+    e.preventDefault()
+    fetch("http://localhost:7071/api/createMatch", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+
+    .then((data) => {
+        console.log(data)
+            window.alert("It was a match! Go to My matches to write your new match!")
+
+        })
+        .catch((err) => {
+          console.log(err)
+          window.alert("We could not check if this was a match for your")
+        });
+    });
 
 //Dislike user by id
 var dislikeUserBtn = document.getElementById("dislikeUser"); 

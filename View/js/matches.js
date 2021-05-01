@@ -13,20 +13,22 @@ getMyMatchesBtn.addEventListener('click', function(){
                       //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       response.json().then(function (data) {
                           document.getElementById("myMatches").innerHTML = `
-                          ${data.map(function(match) {
+                          ${data.map(function(match) {                       
                               return `<h3> Me: ${match.firstName} ${match.lastName} </h3> <br>
                                       <h4> Match number: ${match.like_id} </h4> <br>
                                       <span> Sender: ${match.sender_id} <br>
                                       <span> Receiver: ${match.receiver_id} </span> <br>
-                                      `
-                          }).join('')}
-                          `
-                    
-                      })
-                  }
-              )
-                  .catch(function (err) {
-                      console.log(err);
+                                      ` 
+                      }).join('')}` 
+                      if (data.length > 0) {
+                          window.alert("You have at least one match! You rock!")}
+                          else {
+                              window.alert("You have no matches :-(")
+                          }
+                        })
+                    })
+                .catch(function (err) {
+                  console.log(err);
           });
       });
 
@@ -53,8 +55,4 @@ deleteMatchBtn.addEventListener('click', function(e) {
               console.log(err)
         });
     })
-<<<<<<< HEAD
-            nn
-=======
-            
->>>>>>> developer
+        
