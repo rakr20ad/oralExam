@@ -57,7 +57,7 @@ updateUser.addEventListener("click", function(e) {
     });
 })
 
-/*
+
 var deleteUser = document.getElementById("deleteUser")
 deleteUser.addEventListener('click', function(e) {
     e.preventDefault()
@@ -66,7 +66,7 @@ deleteUser.addEventListener('click', function(e) {
     fetch(`http://localhost:7071/api/deleteUser?email=${email}&password=${password}`, {
     method: "DELETE",
     body: JSON.stringify({
-        age: age,
+        email: email,
         email: email,
     }),
     headers: {
@@ -75,14 +75,14 @@ deleteUser.addEventListener('click', function(e) {
     })
     .then((data) => {
         console.log(data)
-        window.alert("Your account has been deleted")
+        window.alert(`The account with email: ${email} and password: ${password} has been deleted`)
         window.location = "index.html"
         
         })
         .catch((err) => {
         console.log(err)
     });
-})*/
+})
 
 var logout = document.getElementById("logout")
 //Log out function
