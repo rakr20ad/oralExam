@@ -9,6 +9,8 @@
     },
     "options": {
         "encrypt": true,
-        "database": "DatingDB"
+        "database": "DatingDB",
+        "rowCollectionOnRequestCompletion": true
+
     }
 }

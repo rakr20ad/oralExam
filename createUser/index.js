@@ -1,7 +1,5 @@
 const db = require('../shared/db')
 //const router = express.router
-//const User = require("../Model/user");
-var fs = require('fs');
 
 
 
@@ -31,11 +29,15 @@ module.exports = async function (context, req) {
 
    async function get(context, req) {
         try {
-            let firstName = req.query.firstName
-            console.log(firstName)
-            let user = await db.SELECT(firstName)
+            let firstName = (req.query.firstName || (req.body && req.body.firstName));
+            let result = await db.selectFirstname(firstName)
             context.res = {
-                body: user
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         } catch(error) {
             context.res = {
@@ -46,20 +48,10 @@ module.exports = async function (context, req) {
     }
     async function post(context, req) {
         try {
-            let user = req.body /*new User(
-                req.body.firstName,
-                req.body.lastName,
-                req.body.email,
-                req.body.password, 
-                req.body.birthday,
-                req.body.city,
-                req.body.country,
-                req.body.gender,
-                req.body.preferred_gender
-            )*/
-            await db.insert(user)
+            let datingUser1 = req.body
+            await db.insert(datingUser1)
             context.res = {
-            body: {status: 'Success'}
+            body: {status: 'Success'},
             
         }
         } catch(error) {
@@ -69,7 +61,9 @@ module.exports = async function (context, req) {
             }
         }
     }
+
     
+
 /*const name = (req.query.name || (req.body && req.body.name));
 const responseMessage = name
     ? "Hello, " + name + ". This HTTP triggered function executed successfully."

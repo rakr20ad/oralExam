@@ -1,43 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+    h1 {text-align: center;}
+    h3 {text-align: center;}
+    p {text-align: center;}
+    div {text-align: center;}
+</style>
     <meta charset="UTF-8">
     <title>Dating</title>
 </head>
-
+<link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
 <body>
     <div>
-        <h2>Create an account</h2>
-        
+        <h1>Create an account:</h1>
+     
         <form method="post" id="form">
-            <input type="text" id="firstName" placeholder="FirstName" required>
-            <input type="text" id="lastName" placeholder="LastName" required>            
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="password" placeholder="Password" required>
-           <!-- <input type="date" id="birthday" placeholder="Birthday">  -->          
-            <input type="text" id="city" placeholder="City" required>
-            <input type="text" id="country" placeholder="Country" required>            
-            <input type="text" id="gender" placeholder="Gender" required>
-            <input type="text" id="preferred_gender" placeholder="Preferred_gender" required>
-            <button type="submit" name="Submit">Create your account!</button>
+            <input type="text" id="firstName" placeholder="FirstName" required> <br>
+            <input type="text" id="lastName" placeholder="LastName" required> <br>          
+            <input type="email" id="email" placeholder="Email" required> <br>
+            <input type="text" id="password" placeholder="Password" required> <br>
+            <input type="integer" id="age" placeholder="Age" required>  <br>  
+            <input type="text" id="city" placeholder="City" required> <br>
+            <input type="text" id="country" placeholder="Country" required> <br>           
+            <input type="text" id="gender" placeholder="Gender" required><br>
+            <input type="text" id="preferred_gender" placeholder="Preferred_gender" required><br>
+            <button type="submit" class="btn btn-outline-primary" name="Submit">Create your account!</button>
         </form>
     </div>
 
-     <div>
+    <br><br>
+
+    <div>
+        <a href="login.html">Go to login page</a>
+    </div>
+    <div>
+        <a href="admin.html">Or, click here to log in as admin</a>
+    </div>
+    <!-- <div>
          <h2>Get user</h2>
          <button type="button" id="getUser">get user</button>
      </div>
-
-     <div>
-        <h2>Login</h2>
-        <form method="post" id="login" action="profile.html">
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Passsword">
-            <!--<a href="./homepage.html" onclick=""  class="button">Log in</a>-->
-            <button type="submit" id="login" href="profile.html">log in</button>
-        </form>
+    <form action="get">
+    <div>
+        <input type="text" id="city" placeholder="City" required>
     </div>
+    </form>
 
+    <br>
+    <div>
+        <button type="button" id="getFullUser" class="button">Get all users nearby</a>
+    </div>-->
     <script src="js/index.js"></script>
 </body>
 </html>

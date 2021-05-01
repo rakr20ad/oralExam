@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+node_modules
+=======
 # Logs
 logs
 *.log
@@ -92,3 +95,4 @@ bin
 obj
 appsettings.json
 local.settings.json
+>>>>>>> 08af18119ae82587bd115f1bcd94c26e81aa061b

@@ -1,4 +1,6 @@
-class Admin{
+const User = require('./user')
+
+class admin extends User{
     constructor(id,first_name, last_name, email, hashed_password, birthday, city, country, gender, preferred_gender) {
         this.id = id; 
         this.first_name = first_name; 
@@ -11,4 +13,4 @@ class Admin{
     }
 }
 
-module.exports = Admin;
+module.exports = admin;

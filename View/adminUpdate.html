@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {text-align: center;}
+        h2 {text-align: center;}
+        h3 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+    </style>
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div class="topnavAdmin">
+        <a href="adminPage.html">Home</a>
+        <a href="adminUpdate.html">Update</a>
+        <a href="adminDelete.html">Delete</a>
+    </div>
+        <br>
+        <br>
+        <br>
+    <h3>Update</h3>
+    <h2 >Enter a users email so you can change their password</h2>
+    <div> 
+        <form>
+            <input type="hidden" name="_method" value="PUT">
+            <input type="password" id="password" placeholder="Password">
+            <input type="email" id="email" placeholder="Email">
+            <button type="button" class="btn btn-outline-primary" id="updateUserAdmin" value="put">Update User</button>
+        </form>
+    </div>
+
+    <script src="js/adminUpdateUser.js"></script>
+</body>
+</html>

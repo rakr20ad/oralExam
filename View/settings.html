@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {text-align: center;}
+        h2 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+    </style>
+    <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+</head>
+<body>
+    <div class="topnav">
+    <a href="homepage.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="explore.html">Explore</a>
+    <a href="yourMatches.html">Your matches</a>
+    <a href="settings.html">Settings</a>
+    </div>
+    <br>
+    <br>
+    <br>
+    <!--Slette konto-->
+    <h2>Enter your email and password and push the button to delete your user</h2>
+    <div>
+        <form>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="password">
+            <button type="button" class="btn btn-outline-primary" id = "deleteUser">Delete</button>
+        </form>
+    </div>
+
+
+
+    <script src="js/profile.js"></script>
+    
+</body>
+</html>

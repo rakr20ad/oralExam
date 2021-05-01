@@ -1,6 +1,3 @@
-//Vi har kopieret syntaks fra Nikolajs video, så alt det der også er inde fra createUser/index.js, 
-//(...) logikken bag, er at vi vil get mail for at tjekke om det er i databasen 
-//const User = require("../Model/user");
 const db = require("../shared/db");
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -12,12 +9,9 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-       /* case 'GET': 
-            await get(context, req);
-            break;*/ 
-        case 'POST':
+        case 'GET':
             console.log("test")
-            await post(context, req);
+            await get(context, req);
             break; }
         /*default:
             context.res = {
@@ -27,45 +21,33 @@ module.exports = async function (context, req) {
         }*/
     }
 
-    //Ved ikke, om man først skal get'e, isåfald er jeg lidt på bar bund ift. hvorfor.  
-  /*  async function get(context, req) {
+    // Our login 
+    async function get(context, req) {
         try {
-            let email = req.query.email
-            console.log(email)
-            let users = await db.SELECT(email)
+            let email = (req.query.email || (req.body && req.body.email));
+            let password = (req.query.password || (req.body && req.body.password));
+            let result = await db.select(email, password);
+            //console.log(user)
+       // if (email == user.email){
             context.res = {
-                body: users
-            }
-        } catch(error) {
-            context.res = {
-                status: 400, 
-                body: `no user - ${error.message}`
-            }
-        }
-    }
-*/
-    // Hvilken SQL statement tjekker om noget stemmer overens med databasen 
-    // Eller er den logik i db.js? 
-    async function post(context, req) {
-        try {
-            let email = req.body.email
-            let password = req.body.password
-            let user = req.body
-            await db.select(email, password)
-            context.res = {
-            body: user, 
-            status: 200
-            /*context.res.status(302) 
-            .set('location', 'homepage.html')
-            .send()*/
-        } }catch(error) {
+                status: 200, 
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+        }/*
+             else {
+             context.res = {
+                status: 401
+             } 
+        }*/
+    } catch(error) {
             context.res = {
                 status: 400, 
                 body: error.message
             }
         }
-    }
-    
+    };
 /*
     async function get(context, req) {
         try {
@@ -137,45 +119,3 @@ module.exports = async function (context, req) {
         }
     }
 */
-/*
-//Lidt ala nedenstående, hvor syntaks skal erstattes med databasen og ikke Json filen - men logikken er den samme:
-//(...)læs databasen, hvis mail og password er der, hvis de gør 200 sendes tilbage
-/*const fs = require('fs');
-const User = require('../Model/User');
-
-module.exports = function (app) {
-
-    app.post('/login', (req, res) => {
-        let user = new User(
-            req.body.firstName,
-            req.body.lastName,
-        )
-
-        // Læser database
-        var users
-        try {
-            const data = fs.readFileSync('./users.json', 'utf8')
-            users = JSON.parse(data)
-        } catch (err) {
-            users = []
-        }
-
-        // Tjekker om brugeren allerede eksistere i database
-        var exists = false
-        users.forEach(item => {
-            if ((item.firstName == user.firstName) && (item.lastName == user.lastName)) {
-                exists = true
-            }
-        });
-
-        if (exists) {
-            res.sendStatus(200)
-            return
-        }
-        else {
-            res.sendStatus(404)
-            return
-        }
-
-    })
-}*/

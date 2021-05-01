@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {text-align: center;}
+        h3 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+        span {text-align: center;}
+    </style>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
+    <meta charset="UTF-8">
+    <title>Explore the dating universe</title>
+</head>
+<body>
+    <div class="topnav">
+    <a href="homepage.html">Home</a>
+    <a href="profile.html">Profile</a>
+    <a href="explore.html">Explore</a>
+    <a href="yourMatches.html">Your matches</a>
+    <a href="settings.html">Settings</a>
+    </div>
+    <br>
+    <br>
+    <br>
+    <p><h3>Explore Dating Universe now!</h3></p>
+    <p>Find users below!</p>
+    <span>When you've found someone interesting, come back here and type in the lucky numbers!</span>
+    <div id= "likedUser">     
+        <form method ="POST" id="likeUser">
+        <input type = "number" id="receiver_id" class="form-control" placeholder="The hottie's lucky number" required><br><br>
+        <button type ="submit" class="btn btn-outline-success">Like a user</button>
+        </form>
+    </div><br><br>
+    <div id= "disLikedUser">     
+        <form method ="POST" id="dislikeUser">
+        <input type = "number" id="dislikeReceiver_id" class="form-control" placeholder="The other's bad lucky number" required><br><br>
+        <button type ="submit" class="btn btn-outline-danger">Disike a user</button>
+        </form>
+    </div><br><br>
+    <p>Enter a city and see potential matches in your area below!</p>
+    <div id = "usersNearby">
+            <form method="get">
+                <button class="btn btn-outline-primary" type="button" id="getUsersNearby" class="button">Find users nearby!</a>
+                </button>
+            </div>
+<br>
+
+<p>Select your preferences and find a match</p>
+<div id = "usersGender">
+    <form method="get">
+        <input type="text" id="gender" class="form-control" placeholder="Sexual preferences" required>
+        <br>
+        <button type="button" class="btn btn-outline-primary" id="getUserByGender" class="button">Filter users by gender!</a>
+            </button>
+    </div>
+    <br>    
+
+<div id="usersAge">
+    <form method="get" >
+    <input type="number" id="minAge" placeholder="Minimum age" >
+    <input type="number" id="maxAge" placeholder="Maximum age" >
+    <br>
+    <button type="button" class="btn btn-outline-primary" id="getUserByAge" class="button">Filter users by age!</a>
+        </button>
+</div>
+
+<br>
+<button onclick="topFunction()" class="btn btn-outline-primary" id="myBtn" title="Go to top">Go to top to like or dislike user!</button>
+<!--<div>
+<h2>Lastly, find you match to find your match</h2>
+<input type="fistName" id="fistName" placeholder="Enter first name">
+<br>
+<p id="...">Click the button to see if it is a match</p>
+<button onclick="">Like</button>
+</div>-->
+
+<!--Indsæt nye script med firstname match delen når det er der-->
+<script src="js/explore.js"></script>
+</body>
+</html>
