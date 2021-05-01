@@ -1,12 +1,10 @@
-/*function myProfile() {
-    var x = localStorage.getItem("email");
-    document.getElementById("userProfile").innerHTML = x;
-  }*/
-  var getProfile = document.getElementById("getProfile"); 
 
-  getProfile.addEventListener('click', function(){
+var getProfile = document.getElementById("getProfile"); 
+
+getProfile.addEventListener('click', function(){
               var email = localStorage.getItem("email")
-              fetch(`http://localhost:7071/api/getProfile?email=${email}`)
+              var password = localStorage.getItem("password")
+              fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -59,8 +57,7 @@ updateUser.addEventListener("click", function(e) {
     });
 })
 
-
-
+/*
 var deleteUser = document.getElementById("deleteUser")
 deleteUser.addEventListener('click', function(e) {
     e.preventDefault()
@@ -85,4 +82,20 @@ deleteUser.addEventListener('click', function(e) {
         .catch((err) => {
         console.log(err)
     });
-})
+})*/
+
+var logout = document.getElementById("logout")
+//Log out function
+logout.addEventListener("click", (userLogout))
+    function userLogout() {
+        localStorage.setItem("online", false);
+        localStorage.removeItem("email", JSON.stringify(email));
+        localStorage.removeItem("password", JSON.stringify(password));
+        window.location="index.html"; 
+        console.log("User logged out")
+            
+        .catch((error) => {
+        console.log(error)
+        console.error("Kunne ikke logge ud");
+        });
+    }

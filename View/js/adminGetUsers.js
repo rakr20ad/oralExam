@@ -1,4 +1,5 @@
 //Get all users as admin
+
 function getUsers() {
     var getUsers = document.getElementById("getUsers") 
     {

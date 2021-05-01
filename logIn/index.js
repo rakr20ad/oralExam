@@ -9,9 +9,9 @@ module.exports = async function (context, req) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
-        case 'POST':
+        case 'GET':
             console.log("test")
-            await post(context, req);
+            await get(context, req);
             break; }
         /*default:
             context.res = {
@@ -22,10 +22,10 @@ module.exports = async function (context, req) {
     }
 
     // Our login 
-    async function post(context, req) {
+    async function get(context, req) {
         try {
-            let email = req.body.email
-            let password = req.body.password
+            let email = (req.query.email || (req.body && req.body.email));
+            let password = (req.query.password || (req.body && req.body.password));
             let result = await db.select(email, password);
             //console.log(user)
        // if (email == user.email){

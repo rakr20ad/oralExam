@@ -1,6 +1,5 @@
 const db = require('../shared/db')
 //const router = express.router
-const User = require('../Model/user')
 
 
 
@@ -49,22 +48,10 @@ module.exports = async function (context, req) {
     }
     async function post(context, req) {
         try {
-            let user = req.body;
-            //let user = new User(user1) 
-            /*new User(
-                req.body.firstName,
-                req.body.lastName,
-                req.body.email,
-                req.body.password, 
-                req.body.birthday,
-                req.body.city,
-                req.body.country,
-                req.body.gender,
-                req.body.preferred_gender
-            )*/
-            await db.insert(user)
+            let datingUser1 = req.body
+            await db.insert(datingUser1)
             context.res = {
-            body: {status: 'Success'}
+            body: {status: 'Success'},
             
         }
         } catch(error) {
@@ -74,7 +61,9 @@ module.exports = async function (context, req) {
             }
         }
     }
+
     
+
 /*const name = (req.query.name || (req.body && req.body.name));
 const responseMessage = name
     ? "Hello, " + name + ". This HTTP triggered function executed successfully."

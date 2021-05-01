@@ -19,6 +19,7 @@ module.exports = async function (context, req) {
     async function get(context, req) {
         try {
             let email = (req.query.email || (req.body && req.body.email));
+            let password = (req.query.password || (req.body && req.body.password));
             //let user = new User(firstName)
             console.log(email)
             let result = await db.getProfile(email)

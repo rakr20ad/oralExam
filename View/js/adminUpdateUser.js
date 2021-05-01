@@ -15,7 +15,7 @@ updateUser.addEventListener("click", function(e) {
     })
     .then((data) => {
         console.log(data)
-        window.alert(`User's ${password} has succesfully been updated`)
+        window.alert(`The user's password has been reset to: ${password}`)
         
         })
         .catch((err) => {

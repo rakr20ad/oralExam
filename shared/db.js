@@ -1,5 +1,8 @@
+
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('./config.json'); 
+const datingUser = require('../Model/user')
+const admin = require('../Model/user')
 
 var connection = new Connection(config); 
 
@@ -23,7 +26,7 @@ module.exports.sqlConnection = connection;
 module.exports.startDB = startDB;
 
 //A user creates an account, when his information is posted to the database
-function insert(user){
+function insert(datingUser){
     return new Promise((resolve, reject) => {
         const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
@@ -32,23 +35,24 @@ function insert(user){
                 console.log(err)
             }
         });
-        request.addParameter('firstName', TYPES.VarChar, user.firstName)
-        request.addParameter('lastName', TYPES.VarChar, user.lastName)
-        request.addParameter('email', TYPES.VarChar, user.email)
-        request.addParameter('password', TYPES.VarChar, user.password)
-        request.addParameter('age', TYPES.Int, user.age)
-        request.addParameter('city', TYPES.VarChar, user.city)        
-        request.addParameter('country', TYPES.VarChar, user.country)        
-        request.addParameter('gender', TYPES.VarChar, user.gender)
-        request.addParameter('preferred_gender', TYPES.VarChar, user.preferred_gender)
-
+        request.addParameter('firstName', TYPES.VarChar, datingUser.firstName)
+        request.addParameter('lastName', TYPES.VarChar, datingUser.lastName)
+        request.addParameter('email', TYPES.VarChar, datingUser.email)
+        request.addParameter('password', TYPES.VarChar, datingUser.password)
+        request.addParameter('age', TYPES.Int, datingUser.age)
+        request.addParameter('city', TYPES.VarChar, datingUser.city)        
+        request.addParameter('country', TYPES.VarChar, datingUser.country)        
+        request.addParameter('gender', TYPES.VarChar, datingUser.gender)
+        request.addParameter('preferred_gender', TYPES.VarChar, datingUser.preferred_gender)
         request.on('requestCompleted', (row) => {
             console.log('User inserted', row); 
             resolve('user inserted', row)
         });
+
         connection.execSql(request);
     });
-}
+
+}       
 module.exports.insert = insert;
 
 //
@@ -72,10 +76,11 @@ function selectFirstname(firstName){
 }
 module.exports.selectFirstname = selectFirstname;
 
-// A user signs in, and SQL finds if his information exists in database
+// A user signs in, and SQL finds if his information exists in database. 
+//This function is also triggered, when getting one's profile
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] WHERE email = @email AND password = @password`
+        const sql = `SELECT firstName, lastName, age, city, id FROM [GK7].[users] WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -83,25 +88,6 @@ function select(email, password){
             }})      
             request.addParameter('email', TYPES.VarChar, email)
             request.addParameter('password', TYPES.VarChar, password)
-
-        request.on('row', (columns) => {
-            console.log('log')
-            resolve(columns)
-        })
-    connection.execSql(request)
-})}
-module.exports.select = select;
-
-//A user can see his profile, if he is logged in (email is in localStorage)
-function getProfile(email){
-    return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] WHERE email = @email`
-        const request = new Request(sql, err => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }})      
-            request.addParameter('email', TYPES.VarChar, email)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -114,7 +100,7 @@ function getProfile(email){
         });  
         connection.execSql(request)
 })}
-module.exports.getProfile = getProfile;
+module.exports.select = select;
 
 
 //Delete user account
@@ -163,15 +149,21 @@ function update(age, email, password) {
 module.exports.update = update;
 
 //GetFullUser based on city - may be used when finding a match
-function getUsersNearby(city){
+function getUsersNearby(email){
     return new Promise((resolve, reject) => {
-        const sql = ``
+        const sql = `BEGIN
+                        SELECT A.firstName, A.lastName, A.age, A.id, B.firstName, B.lastName, B.age, B.id
+                        FROM GK7.users A, GK7.users B
+                        WHERE A.id <> B.id
+                        AND A.city = B.city
+                        AND A.email = @email
+                    END`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('city', TYPES.VarChar, city)
+            request.addParameter('email', TYPES.VarChar, email)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -257,17 +249,17 @@ function likeUser(sender_id, receiver_id){
 module.exports.likeUser = likeUser;
 
 //Like user by entering your ID and the interesting user's ID
-function dislikeUser(sender_id, receiver_id){
+function dislikeUser(dislikeSender_id, dislikeReceiver_id){
     return new Promise((resolve, reject) => {
-        var sql = `INSERT INTO [GK7].dislikes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
+        var sql = `INSERT INTO [GK7].dislikes (dislikeSender_id, dislikeReceiver_id) VALUES (@dislikeSender_id, @dislikeReceiver_id)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
                 console.log(err)
             }
         });
-        request.addParameter('sender_id', TYPES.VarChar, sender_id)
-        request.addParameter('receiver_id', TYPES.VarChar, receiver_id)
+        request.addParameter('dislikeSender_id', TYPES.VarChar, dislikeSender_id)
+        request.addParameter('dislikeReceiver_id', TYPES.VarChar, dislikeReceiver_id)
         request.on('requestCompleted', (row) => {
             console.log('Dislike inserted', row); 
             resolve('Dislike inserted', row)
@@ -281,7 +273,12 @@ module.exports.dislikeUser = dislikeUser;
 function createMatch(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-
+                    INSERT INTO GK7.matches (like_id, user1, user2)
+                    SELECT l1.id, l1.sender_id, l1.receiver_id
+                    FROM GK7.likes l1, GK7.likes l2
+                    WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
+                    AND l1.id < l2.id AND l1.id NOT IN (
+                        SELECT like_id FROM GK7.matches)
                     END`
                 const request = new Request(sql, err => {
                     if (err) {
@@ -300,17 +297,21 @@ function createMatch(){
 module.exports.createMatch = createMatch
 
 //View all matches that the logged in user has (email found in localStorage)
-function getMyMatches(email){
+function getMyMatches(id){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-
+                        SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, u.email, l.id, m.like_id
+                        FROM ((GK7.likes AS l
+                        INNER JOIN GK7.matches AS m ON l.id = m.like_id)
+                        INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
+                        WHERE u.id = @id
                     END`
               const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('email', TYPES.VarChar, email)
+            request.addParameter('id', TYPES.VarChar, id)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -329,7 +330,12 @@ module.exports.getMyMatches = getMyMatches
 function deleteMatch(matchNumber) {
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
+                        SELECT *
+                        from GK7.matches as m
+                        inner join GK7.likes as l on l.id = m.like_id
 
+                        delete from  GK7.matches where like_id = @matchNumber;
+                        delete from GK7.likes where id = @matchNumber
                     END`
         const request = new Request(sql, err => {
             if(err) {

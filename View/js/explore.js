@@ -1,34 +1,92 @@
-//Users can find other users in a given city
-var usersNearbyBtn = document.getElementById("getUsersNearby"); 
+//Like user by id
+var likeUserBtn = document.getElementById("likeUser"); 
 
-usersNearbyBtn.addEventListener('click', function(){
-            var city = document.getElementById("city").value
-            fetch(`http://localhost:7071/api/getUsersNearby?city=${city}`)
-                    .then(
-                        function(response){
-                            if(response.status !== 200){
-                                console.log("noget gik galt" + response.status);
-                                return;  
-                            }
-                            response.json().then(function (data) {
-                                document.getElementById("usersNearby").innerHTML = `
-                                ${data.map(function(users) {
-                                    return `<h6><b> Name: ${users.firstName} ${users.lastName}</b></h6> <br>
-                                            <p> Lucky number: ${users.id}</p> <br>
-                                            <p> Age: ${users.age}</p> <br>
-                                            <p> Dating preferences: ${users.preferred_gender}</p> <br>
-                                            <button id = "...">Like this user</button>
-                                            `
-                                }).join('')}
-                                `
-                                
-                            })
-                        }
-                    )
-                .catch(function (err) {
-                    console.log(err);
-        });
-    });
+likeUserBtn.addEventListener("submit", function(e) {
+    e.preventDefault()
+              var sender_id = localStorage.getItem("id")
+              var receiver_id = document.getElementById("receiver_id").value
+              fetch(`http://localhost:7071/api/likeUser?sender_id=${sender_id}&receiver_id=${receiver_id}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    sender_id: sender_id,
+                    receiver_id: receiver_id, 
+                }),
+                headers: {
+                    "Content-Type": "application/json; charset-UTG-8"
+                }
+            })
+            .then((response) => {
+                return response.json()
+       })
+       .then((user) => {
+         console.log(user)
+         window.alert(`You have liked ${receiver_id}`)
+        
+    }).catch((err) => {
+        console.log(err)
+   })
+})
+        
+//Like user by id
+var dislikeUserBtn = document.getElementById("dislikeUser"); 
+
+dislikeUserBtn.addEventListener("submit", function(e) {
+    e.preventDefault()
+              var dislikeSender_id = localStorage.getItem("id")
+              var dislikeReceiver_id = document.getElementById("dislikeReceiver_id").value
+              fetch(`http://localhost:7071/api/dislikeUser?dislikeSender_id=${dislikeSender_id}&dislikeReceiver_id=${dislikeReceiver_id}`, {
+                method: "POST",
+                body: JSON.stringify({
+                    dislikeSender_id: dislikeSender_id,
+                    dislikeReceiver_id: dislikeReceiver_id, 
+                }),
+                headers: {
+                    "Content-Type": "application/json; charset-UTG-8"
+                }
+            })
+            .then((response) => {
+                return response.json()
+       })
+       .then((user) => {
+         console.log(user)
+         window.alert(`You have disliked ${dislikeReceiver_id}`)
+        
+    }).catch((err) => {
+        console.log(err)
+   })
+})
+
+//Users can find other users in their city
+var getUsersNearbyBtn = document.getElementById("usersNearby"); 
+
+getUsersNearbyBtn.addEventListener('click', function(){
+              var email = localStorage.getItem("email")
+              fetch(`http://localhost:7071/api/getUsersNearby?email=${email}`)
+              .then(
+                  function(response){
+                      if(response.status !== 200){
+                          console.log("noget gik galt" + response.status);
+                          return;  
+                      }
+                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
+                      response.json().then(function (data) {
+                          document.getElementById("usersNearby").innerHTML = `
+                          ${data.map(function(user) {
+                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
+                                      <span> Age: ${user.age} <br>
+                                      <span> Lucky number: ${user.id} </span>
+                                      `
+                          }).join('')}
+                          `
+                    
+                      })
+                  }
+              )
+                  .catch(function (err) {
+                      console.log(err);
+          });
+      });
 
 //Filtering users by gender 
 var genderBtn = document.getElementById("getUserByGender"); 
@@ -50,11 +108,9 @@ genderBtn.addEventListener('click', function(e){
                                             <span> Lucky Number: ${user1.id}</span>
                                             <p> Age: ${user1.age}</p>
                                             <p> Dating preferences: ${user1.preferred_gender}</p> <br>
-                                            <button id = "...">Like this user</button>
                                             `
                                 }).join('')}
-                                `
-                                
+                                `                                
                             })
                         }
                     )
@@ -97,3 +153,24 @@ ageBtn.addEventListener('click', function(e){
         });
     });
 
+//Scroll to top button - kilde: https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+    
+    //Get the button:
+mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}

@@ -1,36 +1,34 @@
+//const datingUser = require('../../Model/user')
 
 var login = document.getElementById("login")
-// HAS TO BE A SUBMIT bubtton
-login.addEventListener("submit", function(e) {
-    e.preventDefault()
+
+login.addEventListener("click", function() {
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    fetch("http://localhost:7071/api/login", {
-        method: "POST",
-        body: JSON.stringify({
-            email: email,
-            password: password
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-    .then((response) => {
-        return response
-    })
-    .then((data) => {
+    //let datingUser1 = new datingUser(firstName, lastName, email, password, age, city, country, gender, preferred_gender, false)
+    //console.log(datingUser1)
+    fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`)
+        .then(
+            function(response){
+                if(response.status !== 200){
+                    console.log("noget gik galt" + response.status);
+                    return;  
+                }
+    response.json().then(function (data) {
         console.log(data)
-            console.log("Ja tak")
-            //How we stay logged in
-            localStorage.setItem("loggedin", JSON.stringify(true));
+        for (var i=0;i<data.length;i++) {
+            localStorage.setItem("id", data[i].id)
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);
+            localStorage.setItem("online", true);
             window.location = 'profile.html'
-
-        })
+        }  //How we stay logged i
+    })
+    
         .catch((err) => {
           console.log(err)
           window.alert("Vi kunne desværre ikke finde dig i systemet")
         });
     })
-    //?email=${email}&password=${password}
+    
+}) 

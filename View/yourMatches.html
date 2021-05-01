@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
     <style>
-        h1 {text-align: center;}
-        h3 {text-align: center;}
-        p {text-align: center;}
-        div {text-align: center;}
+        h1, h2, h3, h4, h5, p, span, div {text-align: center;}
+
     </style>
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
     <link rel="stylesheet" href="css/index.css">
@@ -28,8 +26,22 @@
     
 <H1>Your Matches</H1>
 <p>Click here to get all your matches</p>
-<div><button type="button" class="btn btn-primary btn-sm" onclick="getMatches()">See your matches</button></div>
+<div id = "myMatches">
+    <button type="button" id = "getMyMatches" class="btn btn-outline-success">See your matches</button>
+</div>
+<br>
+<br>
+<h4>Do you regret matching with a specific user?</h4>
+<p> No hard feelings - delete the match here:</p>
+<div id = "deleteMatches">
+    <form>
+     <input type="hidden" name="_method" value="DELETE">
+    <input type = "number" id= "matchNumber" class="form-control" placeholder ="Type in the match number to delete">
+    <br>
+    <button type="button" id = "deleteMatch" class="btn btn-outline-danger">Delete match</button>
+    </form>
+</div>
 
-<script src="js/getMatches.js"></script>
+<script src="js/matches.js"></script>
 </body>
 </html>

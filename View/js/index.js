@@ -1,17 +1,4 @@
-
-class User{
-    constructor(firstName, lastName, email, password, age, city, country, gender, preferred_gender) {
-        this.firstName = firstName; 
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password; 
-        this.age = age
-        this.city = city
-        this.country = country
-        this.gender = gender
-        this.preferred_gender = preferred_gender
-    }
-}
+//const datingUser = require ('../../Model/user')
 
 var form = document.getElementById("form");
 
@@ -26,8 +13,8 @@ form.addEventListener("submit", function(e) {
     var country = document.getElementById("country").value    
     var gender = document.getElementById("gender").value
     var preferred_gender = document.getElementById("preferred_gender").value
-    let user = new User(firstName, lastName, email, password, age, city, country, gender, preferred_gender)
-    console.log(user)
+    //let datingUser1 = new datingUser(firstName, lastName, email, password, age, city, country, gender, preferred_gender, false)
+    //console.log(datingUser1)
     fetch("http://localhost:7071/api/createUser", {
         method: "POST",
         body: JSON.stringify({
