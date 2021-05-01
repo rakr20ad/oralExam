@@ -2,6 +2,7 @@ const db = require('../shared/db')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
+
     try{
         await db.startDB(); // Start DB connection
     } catch(error) {
@@ -11,20 +12,15 @@ module.exports = async function (context, req) {
         case 'GET': 
             await get(context, req);
             break; 
+        }
+    }
 
-    };
-}
-
-
-    async function get(context, req) {
+    //Dette er funktionen til vores get all users for ADMIN 
+   async function get(context) {
         try {
-            let email = (req.query.email || (req.body && req.body.email));
-            //let user = new User(firstName)
-            console.log(gender)
-            let result = await db.getMyMatches(email)
+            let result = await db.getAllMatches()
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

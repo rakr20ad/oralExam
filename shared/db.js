@@ -404,7 +404,7 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
-//For the admin to view all users 
+//For the admin to get the number of registered users 
 function getAllUsers() {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM GK7.users`
@@ -430,6 +430,33 @@ function getAllUsers() {
     connection.execSql(request);
 })}
 module.exports.getAllUsers = getAllUsers;
+
+//For the admin to get all matches 
+function getAllMatches() {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM GK7.matches`
+        let request = new Request(sql, err => {
+          if (err) {
+            reject(err);
+          }
+        });
+        const results = [];
+        request.on('row', columns => {
+          let result = {};
+          columns.forEach(column => {
+            result[column.metadata.colName] = column.value;
+          });
+  
+          results.push(result);
+        });
+  
+        request.on('doneProc', (rowCount) => {
+          resolve(results);
+        });
+ 
+    connection.execSql(request);
+})}
+module.exports.getAllMatches = getAllMatches;
 
 //Admin can reset a user's password
 function updateUser(password, email) {

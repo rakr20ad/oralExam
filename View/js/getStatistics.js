@@ -29,7 +29,7 @@ getUsersBtn.addEventListener("click", function() {
 var getMatchesBtn = document.getElementById("getMatches")
 
 getMatchesBtn.addEventListener("click", function() {
-    fetch(`http://localhost:7071/api/allMatches`)
+    fetch(`http://localhost:7071/api/getAllMatches`)
     .then(
        function(response){
             if(response.status !== 200){
@@ -38,10 +38,10 @@ getMatchesBtn.addEventListener("click", function() {
                 }
                 response.json().then(function (data) {
                 document.getElementById("allMatches").innerHTML = `
-                ${data.map(function(user) {
-                    return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
-                            <span> Age: ${user.age} <br>
-                            <span> Lucky number: ${user.id} </span>
+                ${data.map(function(match) {
+                    return `<h5> User pair: ${match.user1}, ${match.user2} </h5>
+                            <span> Match number: ${match.like_id} <br>
+                            <span> Date of match: ${match.createdAt} </span> <br><br>
                             `
                         }).join('')}
                         `    
