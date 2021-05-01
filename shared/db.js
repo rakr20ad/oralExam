@@ -80,7 +80,9 @@ module.exports.selectFirstname = selectFirstname;
 //This function is also triggered, when getting one's profile
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT firstName, lastName, age, city, id FROM [GK7].[users] WHERE email = @email AND password = @password`
+        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
+                    FROM [GK7].[users]  
+                    WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -149,21 +151,21 @@ function update(age, email, password) {
 module.exports.update = update;
 
 //GetFullUser based on city - may be used when finding a match
-function getUsersNearby(email){
+function getUsersNearby(id){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT A.firstName, A.lastName, A.age, A.id, B.firstName, B.lastName, B.age, B.id
-                        FROM GK7.users A, GK7.users B
+                        SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.country, B.gender, B.preferred_gender
+                        FROM GK7.users AS A, GK7.users AS B
                         WHERE A.id <> B.id
                         AND A.city = B.city
-                        AND A.email = @email
+                        AND A.id = @id
                     END`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('email', TYPES.VarChar, email)
+            request.addParameter('id', TYPES.VarChar, id)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -181,7 +183,9 @@ module.exports.getUsersNearby = getUsersNearby;
 //Filter users by gender and age
 function filterGender(gender){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] WHERE gender = @gender`
+        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
+                    FROM [GK7].[users] 
+                    WHERE gender = @gender`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -205,7 +209,9 @@ module.exports.filterGender = filterGender;
 //Filter users by age
 function filterAge(minAge, maxAge){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM [GK7].[users] WHERE age >= @minAge AND age <= @maxAge`
+        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
+                    FROM [GK7].[users] 
+                    WHERE age >= @minAge AND age <= @maxAge`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -227,32 +233,6 @@ function filterAge(minAge, maxAge){
 })}
 module.exports.filterAge = filterAge;
 
-function getProfile(id){
-    return new Promise((resolve, reject) => {
-        const sql = `BEGIN
-                        SELECT id, firstName, lastName, email, age, city, country, gender, preffered_gender
-                        FROM [GK7].[users]
-                        WHERE id = @id
-                    END`
-              const request = new Request(sql, err => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }})      
-            request.addParameter('id', TYPES.VarChar, id)
-            let results = [];
-            request.on('row', async function(columns)  {
-            let result = {};
-            await columns.forEach(column => {  
-            result[column.metadata.colName] = column.value;          
-        });results.push(result);         
-        
-      });request.on('doneProc', (rowCount) => {
-             resolve(results) 
-        });  
-        connection.execSql(request)
-})}
-module.exports.getProfile = getProfile
 //Like user by entering your ID and the interesting user's ID
 function likeUser(sender_id, receiver_id){
     return new Promise((resolve, reject) => {

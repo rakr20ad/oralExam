@@ -1,5 +1,5 @@
 
-var getMyProfile = document.getElementById("getMyProfile"); 
+var getMyProfile = document.getElementById("getProfile"); 
 
 getMyProfile.addEventListener('click', function(){
               var email = localStorage.getItem("email")
@@ -16,8 +16,14 @@ getMyProfile.addEventListener('click', function(){
                       response.json().then(function (data) {
                           document.getElementById("myProfile").innerHTML = `
                           ${data.map(function(user) {
-                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
-                                      <span> Your lucky number: ${user.id} </span>
+                              return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                      <span> Gender: ${user.gender} </span> <br>
+                                      <span> Age: ${user.age} </span> <br>
+                                      <span> Living in ${user.city}, ${user.country} </span> <br>
+                                      <span> Email for contact: </span> 
+                                      <a href> ${user.email}</a><br>
+                                      <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                      <span> Lucky number: ${user.id} </span> <br><br>
                                       `
                           }).join('')}
                           `

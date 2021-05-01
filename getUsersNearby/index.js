@@ -18,10 +18,10 @@ module.exports = async function (context, req) {
     //Show nearby users
     async function get(context, req) {
         try {
-            let email = (req.query.email || (req.body && req.body.email));
+            let id = (req.query.id || (req.body && req.body.id));
             //let user = new User(firstName)
-            console.log(email)
-            let result = await db.getUsersNearby(email)
+            console.log(id)
+            let result = await db.getUsersNearby(id)
             context.res = {
                 status: 200,
                 //isRaw: true,

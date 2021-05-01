@@ -26,8 +26,10 @@ likeUserBtn.addEventListener("submit", function(e) {
         console.log(err)
    })
 })
-        
-//Like user by id
+
+//
+
+//Dislike user by id
 var dislikeUserBtn = document.getElementById("dislikeUser"); 
 
 dislikeUserBtn.addEventListener("submit", function(e) {
@@ -55,43 +57,13 @@ dislikeUserBtn.addEventListener("submit", function(e) {
         console.log(err)
    })
 })
-var getUserProfile = document.getElementById("getUser"); 
 
-getUserProfile.addEventListener('click', function(){
-              var id = document.getElementById("id").value
-              fetch(`http://localhost:7071/api/getProfile?id=${id}`)
-              .then(
-                  function(response){
-                      if(response.status !== 200){
-                          console.log("noget gik galt" + response.status);
-                          return;  
-                      }
-                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
-                      response.json().then(function (data) {
-                          document.getElementById("myMatches").innerHTML = `
-                          ${data.map(function(user) {
-                              return `<h3> Profile of: ${user.firstName} ${user.lastName} </h3> <br>
-                                      <h4> Age: ${user.age} </h4> <br>
-                                      <span> Lucky number: ${user.id} <br>
-                                      <span> Receiver: ${user.email} </span> <br>
-                                      `
-                          }).join('')}
-                          `
-                    
-                      })
-                  }
-              )
-                  .catch(function (err) {
-                      console.log(err);
-          });
-      });
 //Users can find other users in their city
 var getUsersNearbyBtn = document.getElementById("usersNearby"); 
 
 getUsersNearbyBtn.addEventListener('click', function(){
-              var email = localStorage.getItem("email")
-              fetch(`http://localhost:7071/api/getUsersNearby?email=${email}`)
+              var id = localStorage.getItem("id")
+              fetch(`http://localhost:7071/api/getUsersNearby?id=${id}`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -103,11 +75,15 @@ getUsersNearbyBtn.addEventListener('click', function(){
                       response.json().then(function (data) {
                           document.getElementById("usersNearby").innerHTML = `
                           ${data.map(function(user) {
-                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
-                                      <span> Age: ${user.age} <br>
-                                      <span> Lucky number: ${user.id} </span>
-                                      <button id =
-                                      `
+                              return `<h3>${user.firstName} ${user.lastName} </h3> 
+                              <span> Gender: ${user.gender} </span> <br>
+                              <span> Age: ${user.age} </span> <br>
+                              <span> Living in ${user.city}, ${user.country} </span> <br>
+                              <span> Email for contact: </span> 
+                              <a href> ${user.email}</a><br>
+                              <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                              <span> Lucky number: ${user.id} </span> <br><br>
+                              `
                           }).join('')}
                           `
                     
@@ -134,12 +110,16 @@ genderBtn.addEventListener('click', function(e){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersGender").innerHTML = `
-                                ${data.map(function(user1) {
-                                    return `<h5> Name: ${user1.firstName} ${user1.lastName}</h5>
-                                            <span> Lucky Number: ${user1.id}</span>
-                                            <p> Age: ${user1.age}</p>
-                                            <p> Dating preferences: ${user1.preferred_gender}</p> <br>
-                                            `
+                                ${data.map(function(user) {
+                                    return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                    <span> Gender: ${user.gender} </span> <br>
+                                    <span> Age: ${user.age} </span> <br>
+                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Email for contact: </span> 
+                                    <a href> ${user.email}</a><br>
+                                    <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                    <span> Lucky number: ${user.id} </span> <br><br>
+                                    `
                                 }).join('')}
                                 `                                
                             })
@@ -166,16 +146,18 @@ ageBtn.addEventListener('click', function(e){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersAge").innerHTML = `
-                                ${data.map(function(user2) {
-                                    return `<h3> Name: ${user2.firstName} ${user2.lastName}</h3>
-                                            <span> email: ${user2.email}</span>
-                                            <h4> Age: ${user2.age}</h4>
-                                            <h4> Dating preferences: ${user2.preferred_gender}</h4> <br>
-                                            <button id = "...">Like this user</button>
-                                            `
+                                ${data.map(function(user) {
+                                    return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                    <span> Gender: ${user.gender} </span> <br>
+                                    <span> Age: ${user.age} </span> <br>
+                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Email for contact: </span> 
+                                    <a href> ${user.email}</a><br>
+                                    <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                    <span> Lucky number: ${user.id} </span> <br><br>
+                                    `
                                 }).join('')}
-                                `
-                                
+                                `                                
                             })
                         }
                     )
