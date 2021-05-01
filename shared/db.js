@@ -3,7 +3,7 @@ const { Connection, Request, TYPES } = require('tedious');
 const config = require('./config.json'); 
 const datingUser = require('../Model/user')
 const admin = require('../Model/user')
-
+cc
 var connection = new Connection(config); 
 
 function startDB(){
