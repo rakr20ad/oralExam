@@ -1,7 +1,7 @@
 
-var getProfile = document.getElementById("getProfile"); 
+var getMyProfile = document.getElementById("getMyProfile"); 
 
-getProfile.addEventListener('click', function(){
+getMyProfile.addEventListener('click', function(){
               var email = localStorage.getItem("email")
               var password = localStorage.getItem("password")
               fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`)
@@ -14,7 +14,7 @@ getProfile.addEventListener('click', function(){
                       //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
                       //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       response.json().then(function (data) {
-                          document.getElementById("getMyProfile").innerHTML = `
+                          document.getElementById("myProfile").innerHTML = `
                           ${data.map(function(user) {
                               return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
                                       <span> Your lucky number: ${user.id} </span>
@@ -57,32 +57,6 @@ updateUser.addEventListener("click", function(e) {
     });
 })
 
-/*
-var deleteUser = document.getElementById("deleteUser")
-deleteUser.addEventListener('click', function(e) {
-    e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch(`http://localhost:7071/api/deleteUser?email=${email}&password=${password}`, {
-    method: "DELETE",
-    body: JSON.stringify({
-        age: age,
-        email: email,
-    }),
-    headers: {
-        "Content-Type": "application/json; charset-UTG-8"
-    }
-    })
-    .then((data) => {
-        console.log(data)
-        window.alert("Your account has been deleted")
-        window.location = "index.html"
-        
-        })
-        .catch((err) => {
-        console.log(err)
-    });
-})*/
 
 var logout = document.getElementById("logout")
 //Log out function

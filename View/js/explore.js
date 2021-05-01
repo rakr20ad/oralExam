@@ -55,7 +55,37 @@ dislikeUserBtn.addEventListener("submit", function(e) {
         console.log(err)
    })
 })
+var getUserProfile = document.getElementById("getUser"); 
 
+getUserProfile.addEventListener('click', function(){
+              var id = document.getElementById("id").value
+              fetch(`http://localhost:7071/api/getProfile?id=${id}`)
+              .then(
+                  function(response){
+                      if(response.status !== 200){
+                          console.log("noget gik galt" + response.status);
+                          return;  
+                      }
+                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
+                      response.json().then(function (data) {
+                          document.getElementById("myMatches").innerHTML = `
+                          ${data.map(function(user) {
+                              return `<h3> Profile of: ${user.firstName} ${user.lastName} </h3> <br>
+                                      <h4> Age: ${user.age} </h4> <br>
+                                      <span> Lucky number: ${user.id} <br>
+                                      <span> Receiver: ${user.email} </span> <br>
+                                      `
+                          }).join('')}
+                          `
+                    
+                      })
+                  }
+              )
+                  .catch(function (err) {
+                      console.log(err);
+          });
+      });
 //Users can find other users in their city
 var getUsersNearbyBtn = document.getElementById("usersNearby"); 
 
@@ -76,6 +106,7 @@ getUsersNearbyBtn.addEventListener('click', function(){
                               return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
                                       <span> Age: ${user.age} <br>
                                       <span> Lucky number: ${user.id} </span>
+                                      <button id =
                                       `
                           }).join('')}
                           `

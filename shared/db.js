@@ -227,6 +227,32 @@ function filterAge(minAge, maxAge){
 })}
 module.exports.filterAge = filterAge;
 
+function getProfile(id){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                        SELECT id, firstName, lastName, email, age, city, country, gender, preffered_gender
+                        FROM [GK7].[users]
+                        WHERE id = @id
+                    END`
+              const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('id', TYPES.VarChar, id)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.getProfile = getProfile
 //Like user by entering your ID and the interesting user's ID
 function likeUser(sender_id, receiver_id){
     return new Promise((resolve, reject) => {
