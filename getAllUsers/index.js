@@ -1,5 +1,4 @@
 const db = require('../shared/db')
-var fs = require('fs');
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -16,14 +15,11 @@ module.exports = async function (context, req) {
 }
 
 //get user via id
-async function get(context, req) {
+async function get(context) {
     try {
-        let id = (req.query.id || (req.body && req.body.id));
-        console.log(id)
-        let result = await db.fetchUser(id)
+        let result = await db.getAllUsers()
         context.res = {
             status: 200,
-            //isRaw: true,
             body: result,
             headers: {
                 'Content-Type': 'application/json'

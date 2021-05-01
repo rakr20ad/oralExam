@@ -1,9 +1,4 @@
 const db = require('../shared/db')
-//const router = express.router
-//const User = require("../Model/user");
-var fs = require('fs');
-
-
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -17,27 +12,15 @@ module.exports = async function (context, req) {
         case 'GET': 
             await get(context, req);
             break; 
-        /*case 'POST':
-            console.log("test")
-            await post(context, req);
-            break; */
-        /*default:
-            context.res = {
-                body: "Please get or post"
-            };
-            break*/
         }
     }
 
     //Dette er funktionen til vores get all users for ADMIN 
    async function get(context) {
         try {
-           // let firstName = req.query.firstName
-            //console.log(firstName)
-            let result = await db.viewAllUsers()
+            let result = await db.getAllUsers()
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

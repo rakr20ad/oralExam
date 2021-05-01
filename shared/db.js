@@ -405,12 +405,9 @@ function selectAdmin(email, password){
 module.exports.selectAdmin = selectAdmin;
 
 //For the admin to view all users 
-function viewAllUsers() {
+function getAllUsers() {
     return new Promise((resolve, reject) => {
-        const sql = `DECLARE @json NVARCHAR(Max)
-        SET @json = (SELECT * FROM [GK7].[users] FOR JSON PATH, ROOT('data'))
-        SELECT value
-        FROM OPENJSON(@json,'$.data')`
+        const sql = `SELECT * FROM GK7.users`
         let request = new Request(sql, err => {
           if (err) {
             reject(err);
@@ -432,7 +429,7 @@ function viewAllUsers() {
  
     connection.execSql(request);
 })}
-module.exports.viewAllUsers = viewAllUsers;
+module.exports.getAllUsers = getAllUsers;
 
 //Admin can reset a user's password
 function updateUser(password, email) {

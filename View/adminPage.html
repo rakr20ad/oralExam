@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
     <style>
-        h1 {text-align: center;}
-        h3 {text-align: center;}
-        p {text-align: center;}
-        div {text-align: center;}
+        h1, h2, h3, h4, h5, p, span, div {text-align: center;}
     </style>
     <link rel="stylesheet" href="https://bootswatch.com/4/united/bootstrap.min.css">
     <link rel="stylesheet" href="css/admin.css">
@@ -22,17 +19,16 @@
         <br>
         <br>
     <div>
-        <h1>Admin</h1>
-        <h2>View all users</h2>
-        <div>
-
-    <!--DETTE ER VOERS DISPLAY ALL USERS, opfylder kravet om at admin ser alle users-->
-    <p id="getUsers">Click the button to VIEW and GET ALL USERS</p>
-    <button type="button" class="btn btn-outline-primary" onclick="getUsers()">Try it</button>
-
+        <h1>Dating Universe statistics for administrators</h1>
+        <h2>Here, you can get an overview of both the user and match statistics of the Dating Universe </h2>
+        <div id = "allUsers">
+            <button type="button" class="btn btn-outline-success" id="getUsers">Get all users</button>
+            </div>
     <br>
+        <div id="allMatches">
+          <button type="button" class="btn btn-outline-success" id="getMatches">Get all matches</button>
+        </div>
 
-
-<script src="js/adminGetUsers.js"></script>
+<script src="js/getStatistics.js"></script>
 </body>
 </html>
