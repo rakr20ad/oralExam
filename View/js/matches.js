@@ -53,8 +53,4 @@ deleteMatchBtn.addEventListener('click', function(e) {
               console.log(err)
         });
     })
-<<<<<<< HEAD
-            nn
-=======
-            
->>>>>>> developer
+        
