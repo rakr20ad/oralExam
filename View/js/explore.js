@@ -26,8 +26,33 @@ likeUserBtn.addEventListener("submit", function(e) {
         console.log(err)
    })
 })
-        
-//Like user by id.
+
+//Check if the like is a match
+var checkMatchBtn = document.getElementById("checkMatch")
+checkMatchBtn.addEventListener("click", function(e) {
+    e.preventDefault()
+    fetch("http://localhost:7071/api/createMatch", {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+    .then((response) => {
+        return response.json()
+    })
+
+    .then((data) => {
+        console.log(data)
+            window.alert("It was a match! Go to My matches to write your new match!")
+
+        })
+        .catch((err) => {
+          console.log(err)
+          window.alert("We could not check if this was a match for your")
+        });
+    });
+
+//Dislike user by id
 var dislikeUserBtn = document.getElementById("dislikeUser"); 
 
 dislikeUserBtn.addEventListener("submit", function(e) {
@@ -60,8 +85,8 @@ dislikeUserBtn.addEventListener("submit", function(e) {
 var getUsersNearbyBtn = document.getElementById("usersNearby"); 
 
 getUsersNearbyBtn.addEventListener('click', function(){
-              var email = localStorage.getItem("email")
-              fetch(`http://localhost:7071/api/getUsersNearby?email=${email}`)
+              var id = localStorage.getItem("id")
+              fetch(`http://localhost:7071/api/getUsersNearby?id=${id}`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -73,10 +98,15 @@ getUsersNearbyBtn.addEventListener('click', function(){
                       response.json().then(function (data) {
                           document.getElementById("usersNearby").innerHTML = `
                           ${data.map(function(user) {
-                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
-                                      <span> Age: ${user.age} <br>
-                                      <span> Lucky number: ${user.id} </span>
-                                      `
+                              return `<h3>${user.firstName} ${user.lastName} </h3> 
+                              <span> Gender: ${user.gender} </span> <br>
+                              <span> Age: ${user.age} </span> <br>
+                              <span> Living in ${user.city}, ${user.country} </span> <br>
+                              <span> Email for contact: </span> 
+                              <a href> ${user.email}</a><br>
+                              <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                              <span> Lucky number: ${user.id} </span> <br><br>
+                              `
                           }).join('')}
                           `
                     
@@ -103,12 +133,16 @@ genderBtn.addEventListener('click', function(e){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersGender").innerHTML = `
-                                ${data.map(function(user1) {
-                                    return `<h5> Name: ${user1.firstName} ${user1.lastName}</h5>
-                                            <span> Lucky Number: ${user1.id}</span>
-                                            <p> Age: ${user1.age}</p>
-                                            <p> Dating preferences: ${user1.preferred_gender}</p> <br>
-                                            `
+                                ${data.map(function(user) {
+                                    return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                    <span> Gender: ${user.gender} </span> <br>
+                                    <span> Age: ${user.age} </span> <br>
+                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Email for contact: </span> 
+                                    <a href> ${user.email}</a><br>
+                                    <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                    <span> Lucky number: ${user.id} </span> <br><br>
+                                    `
                                 }).join('')}
                                 `                                
                             })
@@ -135,16 +169,18 @@ ageBtn.addEventListener('click', function(e){
                             }
                             response.json().then(function (data) {
                                 document.getElementById("usersAge").innerHTML = `
-                                ${data.map(function(user2) {
-                                    return `<h3> Name: ${user2.firstName} ${user2.lastName}</h3>
-                                            <span> email: ${user2.email}</span>
-                                            <h4> Age: ${user2.age}</h4>
-                                            <h4> Dating preferences: ${user2.preferred_gender}</h4> <br>
-                                            <button id = "...">Like this user</button>
-                                            `
+                                ${data.map(function(user) {
+                                    return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                    <span> Gender: ${user.gender} </span> <br>
+                                    <span> Age: ${user.age} </span> <br>
+                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Email for contact: </span> 
+                                    <a href> ${user.email}</a><br>
+                                    <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                    <span> Lucky number: ${user.id} </span> <br><br>
+                                    `
                                 }).join('')}
-                                `
-                                
+                                `                                
                             })
                         }
                     )

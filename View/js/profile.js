@@ -1,7 +1,7 @@
 
-var getProfile = document.getElementById("getProfile"); 
+var getMyProfile = document.getElementById("getProfile"); 
 
-getProfile.addEventListener('click', function(){
+getMyProfile.addEventListener('click', function(){
               var email = localStorage.getItem("email")
               var password = localStorage.getItem("password")
               fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`)
@@ -14,10 +14,16 @@ getProfile.addEventListener('click', function(){
                       //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
                       //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       response.json().then(function (data) {
-                          document.getElementById("getMyProfile").innerHTML = `
+                          document.getElementById("myProfile").innerHTML = `
                           ${data.map(function(user) {
-                              return `<h3> Name: ${user.firstName} ${user.lastName} </h3>
-                                      <span> Your lucky number: ${user.id} </span>
+                              return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                      <span> Gender: ${user.gender} </span> <br>
+                                      <span> Age: ${user.age} </span> <br>
+                                      <span> Living in ${user.city}, ${user.country} </span> <br>
+                                      <span> Email for contact: </span> 
+                                      <a href> ${user.email}</a><br>
+                                      <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                      <span> Lucky number: ${user.id} </span> <br><br>
                                       `
                           }).join('')}
                           `
