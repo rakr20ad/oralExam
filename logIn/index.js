@@ -1,6 +1,6 @@
 //const datingUser = require("../Model/user");
 const db = require("../shared/db");
-const User = require("../Model/user.js");
+const datingUser = require("../Model/user.js");
 module.exports = async function (context, req) {
 context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -11,6 +11,10 @@ try{
     console.log("Error connecting to the database", error.message)
 }
 switch(req.method){
+    case 'POST':
+        console.log("test")
+        await post(context, req);
+        break; 
     case 'GET':
         console.log("test")
         await get(context, req);
@@ -20,27 +24,18 @@ switch(req.method){
 };    
 
     // Our login 
-    async function get(context, req){
+    async function post(context, req){
         try {
-            var user = new User(req)
-            console.log(user)
-            let email = (req.body.email || (req.body.email && req.body.email));
-            let password = (req.body.password || (req.body.password && req.body.password));
-            let result = await db.select(email, password);
-            console.log(user)
-
-
-            /*
-            let email = (req.query.email || (req.body && req.body.email));
-            let password = (req.query.password || (req.body && req.body.password));
-            let result = await db.select(email, password);
-            let user = new datingUser(req)
-            console.log(user)*/
-
-       // if (email == user.email){
+            var user = new datingUser(req)
+            let email = (req.query.email || req.body && req.body.email);
+            let password = (req.query.password || req.body && req.body.password);
+           await db.select(email, password);
+           console.log(user)
+            let userArr = [];
+            userArr.push(user)
             context.res = {
                 status: 200, 
-                body: result,
+                body: userArr,
                 headers: {
                     'Content-Type': 'application/json'
             }
@@ -57,6 +52,30 @@ switch(req.method){
             }
         }
     };
+
+    async function get(context, req) {
+        try {
+            //var user = new datingUser(req)
+            let email = (req.query.email || (req.body && req.body.email));
+            let password = (req.query.password || (req.body && req.body.password));
+            //let user = new User(firstName)
+            
+            let result = await db.select(email, password)
+            context.res = {
+                status: 200,
+                //isRaw: true,
+                body: result,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        } catch(error) {
+            context.res = {
+                status: 400, 
+                body: `no user - ${error.message}`
+            }
+        }
+    }
 /*
     async function get(context, req) {
         try {

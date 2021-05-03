@@ -35,7 +35,7 @@ getMyProfile.addEventListener('click', function(){
                       console.log(err);
           });
       });
-
+/*
 var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("click", function(e) {
     e.preventDefault()
@@ -88,7 +88,7 @@ deleteUser.addEventListener('click', function(e) {
         .catch((err) => {
         console.log(err)
     });
-})
+})*/
 
 //Log out function
 var logout = document.getElementById("logout")
@@ -96,8 +96,8 @@ var logout = document.getElementById("logout")
 logout.addEventListener("click", (userLogout))
     function userLogout() {
         localStorage.setItem("online", false);
-        localStorage.removeItem("email", JSON.stringify(email));
-        localStorage.removeItem("password", JSON.stringify(password));
+        localStorage.removeItem("email", email);
+        localStorage.removeItem("password", password);
         window.location="index.html"; 
         console.log("User logged out")
             

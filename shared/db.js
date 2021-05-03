@@ -60,7 +60,7 @@ module.exports.insert = insert;
 //This function is also triggered, when getting one's profileid, firstName, lastName, email, age, city, country, gender, preferred_gender 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT *
+        const sql = `SELECT id, firstName, lastName, email, password, age, city, country, gender, preferred_gender
                     FROM [GK7].[users]  
                     WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {

@@ -1,19 +1,11 @@
 const { getUsersNearby } = require("./shared/db");
-const datingUser = require('../oralExam-1/Model/user')
+const datingUser = require('../oralExam-1/Model/user');
 
 module.exports = {
     getSuggestions: async (req, res, next) => {
       var user = await getUsersNearby("id", req.query.id);
       var city = user[0].city;
-     
       var list;
-  
-      switch (orientation) {
-        case "hetero":
-          list = await getSuggestions(
-       
-          );
-      }
   
       list = await getScoredList(list, user[0]);
       var idList = [];
@@ -30,7 +22,8 @@ getScoredList: async (listData, user) => {
     for (var i = 0; i < listData.length; i++) {
       var count = 0;
       count +=
+        listData[i].city == user.city ;
 
     };
     return score;
-  }
+  }}
