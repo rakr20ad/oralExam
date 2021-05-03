@@ -1,9 +1,12 @@
+const User = require("../Model/user.js");
 const db = require("../shared/db");
 module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+context.log('JavaScript HTTP trigger function processed a request.');
+//For at den skal forstå at den skal bruge klassen altså model user skal den hentes:
 
 
     try{
+        
         await db.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
@@ -19,15 +22,30 @@ module.exports = async function (context, req) {
             };
             break
         }*/
+        //Grunden til den er her, og ikke ved funktionen, er da den ikke opfanges som en klasse under funktionen
+        //(...)hvad der skyldes dette ved jeg ikke
     }
 
     // Our login 
     async function get(context, req) {
+        //Der skal requries de attributter vi vil bruge til vores User fra model klassen:
+        //Her "læses" database
         try {
-            let email = (req.query.email || (req.body && req.body.email));
+           /* let email = (req.query.email || (req.body && req.body.email));
             let password = (req.query.password || (req.body && req.body.password));
             let result = await db.select(email, password);
-            //console.log(user)
+            //console.log(user)*/
+            //Jeg tror at hvis den skulle læse klassen og bruge den, tænkte jeg at bruge følgende syntaks, men kan ikke se hvordan det snakker sammen
+            //(...)med en database:
+            var user = new User
+            (
+                req.body.email,
+                req.body.password
+            )
+            let email = (req.body.email || (req.body.email && req.body.email));
+            let password = (req.body.password || (req.body.password && req.body.password));
+            let result = await db.select(email, password);
+
        // if (email == user.email){
             context.res = {
                 status: 200, 

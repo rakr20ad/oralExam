@@ -25,7 +25,7 @@ getUsersBtn.addEventListener("click", function() {
   });
 });
     
-//Get all users as admin
+//Get all matches as admin
 var getMatchesBtn = document.getElementById("getMatches")
 
 getMatchesBtn.addEventListener("click", function() {

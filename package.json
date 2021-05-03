@@ -9,10 +9,11 @@
   "dependencies": {
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "cors": "^2.8.5",
     "mocha": "^8.3.2",
     "nodemon": "^2.0.7",
     "should": "^13.2.3",
-    "tedious": "^11.0.7"
+    "tedious": "^11.0.8"
   },
   "devDependencies": {}
 }
