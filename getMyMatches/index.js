@@ -20,11 +20,9 @@ module.exports = async function (context, req) {
         try {
             let id = (req.query.id || (req.body && req.body.id));
             //let user = new User(firstName)
-            console.log(id)
             let result = await db.getMyMatches(id)
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

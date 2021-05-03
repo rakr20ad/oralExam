@@ -63,7 +63,7 @@ updateUser.addEventListener("click", function(e) {
     });
 })
 
-
+//Both admin and dating user can delete account with this
 var deleteUser = document.getElementById("deleteUser")
 deleteUser.addEventListener('click', function(e) {
     e.preventDefault()
@@ -73,7 +73,7 @@ deleteUser.addEventListener('click', function(e) {
     method: "DELETE",
     body: JSON.stringify({
         email: email,
-        email: email,
+        password: password,
     }),
     headers: {
         "Content-Type": "application/json; charset-UTG-8"
@@ -90,8 +90,9 @@ deleteUser.addEventListener('click', function(e) {
     });
 })
 
-var logout = document.getElementById("logout")
 //Log out function
+var logout = document.getElementById("logout")
+
 logout.addEventListener("click", (userLogout))
     function userLogout() {
         localStorage.setItem("online", false);

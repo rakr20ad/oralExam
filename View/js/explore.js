@@ -5,12 +5,12 @@ likeUserBtn.addEventListener("submit", function(e) {
     e.preventDefault()
               var sender_id = localStorage.getItem("id")
               var receiver_id = document.getElementById("receiver_id").value
-              fetch(`http://localhost:7071/api/likeUser?sender_id=${sender_id}&receiver_id=${receiver_id}`, {
+              fetch(`http://localhost:7071/api/likeUser`, {
                 method: "POST",
                 body: JSON.stringify({
                     sender_id: sender_id,
-                    receiver_id: receiver_id, 
-                }),
+                    receiver_id: receiver_id
+              }),
                 headers: {
                     "Content-Type": "application/json; charset-UTG-8"
                 }
@@ -59,7 +59,7 @@ dislikeUserBtn.addEventListener("submit", function(e) {
     e.preventDefault()
               var dislikeSender_id = localStorage.getItem("id")
               var dislikeReceiver_id = document.getElementById("dislikeReceiver_id").value
-              fetch(`http://localhost:7071/api/dislikeUser?dislikeSender_id=${dislikeSender_id}&dislikeReceiver_id=${dislikeReceiver_id}`, {
+              fetch(`http://localhost:7071/api/dislikeUser`, {
                 method: "POST",
                 body: JSON.stringify({
                     dislikeSender_id: dislikeSender_id,

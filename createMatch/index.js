@@ -1,9 +1,6 @@
 const db = require('../shared/db')
-//const router = express.router
-const User = require("../Model/user");
-var fs = require('fs');
 
-
+const Match = require('../Model/match')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -15,16 +12,26 @@ module.exports = async function (context, req) {
     }
     switch(req.method){
         case 'POST':
+            console.log("test")
             await post(context, req);
             break; 
-    }
-}
-    async function post(context) {
-        try {
-            await db.createMatch()
+        default:
             context.res = {
-            body: {status: 'Success'}
-            
+                body: "Please get or post"
+            };
+            break
+        }
+    }
+
+    async function post(context, req) {
+        try {
+            var match = new Match()
+            console.log(match)
+            await db.createMatch();
+            var matchArr = []
+            matchArr.push(match)
+            context.res = {
+            body: {status: 'Success'},
             }
         } catch(error) {
             context.res = {
@@ -33,3 +40,4 @@ module.exports = async function (context, req) {
             }
         }
     }
+ 

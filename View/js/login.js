@@ -5,7 +5,7 @@ var login = document.getElementById("login")
 login.addEventListener("click", function() {
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    //let datingUser1 = new datingUser(firstName, lastName, email, password, age, city, country, gender, preferred_gender, false)
+    //let user = new datingUser(firstName, lastName, email, password, age, city, country, gender, preferred_gender, false)
     //console.log(datingUser1)
     fetch(`http://localhost:7071/api/login?email=${email}&password=${password}`)
         .then(
@@ -20,8 +20,8 @@ login.addEventListener("click", function() {
             localStorage.setItem("id", data[i].id)
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);
-            localStorage.setItem("online", true);
-            window.location = 'profile.html'
+            localStorage.setItem("onlineNow", data[i].online = true);
+            //window.location = 'profile.html'
         }  //How we stay logged i
     })
     

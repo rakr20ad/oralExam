@@ -55,4 +55,38 @@ deleteMatchBtn.addEventListener('click', function(e) {
               console.log(err)
         });
     })
-        
+        /*
+    var getMyMatchesBtn = document.getElementById("getMyMatches"); 
+
+    getMyMatchesBtn.addEventListener('click', function(){
+                  var like_id = document.getElementById('id').value
+                  fetch(`http://localhost:7071/api/getMyMatches?id=${id}`)
+                  .then(
+                      function(response){
+                          if(response.status !== 200){
+                              console.log("noget gik galt" + response.status);
+                              return;  
+                          }
+                          //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+                          //Derefter displayer vi objekterne ved at bruge JSON.stringify
+                          response.json().then( 
+                            function binarySearchIndex (data, id, low = 0, high = data.length - 1) {
+                                if (low > high) {
+                                  return -1
+                                }
+                                const midPoint = Math.floor((low + high) / 2)
+                              
+                                if (id < data[midPoint]) {
+                                  return binarySearchIndex(data, id, low, midPoint - 1)
+                                } else if (id > data[midPoint]) {
+                                  return binarySearchIndex(data, id, midPoint + 1, high)
+                                } else {
+                                  return midPoint
+                                }
+                              })   
+                            })
+                    .catch(function (err) {
+                      console.log(err);
+              });
+      });
+    */

@@ -1,5 +1,7 @@
 const db = require('../shared/db')
 
+const datingUser = require('../Model/user')
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     try{
@@ -18,6 +20,7 @@ module.exports = async function (context, req) {
     //Show nearby users
     async function get(context, req) {
         try {
+            //var user = new datingUser(req)
             let id = (req.query.id || (req.body && req.body.id));
             //let user = new User(firstName)
             console.log(id)

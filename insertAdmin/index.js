@@ -1,8 +1,6 @@
-
 const db = require('../shared/db')
-//const router = express.router
-const Admin = require("../Model/admin");
 
+const admin = require('../Model/admin')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -20,27 +18,13 @@ module.exports = async function (context, req) {
         }
     }
 
-
     async function post(context, req) {
         try {
-            let admin = req.body;
-            //*det virker ikke med new Admin - derfor er den udkommenteret 
-            /*let admin = new Admin(admin1) new User(
-                req.body.firstName,
-                req.body.lastName,
-                req.body.email,
-                req.body.password, 
-                req.body.birthday,
-                req.body.city,
-                req.body.country,
-                req.body.gender,
-                req.body.preferred_gender
-            )*/
-            await db.insertAdmin(admin)
+            var adminUser = new admin(req)
+            await db.insertAdmin(adminUser)
             context.res = {
-            body: {status: 'Success'}
-            
-        }
+            body: {status: 'Success'},
+            }
         } catch(error) {
             context.res = {
                 status: 400, 
@@ -48,4 +32,4 @@ module.exports = async function (context, req) {
             }
         }
     }
-    
+

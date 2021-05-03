@@ -1,5 +1,7 @@
 const db = require('../shared/db')
 
+const Like = require('../Model/like')
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -16,9 +18,8 @@ module.exports = async function (context, req) {
 }
     async function post(context, req) {
         try {
-            let sender_id = req.query.sender_id;
-            let receiver_id = req.query.receiver_id;
-            await db.likeUser(sender_id, receiver_id)
+            var like = new Like(req)
+            await db.likeUser(like)
             context.res = {
             body: {status: 'Success'}
             

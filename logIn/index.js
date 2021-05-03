@@ -1,3 +1,5 @@
+const datingUser = require("../Model/user");
+
 const db = require("../shared/db");
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -12,22 +14,18 @@ module.exports = async function (context, req) {
         case 'GET':
             console.log("test")
             await get(context, req);
-            break; }
-        /*default:
-            context.res = {
-                body: "Please get or post"
-            };
-            break
-        }*/
+        }
     }
 
     // Our login 
     async function get(context, req) {
         try {
+            
             let email = (req.query.email || (req.body && req.body.email));
             let password = (req.query.password || (req.body && req.body.password));
             let result = await db.select(email, password);
-            //console.log(user)
+            let user = new datingUser(req)
+            console.log(user)
        // if (email == user.email){
             context.res = {
                 status: 200, 

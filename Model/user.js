@@ -1,36 +1,26 @@
 class User{
-    constructor(firstName, lastName, email, password) {
-        this.firstName = firstName; 
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password; 
+    constructor(req) {
+        this.id = req.body.id;
+        this.firstName = req.body.firstName; 
+        this.lastName = req.body.lastName;
+        this.email = req.body.email;
+        this.password = req.body.password; 
+        this.online = false
         
     }
 }
-
-
 class datingUser extends User {
-    constructor(age, city, country, gender, preferred_gender, online) {
-    super(firstName, lastName, email, password) 
-        this.age = age
-        this.city = city
-        this.country = country
-        this.gender = gender
-        this.preferred_gender = preferred_gender
-        this.online = online
+    constructor(req) {
+    super(req) 
+        this.age = req.body.age
+        this.city = req.body.city
+        this.country = req.body.country
+        this.gender = req.body.gender
+        this.preferred_gender = req.body.preferred_gender
+        
     }
-    get age() {
-        return this.age
-    }
-    get online() {
-        return this.online
-    }
-    set age(age) {
-        return this.age = age
-    }
-    set online(bool) {
-        this.online = bool
-    }
+    
 }
 
-module.exports = User;
+module.exports = datingUser
+

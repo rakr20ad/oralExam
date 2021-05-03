@@ -1,5 +1,7 @@
 const db = require('../shared/db')
 
+const Dislike = require('../Model/dislike')
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -16,9 +18,9 @@ module.exports = async function (context, req) {
 }
     async function post(context, req) {
         try {
-            let dislikeSender_id = req.query.dislikeSender_id;
-            let dislikeReceiver_id = req.query.dislikeReceiver_id;
-            await db.dislikeUser(dislikeSender_id, dislikeReceiver_id)
+            var dislike = new Dislike(req)
+            console.log(dislike)
+            await db.dislikeUser(dislike)
             context.res = {
             body: {status: 'Success'}
             

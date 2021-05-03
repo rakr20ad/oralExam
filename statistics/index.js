@@ -1,5 +1,37 @@
 const db = require('../shared/db')
 
+class User{
+    constructor(req) {
+        this.firstName = req.body.firstName; 
+        this.lastName = req.body.lastName;
+        this.email = req.body.email;
+        this.password = req.body.password; 
+        
+    }
+}
+
+class admin extends User {
+    constructor(req) {
+    super(req) 
+    }
+    get email() {
+        return this.email
+    }
+    get password() {
+        return this._password
+    }
+    get users() {
+        return db.getAllUsers();
+      }
+    get matches() {
+        return db.getAllMatches();
+    }
+    set password(_password) {
+        return db.updateUser(_password)
+    }
+    
+}
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 

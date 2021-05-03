@@ -28,7 +28,8 @@ module.exports.startDB = startDB;
 //A user creates an account, when his information is posted to the database
 function insert(datingUser){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender) VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
+        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender)
+         VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
@@ -55,32 +56,11 @@ function insert(datingUser){
 }       
 module.exports.insert = insert;
 
-//
-function selectFirstname(firstName){
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[users] where firstName = @firstName'
-        const request = new Request(sql, (err, rowcount) => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }else if (rowcount == 0) {
-                reject ({message: 'User does not exist'})
-            }
-        })
-        request.addParameter('firstName', TYPES.VarChar, firstName)
-        request.on('row', (columns) => {
-            resolve(columns)
-        })
-        connection.execSql(request)
-    })
-}
-module.exports.selectFirstname = selectFirstname;
-
 // A user signs in, and SQL finds if his information exists in database. 
-//This function is also triggered, when getting one's profile
+//This function is also triggered, when getting one's profileid, firstName, lastName, email, age, city, country, gender, preferred_gender 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
+        const sql = `SELECT *
                     FROM [GK7].[users]  
                     WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {
@@ -234,7 +214,7 @@ function filterAge(minAge, maxAge){
 module.exports.filterAge = filterAge;
 
 //Like user by entering your ID and the interesting user's ID
-function likeUser(sender_id, receiver_id){
+function likeUser(like){
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO [GK7].likes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
         const request = new Request(sql, (err) => {
@@ -243,8 +223,8 @@ function likeUser(sender_id, receiver_id){
                 console.log(err)
             }
         });
-        request.addParameter('sender_id', TYPES.VarChar, sender_id)
-        request.addParameter('receiver_id', TYPES.VarChar, receiver_id)
+        request.addParameter('sender_id', TYPES.Int, like.sender_id)
+        request.addParameter('receiver_id', TYPES.Int, like.receiver_id)
         request.on('requestCompleted', (row) => {
             console.log('Like inserted', row); 
             resolve('Like inserted', row)
@@ -254,8 +234,8 @@ function likeUser(sender_id, receiver_id){
 }
 module.exports.likeUser = likeUser;
 
-//Like user by entering your ID and the interesting user's ID
-function dislikeUser(dislikeSender_id, dislikeReceiver_id){
+//Like user by entering their Lucky number (ID)
+function dislikeUser(dislike){
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO [GK7].dislikes (dislikeSender_id, dislikeReceiver_id) VALUES (@dislikeSender_id, @dislikeReceiver_id)`
         const request = new Request(sql, (err) => {
@@ -264,8 +244,8 @@ function dislikeUser(dislikeSender_id, dislikeReceiver_id){
                 console.log(err)
             }
         });
-        request.addParameter('dislikeSender_id', TYPES.VarChar, dislikeSender_id)
-        request.addParameter('dislikeReceiver_id', TYPES.VarChar, dislikeReceiver_id)
+        request.addParameter('dislikeSender_id', TYPES.Int, dislike.dislikeSender_id)
+        request.addParameter('dislikeReceiver_id', TYPES.Int, dislike.dislikeReceiver_id)
         request.on('requestCompleted', (row) => {
             console.log('Dislike inserted', row); 
             resolve('Dislike inserted', row)
@@ -280,7 +260,7 @@ function createMatch(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
                     INSERT INTO GK7.matches (like_id, user1, user2)
-                    SELECT l1.id, l1.sender_id, l1.receiver_id
+                    SELECT l1.id as like_id, l1.sender_id as user1, l1.receiver_id as user2
                     FROM GK7.likes l1, GK7.likes l2
                     WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
                     AND l1.id < l2.id AND l1.id NOT IN (
@@ -306,18 +286,18 @@ module.exports.createMatch = createMatch
 function getMyMatches(id){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, u.email, l.id, m.like_id
-                        FROM ((GK7.likes AS l
-                        INNER JOIN GK7.matches AS m ON l.id = m.like_id)
-                        INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
-                        WHERE u.id = @id 
+                    SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, m.like_id
+                    FROM ((GK7.likes AS l
+                    INNER JOIN GK7.matches AS m ON l.id = m.like_id)
+                    INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
+                    WHERE u.id = @id
                     END`
               const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
-            request.addParameter('id', TYPES.VarChar, id)
+            request.addParameter('id', TYPES.Int, id)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -326,7 +306,33 @@ function getMyMatches(id){
         });results.push(result);         
         
       });request.on('doneProc', (rowCount) => {
-             resolve(results) 
+             /*let recursiveFunction = function (data, like_id, start, end) {
+       console.log('hej')
+            // Base Condition
+            if (start > end) return false;
+           
+            // Find the middle index
+            let mid=Math.floor((start + end)/2);
+            console.log('hej2')
+
+            // Compare mid with given key x
+            if (data[mid]===like_id) return true;
+                  
+            // If element at mid is greater than x,
+            // search in the left half of mid
+            if(data[mid] > like_id) 
+                return recursiveFunction(data, like_id, start, mid-1);
+            else
+          
+                // If element at mid is smaller than x,
+                // search in the right half of mid
+                return recursiveFunction(data, like_id, mid+1, end);
+        }
+        data = results
+        console.log('hej3')
+        recursiveFunction(data, like_id, 0, data.length-1)
+        console.log("We found it")*/
+    resolve(results) 
         });  
         connection.execSql(request)
 })}
@@ -465,7 +471,7 @@ function getAllMatches() {
 module.exports.getAllMatches = getAllMatches;
 
 //Admin can reset a user's password
-function updateUser(password, email) {
+function updateUser(email, password) {
     return new Promise((resolve, reject) => {
          let sql = `UPDATE [GK7].[users] SET password = @password
          WHERE email = @email`
@@ -473,8 +479,9 @@ function updateUser(password, email) {
          if (err) {
             reject(err);}
         });
-        request.addParameter('password', TYPES.VarChar, password);
         request.addParameter('email', TYPES.VarChar, email);
+        request.addParameter('password', TYPES.VarChar, password);
+        
         request.on('requestCompleted', (row) => {
             resolve ('User updated', row)
             console.log('row')
