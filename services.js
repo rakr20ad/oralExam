@@ -1,5 +1,5 @@
-const { getUsersNearby } = require("./shared/db");
-const datingUser = require('../oralExam-1/Model/user');
+const { getUsersNearby } = require("./database/db");
+const datingUser = require('./Model/userModel');
 
 module.exports = {
     getSuggestions: async (req, res, next) => {

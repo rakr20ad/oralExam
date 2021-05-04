@@ -1,12 +1,11 @@
 //const datingUser = require("../Model/user");
-const db = require("../shared/db");
-const datingUser = require("../Model/user.js");
+const datingUserModel = require("../Model/datingUserModel.js");
 module.exports = async function (context, req) {
 context.log('JavaScript HTTP trigger function processed a request.');
 
 
 try{
-    await db.startDB(); // Start DB connection
+    await datingUserModel.startDB(); // Start DB connection
 } catch(error) {
     console.log("Error connecting to the database", error.message)
 }
@@ -29,13 +28,13 @@ switch(req.method){
             //var user = new datingUser(req)
             let email = (req.query.email || req.body && req.body.email);
             let password = (req.query.password || req.body && req.body.password);
-            let user = await db.select(email, password);
-           console.log(user)
+            let userArr = await datingUserModel.select(email, password);
+           //console.log(user)
             //let userArr = [];
             //userArr.push(user)
             context.res = {
                 status: 200, 
-                body: user,
+                body: userArr,
                 headers: {
                     'Content-Type': 'application/json'
             }
@@ -60,7 +59,7 @@ switch(req.method){
             let password = (req.query.password || (req.body && req.body.password));
             //let user = new User(firstName)
             
-            let result = await db.select(email, password)
+            let result = await datingUserModel.select(email, password)
             context.res = {
                 status: 200,
                 //isRaw: true,

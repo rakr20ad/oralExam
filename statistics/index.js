@@ -1,42 +1,10 @@
-const db = require('../shared/db')
-
-class User{
-    constructor(req) {
-        this.firstName = req.body.firstName; 
-        this.lastName = req.body.lastName;
-        this.email = req.body.email;
-        this.password = req.body.password; 
-        
-    }
-}
-
-class admin extends User {
-    constructor(req) {
-    super(req) 
-    }
-    get email() {
-        return this.email
-    }
-    get password() {
-        return this._password
-    }
-    get users() {
-        return db.getAllUsers();
-      }
-    get matches() {
-        return db.getAllMatches();
-    }
-    set password(_password) {
-        return db.updateUser(_password)
-    }
-    
-}
+const adminModel = require('../Model/adminModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await db.startDB(); // Start DB connection
+        await adminModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -47,10 +15,9 @@ module.exports = async function (context, req) {
         }
     }
 
-    //Dette er funktionen til vores get all users for ADMIN 
    async function get(context) {
         try {
-            let result = await db.getAllUsers()
+            let result = await adminModel.getAllUsers()
             context.res = {
                 status: 200,
                 body: result,

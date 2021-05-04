@@ -28,7 +28,7 @@ login.addEventListener("click", function() {
             localStorage.setItem("password", password);
             localStorage.setItem("online", data[i].online = true);
             console.log(data)
-        window.location = 'profile.html'
+            window.location = 'profile.html'
          //How we stay logged i
         }
 })

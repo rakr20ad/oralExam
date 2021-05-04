@@ -1,9 +1,10 @@
-const db = require("../shared/db");
+const adminModel = require('../Model/adminModel')
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await db.startDB(); // Start DB connection
+        await adminModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -20,13 +21,11 @@ module.exports = async function (context, req) {
         }*/
     }
 
-    // Hvilken SQL statement tjekker om noget stemmer overens med databasen 
-    // Eller er den logik i db.js? 
     async function post(context, req) {
         try {
             let email = req.body.email
             let password = req.body.password
-            let admin = await db.selectAdmin(email, password)
+            let admin = await adminModel.selectAdmin(email, password)
             context.res = {
             status: 200,
             body: admin, 

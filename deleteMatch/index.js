@@ -1,15 +1,11 @@
-const db = require('../shared/db')
-//const router = express.router
-const User = require("../Model/user");
-var fs = require('fs');
 
-
+const matchModel = require('../Model/matchModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await db.startDB(); // Start DB connection
+        await matchModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -24,7 +20,7 @@ module.exports = async function (context, req) {
         try {
             let matchNumber = (req.query.matchNumber || (req.body && req.body.matchNumber));
             console.log(matchNumber)
-            let user = await db.deleteMatch(matchNumber)
+            let user = await matchModel.deleteMatch(matchNumber)
             context.res = {
                 body: user
             }

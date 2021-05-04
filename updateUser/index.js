@@ -1,6 +1,6 @@
-const db = require('../shared/db')
+const datingUserModel = require('../Model/datingUserModel')
 
-const datingUser = require('../Model/user')
+const datingUser = require('../Model/datingUserModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -19,11 +19,10 @@ module.exports = async function (context, req) {
 
    async function put(context, req) {
         try {
-            let user = new datingUser(req)
             let age = (req.query.age || (req.body && req.body.age));
             let email = (req.query.email || (req.body && req.body.email));
             let password = (req.query.password || (req.body && req.body.password));
-            let result = await db.update(age, email, password)
+            let result = await datingUserModel.update(age, email, password)
             context.res = {
                 status: 200,
                 body: result,

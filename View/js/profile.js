@@ -67,29 +67,30 @@ updateUser.addEventListener("click", function(e) {
 var logoutBtn = document.getElementById("logout")
 
 logoutBtn.addEventListener("click", function() {
-    var id = localStorage.getItem("id").value
-    fetch(`http://localhost:7071/api/logout`, {
-        method: "GET",
-        body: JSON.stringify({
-            id: id
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-        .then((response) => {
-            return response.json()
-        })
-        .then(function (data) {
+    var id = localStorage.getItem("id")
+    //console.log(id)
+    fetch(`http://localhost:7071/api/logout?id=${id}`)
+    .then(
+        function(response){
+            if(response.status !== 200){
+                console.log("noget gik galt" + response.status);
+                return;  
+            }
+            //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+            //Derefter displayer vi objekterne ved at bruge JSON.stringify
+            response.json().then(function (data) {
+            for (var i=0;i<data.length;i++) {
                 localStorage.removeItem("id", data[i].id)
                 localStorage.removeItem("email", email);
                 localStorage.removeItem("password", password);
                 localStorage.setItem("online", data[i].online = false);
                 console.log(data + 'User logged out')
                 window.location = 'index.html'
+            }
             })  
         .catch((err) => {
           console.log(err)
           window.alert("Vi kunne desværre ikke finde dig i systemet")
     });
+})
 })

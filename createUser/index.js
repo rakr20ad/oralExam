@@ -1,12 +1,12 @@
-const db = require('../shared/db')
+const datingUserModel = require('../Model/datingUserModel')
 
-const datingUser = require('../Model/user')
+const datingUser = require('../Model/datingUserModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await db.startDB(); // Start DB connection
+        await datingUserModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -22,7 +22,7 @@ module.exports = async function (context, req) {
         try {
             var user = new datingUser(req)
             console.log(user)
-            await db.insert(user)
+            await datingUserModel.insert(user)
             context.res = {
             body: user
             }

@@ -1,12 +1,12 @@
-const db = require("../shared/db");
-const datingUser = require("../Model/user.js");
+const db = require("../database/db");
+const datingUserModel = require("../Model/datingUserModel.js");
 
 module.exports = async function (context, req) {
 context.log('JavaScript HTTP trigger function processed a request.');
 
 
 try{
-    await db.startDB(); // Start DB connection
+    await datingUserModel.startDB(); // Start DB connection
 } catch(error) {
     console.log("Error connecting to the database", error.message)
 }
@@ -19,17 +19,17 @@ switch(req.method){
             
 };    
 
-    // Our login 
+    // Our logout 
     async function get(context, req){
         try {
-           //var user = new datingUser(req)
             let id = (req.query.id || req.body && req.body.id);
-            let user = await db.logout(id);
-            //console.log(user)
-            
+            let offline = await datingUserModel.logout(id);
+            //console.log(datingUser)
+            //let userArr = []
+            //userArr.push(datingUser.id)
             context.res = {
                 status: 200, 
-                body: user,
+                body: offline,
                 headers: {
                     'Content-Type': 'application/json'
             }

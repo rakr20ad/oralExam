@@ -1,9 +1,9 @@
-const db = require('../shared/db')
+const datingUserModel = require('../Model/datingUserModel');
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     try{
-        await db.startDB(); // Start DB connection
+        await datingUserModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -21,7 +21,7 @@ module.exports = async function (context, req) {
             let gender = (req.query.gender || (req.body && req.body.gender));
             //let user = new User(firstName)
             console.log(gender)
-            let result = await db.filterGender(gender)
+            let result = await datingUserModel.filterGender(gender)
             context.res = {
                 status: 200,
                 //isRaw: true,
