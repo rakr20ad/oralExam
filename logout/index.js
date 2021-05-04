@@ -24,9 +24,7 @@ switch(req.method){
         try {
             let id = (req.query.id || req.body && req.body.id);
             let offline = await datingUserModel.logout(id);
-            //console.log(datingUser)
-            //let userArr = []
-            //userArr.push(datingUser.id)
+            
             context.res = {
                 status: 200, 
                 body: offline,

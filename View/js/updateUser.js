@@ -1,9 +1,9 @@
-var updateUser = document.getElementById("updateUserAdmin")
+var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("click", function(e) {
     e.preventDefault()
     var password = document.getElementById("password").value
     var email = document.getElementById("email").value
-    fetch(`http://localhost:7071/api/updateUserAdmin?password=${password}&email=${email}`, {
+    fetch(`http://localhost:7071/api/updateUser?password=${password}&email=${email}`, {
         method: "PUT",
         body: JSON.stringify({
             password: password,

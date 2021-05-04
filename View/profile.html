@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <style>
-        h1, h2, h3, h4, p, span, div {text-align: center;}
+        h1, h2, h3, h4, h5, p, span, div {text-align: center;}
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/index.css">
@@ -30,14 +30,14 @@
 
         <br>
 
-    <!--Update your user-->
-    <h2 >Enter email and password so you can update informations</h2>
+    <!--Update user account-->
+    <h3>Update</h3>
+    <h5 >Enter your email and new password</h5>
     <div> 
         <form>
             <input type="hidden" name="_method" value="PUT">
-            <input type="number" id="age" placeholder="Age">
             <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
+            <input type="password" id="password" placeholder="New password">
             <button type="button" class="btn btn-outline-primary" id="updateUser" value="put">Update User</button>
         </form>
     </div>
@@ -48,6 +48,7 @@
     </div> 
     
 <script src="js/profile.js"></script>
+<script src="js/updateUser.js"></script>
 </body>
 
 </html>

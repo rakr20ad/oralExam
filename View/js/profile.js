@@ -35,33 +35,6 @@ getMyProfile.addEventListener('click', function(){
                       console.log(err);
           });
       });
-//Update user
-var updateUser = document.getElementById("updateUser")
-updateUser.addEventListener("click", function(e) {
-    e.preventDefault()
-    var age = document.getElementById("age").value
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch(`http://localhost:7071/api/updateUser?age=${age}&email=${email}&password=${password}`, {
-        method: "PUT",
-        body: JSON.stringify({
-            age: age,
-            email: email,
-            password: password
-        }),
-        headers: {
-            "Content-Type": "application/json; charset-UTG-8"
-        }
-    })
-    .then((data) => {
-        console.log(data)
-        window.alert("Your user information has been updated!")
-        
-        })
-        .catch((err) => {
-          console.log(err)
-    });
-})
 
 //Log out function
 var logoutBtn = document.getElementById("logout")
