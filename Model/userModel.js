@@ -8,6 +8,7 @@ class User{
         this.lastName = (req.query.lastName || req.body && req.body.lastName);
         this.email = (req.query.email || req.body && req.body.email);
         this.password = (req.query.password || req.body && req.body.password);
+        this.online = (req.query.online || req.body && req.body.online);
     }
     
 }

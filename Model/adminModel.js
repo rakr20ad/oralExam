@@ -75,6 +75,7 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
+//Private method
 //For the admin to get the number of registered datingUser 
 function getAllUsers() {
     return new Promise((resolve, reject) => {
@@ -102,6 +103,7 @@ function getAllUsers() {
 })}
 module.exports.getAllUsers = getAllUsers;
 
+//Private method
 //For the admin to get all matches 
 function getAllMatches() {
     return new Promise((resolve, reject) => {
@@ -128,6 +130,32 @@ function getAllMatches() {
     connection.execSql(request);
 })}
 module.exports.getAllMatches = getAllMatches;
+
+//Logout
+function logout(id) {
+    return new Promise((resolve, reject) => {
+         let sql = `SELECT id, online FROM [GK7].[admin] WHERE id = @id`
+         let request = new Request(sql, (err) => {
+         if (err) {
+            reject(err);
+            console.log(err);
+            }
+        });
+        request.addParameter('id', TYPES.Int, id);
+        let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+    connection.execSql(request)
+    })
+}
+module.exports.logout = logout;
 
 
 

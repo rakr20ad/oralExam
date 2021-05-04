@@ -21,6 +21,7 @@ module.exports = async function (context, req) {
         try {
             var adminUser = new Admin(req)
             await adminModel.insertAdmin(adminUser)
+            console.log(adminUser)
             context.res = {
             body: {status: 'Success'},
             }

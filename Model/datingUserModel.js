@@ -10,7 +10,6 @@ class datingUser extends User {
         this.country = (req.query.country || req.body && req.body.country);
         this.gender = (req.query.gender || req.body && req.body.gender);
         this.preferred_gender = (req.query.preferred_gender || req.body && req.body.preferred_gender);
-        this.online = false
     }
     
 }
