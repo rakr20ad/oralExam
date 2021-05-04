@@ -5,8 +5,6 @@ class User{
         this.lastName = req.body.lastName;
         this.email = req.body.email;
         this.password = req.body.password; 
-        this.online = false
-        
     }
 }
 class datingUser extends User {
@@ -17,7 +15,7 @@ class datingUser extends User {
         this.country = req.body.country
         this.gender = req.body.gender
         this.preferred_gender = req.body.preferred_gender
-        
+        this.online = 0
     }
     
 }

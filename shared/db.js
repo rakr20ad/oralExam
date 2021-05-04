@@ -28,7 +28,7 @@ module.exports.startDB = startDB;
 //A user creates an account, when his information is posted to the database
 function insert(datingUser){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[users] (firstName, lastName, email, password, age, city, country, gender, preferred_gender)
+        const sql = `INSERT INTO [GK7].[datingUser] (firstName, lastName, email, password, age, city, country, gender, preferred_gender)
          VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
         const request = new Request(sql, (err) => {
             if (err) {
@@ -60,8 +60,8 @@ module.exports.insert = insert;
 //This function is also triggered, when getting one's profileid, firstName, lastName, email, age, city, country, gender, preferred_gender 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, password, age, city, country, gender, preferred_gender
-                    FROM [GK7].[users]  
+        const sql = `SELECT id, firstName, lastName, email, password, age, city, country, gender, preferred_gender, online
+                    FROM [GK7].[datingUser]  
                     WHERE email = @email AND password = @password`
         const request = new Request(sql, err => {
             if(err) {
@@ -84,11 +84,37 @@ function select(email, password){
 })}
 module.exports.select = select;
 
+//update an user
+function logout(id) {
+    return new Promise((resolve, reject) => {
+         let sql = `SELECT id, email, password, online [GK7].[datingUser] WHERE id = @id`
+         let request = new Request(sql, (err) => {
+         if (err) {
+            reject(err);
+            console.log(err);
+            }
+        });
+        request.addParameter('id', TYPES.Int, id);
+        let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+    connection.execSql(request)
+    })
+}
+module.exports.logout = logout;
+
 
 //Delete user account
 function deleteUser(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM [GK7].[users] where email = @email AND password = @password'
+        const sql = 'DELETE FROM [GK7].[datingUser] where email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -110,7 +136,7 @@ module.exports.deleteUser = deleteUser;
 //update an user
 function update(age, email, password) {
     return new Promise((resolve, reject) => {
-         let sql = `UPDATE [GK7].[users] SET age = @age
+         let sql = `UPDATE [GK7].[datingUser] SET age = @age
          WHERE email = @email AND password = @password`
          let request = new Request(sql, (err) => {
          if (err) {
@@ -135,7 +161,7 @@ function getUsersNearby(id){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
                         SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.country, B.gender, B.preferred_gender
-                        FROM GK7.users AS A, GK7.users AS B
+                        FROM GK7.datingUser AS A, GK7.datingUser AS B
                         WHERE A.id <> B.id
                         AND A.city = B.city
                         AND A.id = @id
@@ -160,11 +186,11 @@ function getUsersNearby(id){
 })}
 module.exports.getUsersNearby = getUsersNearby;
 
-//Filter users by gender and age
+//Filter datingUser by gender and age
 function filterGender(gender){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
-                    FROM [GK7].[users] 
+        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender, online 
+                    FROM [GK7].[datingUser] 
                     WHERE gender = @gender`
         const request = new Request(sql, err => {
             if(err) {
@@ -186,11 +212,11 @@ function filterGender(gender){
 })}
 module.exports.filterGender = filterGender;
 
-//Filter users by age
+//Filter datingUser by age
 function filterAge(minAge, maxAge){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender 
-                    FROM [GK7].[users] 
+        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender, online 
+                    FROM [GK7].[datingUser] 
                     WHERE age >= @minAge AND age <= @maxAge`
         const request = new Request(sql, err => {
             if(err) {
@@ -255,7 +281,7 @@ function dislikeUser(dislike){
 }
 module.exports.dislikeUser = dislikeUser;
 
-//A match is inserted, if both users have liked each other
+//A match is inserted, if both datingUser have liked each other
 function createMatch(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
@@ -289,7 +315,7 @@ function getMyMatches(id){
                     SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, m.like_id
                     FROM ((GK7.likes AS l
                     INNER JOIN GK7.matches AS m ON l.id = m.like_id)
-                    INNER JOIN GK7.users AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
+                    INNER JOIN GK7.datingUser AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
                     WHERE u.id = @id
                     END`
               const request = new Request(sql, err => {
@@ -416,10 +442,10 @@ function selectAdmin(email, password){
 }
 module.exports.selectAdmin = selectAdmin;
 
-//For the admin to get the number of registered users 
+//For the admin to get the number of registered datingUser 
 function getAllUsers() {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM GK7.users`
+        const sql = `SELECT * FROM GK7.datingUser`
         let request = new Request(sql, err => {
           if (err) {
             reject(err);
@@ -473,7 +499,7 @@ module.exports.getAllMatches = getAllMatches;
 //Admin can reset a user's password
 function updateUser(email, password) {
     return new Promise((resolve, reject) => {
-         let sql = `UPDATE [GK7].[users] SET password = @password
+         let sql = `UPDATE [GK7].[datingUser] SET password = @password
          WHERE email = @email`
          let request = new Request(sql, (err) => {
          if (err) {
@@ -495,7 +521,7 @@ module.exports.updateUser = updateUser;
 
 
     // Create query to execute against the database
-/*const queryText = `SELECT * FROM [GK7].[users]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
+/*const queryText = `SELECT * FROM [GK7].[datingUser]` //+ (payload[0] != undefined ? " WHERE Color IN ('" + payload[0] + "')" : "") + " GROUP BY Color ORDER BY cnt;";
     //console.log(queryText);
     request = new Request(queryText, function(err) {
         if (err) {
@@ -518,7 +544,7 @@ module.exports.updateUser = updateUser;
         connection.execSql(request) 
         return result
     })
-    /*;request = new Request('SELECT * FROM [GK7].[users] as Users', function(err) {
+    /*;request = new Request('SELECT * FROM [GK7].[datingUser] as datingUser', function(err) {
             if(err) {
                 console.log(err)
             }
@@ -592,4 +618,4 @@ module.exports.updateUser = updateUser;
     context.done();
 };
 
-module.exports.viewAllUsers = viewAllUsers;*/
+module.exports.viewAlldatingUser = viewAlldatingUser;*/

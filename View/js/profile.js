@@ -35,7 +35,7 @@ getMyProfile.addEventListener('click', function(){
                       console.log(err);
           });
       });
-/*
+//Update user
 var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("click", function(e) {
     e.preventDefault()
@@ -63,46 +63,33 @@ updateUser.addEventListener("click", function(e) {
     });
 })
 
-//Both admin and dating user can delete account with this
-var deleteUser = document.getElementById("deleteUser")
-deleteUser.addEventListener('click', function(e) {
-    e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch(`http://localhost:7071/api/deleteUser?email=${email}&password=${password}`, {
-    method: "DELETE",
-    body: JSON.stringify({
-        email: email,
-        password: password,
-    }),
-    headers: {
-        "Content-Type": "application/json; charset-UTG-8"
-    }
-    })
-    .then((data) => {
-        console.log(data)
-        window.alert(`The account with email: ${email} and password: ${password} has been deleted`)
-        window.location = "index.html"
-        
-        })
-        .catch((err) => {
-        console.log(err)
-    });
-})*/
-
 //Log out function
-var logout = document.getElementById("logout")
+var logoutBtn = document.getElementById("logout")
 
-logout.addEventListener("click", (userLogout))
-    function userLogout() {
-        localStorage.setItem("online", false);
-        localStorage.removeItem("email", email);
-        localStorage.removeItem("password", password);
-        window.location="index.html"; 
-        console.log("User logged out")
-            
-        .catch((error) => {
-        console.log(error)
-        console.error("Kunne ikke logge ud");
-        });
-    }
+logoutBtn.addEventListener("click", function() {
+    var id = localStorage.getItem("id").value
+    fetch(`http://localhost:7071/api/logout`, {
+        method: "GET",
+        body: JSON.stringify({
+            id: id
+        }),
+        headers: {
+            "Content-Type": "application/json; charset-UTG-8"
+        }
+    })
+        .then((response) => {
+            return response.json()
+        })
+        .then(function (data) {
+                localStorage.removeItem("id", data[i].id)
+                localStorage.removeItem("email", email);
+                localStorage.removeItem("password", password);
+                localStorage.setItem("online", data[i].online = false);
+                console.log(data + 'User logged out')
+                window.location = 'index.html'
+            })  
+        .catch((err) => {
+          console.log(err)
+          window.alert("Vi kunne desværre ikke finde dig i systemet")
+    });
+})
