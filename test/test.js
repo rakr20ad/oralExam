@@ -2,12 +2,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const should = chai.should();
-const config = require("../shared/config.json")
+const config = require("../database/config.json")
 //var connection = new Connection(config); 
 
 const baseURL = "http://localhost:7071/api"
 
-const POST = require("../shared/db")
+//const POST = require("../shared/db")
 
 //Her testes om en bruger rent faktisk oprettes til databasen
 // Describing method and route

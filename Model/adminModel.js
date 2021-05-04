@@ -129,26 +129,5 @@ function getAllMatches() {
 })}
 module.exports.getAllMatches = getAllMatches;
 
-//Admin can reset a user's password
-function updateUser(email, password) {
-    return new Promise((resolve, reject) => {
-         let sql = `UPDATE [GK7].[datingUser] SET password = @password
-         WHERE email = @email`
-         let request = new Request(sql, (err) => {
-         if (err) {
-            reject(err);}
-        });
-        request.addParameter('email', TYPES.VarChar, email);
-        request.addParameter('password', TYPES.VarChar, password);
-        
-        request.on('requestCompleted', (row) => {
-            resolve ('User updated', row)
-            console.log('row')
-       
-        });
 
-        connection.execSql(request);
-    })
-};
-module.exports.updateUser = updateUser;
 
