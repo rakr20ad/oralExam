@@ -1,5 +1,6 @@
 const db = require("../shared/db");
 const datingUser = require("../Model/user.js");
+
 module.exports = async function (context, req) {
 context.log('JavaScript HTTP trigger function processed a request.');
 
@@ -24,7 +25,7 @@ switch(req.method){
            //var user = new datingUser(req)
             let id = (req.query.id || req.body && req.body.id);
             let user = await db.logout(id);
-            console.log(user)
+            //console.log(user)
             
             context.res = {
                 status: 200, 

@@ -87,7 +87,7 @@ module.exports.select = select;
 //update an user
 function logout(id) {
     return new Promise((resolve, reject) => {
-         let sql = `SELECT id, email, password, online [GK7].[datingUser] WHERE id = @id`
+         let sql = `SELECT id, email, password, online FROM [GK7].[datingUser] WHERE id = @id`
          let request = new Request(sql, (err) => {
          if (err) {
             reject(err);
