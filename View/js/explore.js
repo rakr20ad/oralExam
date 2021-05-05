@@ -105,7 +105,7 @@ getUsersNearbyBtn.addEventListener('click', function(){
                           ${data.map(function(user) {
                             var city = localStorage.getItem("city")
                             for( i = 0; i < data.length; i ++){
-                            if(user.city === city){
+                            if(user.city === city && user.id != id){
                                  return `<h3>${user.firstName} ${user.lastName} </h3> 
                                  <span> Gender: ${user.gender} </span> <br>
                                  <span> Age: ${user.age} </span> <br>
