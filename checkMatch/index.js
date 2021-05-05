@@ -16,8 +16,11 @@ module.exports = async function (context, req) {
 }
     async function get(context, req) {
         try {
-            let checkForMatch = await likeModel.checkMatch()
+            let sender_id = (req.query.sender_id || req.body && req.body.sender_id)
+            let receiver_id = (req.query.receiver_id || req.body && req.body.receiver_id)
+            let checkForMatch = await likeModel.checkMatch(sender_id, receiver_id)
             context.res = {
+            status: 200,
             body: checkForMatch
             
             }

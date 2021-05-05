@@ -21,11 +21,6 @@ getMyMatchesBtn.addEventListener('click', function(){
                                       <span> Receiver: ${match.receiver_id} </span> <br>
                                       ` 
                       }).join('')}` 
-                      if (data.length > 0) {
-                          window.alert("You have at least one match! You rock!")}
-                          else {
-                              window.alert("You have no matches :-(")
-                          }
                         })
                     })
                 .catch(function (err) {

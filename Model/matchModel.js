@@ -30,6 +30,9 @@ function startDB(){
 }
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
+
+
+         
 //A match is inserted, if both datingUser have liked each other
 function createMatch(){
     return new Promise((resolve, reject) => {

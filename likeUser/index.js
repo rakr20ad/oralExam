@@ -1,6 +1,5 @@
+const Like = require('../Model/likeModel');
 const likeModel = require('../Model/likeModel')
-
-const Like = require('../Model/likeModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -19,6 +18,7 @@ module.exports = async function (context, req) {
     async function post(context, req) {
         try {
             var like = new Like(req)
+            console.log(like)
             await likeModel.likeUser(like)
             context.res = {
             body: {status: 'Success'}
@@ -31,3 +31,4 @@ module.exports = async function (context, req) {
             }
         }
     }
+

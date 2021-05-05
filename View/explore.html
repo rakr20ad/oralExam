@@ -30,11 +30,19 @@
         </form>
     </div>
     <br>
-    <div id = "checkMatch">
+    <div id = "checkMatchNow">
+        <input type = "number" id="likedUser_id" class="form-control" placeholder="The lucky number of the user, you just liked" required>
     <button type="button" class ="btn btn-outline-danger" id="checkMatch">Check if it's a match
         </button>
         <span style="font-size:500%;color: #ad0632e1">&hearts;</span>
     </div>
+    <div id = "confirmMatchNow">
+    <form  method="POST">
+        <p>If the user has liked you back, 
+            you can confirm here that you're still interested</p>
+    <button type="button" class ="btn btn-outline-success" id="confirmMatch">Confirm interest
+        </button>
+        </form></div>
     <br>
     <div id= "disLikedUser">     
         <form method ="POST" id="dislikeUser">
@@ -66,7 +74,7 @@
     <input type="number" id="minAge" placeholder="Minimum age" >
     <input type="number" id="maxAge" placeholder="Maximum age" >
     <br>
-    <button type="button" class="btn btn-outline-primary" id="getUserByAge" class="button">Filter users by age!</a>
+    <button type="button" class="btn btn-outline-primary" id="getUserByAge" class="button">Filter users by age!</a><br>
         </button>
 </div>
 

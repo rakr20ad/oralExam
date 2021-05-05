@@ -20,7 +20,7 @@ likeUserBtn.addEventListener("submit", function(e) {
        })
        .then((user) => {
          console.log(user)
-         window.alert(`You have liked ${receiver_id}`)
+         window.alert(`You have liked ${receiver_id}. Type in the user's lucky number to see if it's a match`)
         
     }).catch((err) => {
         console.log(err)
@@ -29,10 +29,35 @@ likeUserBtn.addEventListener("submit", function(e) {
 
 //Check if the like is a match
 var checkMatchBtn = document.getElementById("checkMatch")
-checkMatchBtn.addEventListener("click", function(e) {
-    e.preventDefault()
-    fetch("http://localhost:7071/api/createMatch", {
-        method: "post",
+checkMatchBtn.addEventListener("click", function() {
+    var sender_id = localStorage.getItem("id")
+    var receiver_id = document.getElementById("likedUser_id").value
+    fetch(`http://localhost:7071/api/checkMatch?sender_id=${sender_id}&receiver_id=${receiver_id}`)
+    .then(
+        function(response){
+            if(response.status !== 200){
+                console.log("noget gik galt" + response.status);
+                return;  
+            }
+            response.json().then(function (data){
+                if (data.length > 0) {
+                    window.alert("It was a match!")
+                    }
+                    else {
+                        window.alert("This user has not liked you back yet")
+                    }
+            })
+        .catch((err) => {
+          console.log(err)
+          window.alert("We could not check if this was a match for you")
+        });
+    });
+})
+//Confirm match and interest in the one, that liked you back(create match)
+var createMatchBtn = document.getElementById("confirmMatch")
+createMatchBtn.addEventListener("click", function() {
+    fetch(`http://localhost:7071/api/createMatch`, {
+        method: "POST",
         headers: {
             "Content-Type": "application/json; charset-UTG-8"
         }
@@ -40,19 +65,13 @@ checkMatchBtn.addEventListener("click", function(e) {
     .then((response) => {
         return response.json()
     })
-
-    .then((data) => {
-        console.log(data)
-        if (status = 200){
-        window.alert("It was a match! Go to My matches to write your new match!")}
-        else{
-            window.alert("Not a match")
-        }
-
-        })
+    .then(function (data) {
+                console.log(data)
+               document.getElementById("confirmMatchNow").innerHTML = `<span>The user is now under Your matches - make a move!</span>`
+            })
         .catch((err) => {
           console.log(err)
-          window.alert("We could not check if this was a match for your")
+          window.alert("An error occurred - We could not confirm the match, but we will fix it soon")
         });
     });
 
@@ -89,8 +108,8 @@ dislikeUserBtn.addEventListener("submit", function(e) {
 var getUsersNearbyBtn = document.getElementById("usersNearby"); 
 
 getUsersNearbyBtn.addEventListener('click', function(){
-              var id = localStorage.getItem("id")
-              fetch(`http://localhost:7071/api/getUsersNearby?id=${id}`)
+              //var id = localStorage.getItem("id")
+              fetch(`http://localhost:7071/api/getUsersNearby`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -104,6 +123,7 @@ getUsersNearbyBtn.addEventListener('click', function(){
                         document.getElementById("usersNearby").innerHTML = `
                           ${data.map(function(user) {
                             var city = localStorage.getItem("city")
+                            var id = localStorage.getItem('id')
                             for( i = 0; i < data.length; i ++){
                             if(user.city === city && user.id != id){
                                  return `<h3>${user.firstName} ${user.lastName} </h3> 
