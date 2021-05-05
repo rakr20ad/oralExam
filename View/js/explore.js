@@ -43,7 +43,11 @@ checkMatchBtn.addEventListener("click", function(e) {
 
     .then((data) => {
         console.log(data)
-            window.alert("It was a match! Go to My matches to write your new match!")
+        if (status = 200){
+        window.alert("It was a match! Go to My matches to write your new match!")}
+        else{
+            window.alert("Not a match")
+        }
 
         })
         .catch((err) => {

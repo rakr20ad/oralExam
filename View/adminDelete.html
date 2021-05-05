@@ -20,12 +20,14 @@
         <br>
         <h3>Delete a dating user</h3>
         <div>
-            <!--DETTE ER VOERS delete User så admin også kan slette brugere-->
-            <p>Enter the email and password of the given dating user and delete the record from the database</p>
-            <input type="email" id="email" placeholder="Dating user's email">
-            <input type="password" id="password" placeholder="Dating user's password">
-            <button type="button" class="btn btn-danger">Delete user</button>
-          </div>
-    <script src="js/profile.js"></script>
+            <form>
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="email" id="email" placeholder="Email">
+                <input type="password" id="password" placeholder="password">
+                <button type="button" class="btn btn-outline-danger" id = "deleteUser">Delete</button>
+            </form>
+        </div>
+
+    <script src="js/adminDelete.js"></script>
 </body>
 </html>

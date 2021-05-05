@@ -34,6 +34,7 @@ form.addEventListener("submit", function(e) {
     })
     .then((user) => {
         console.log(user)
+        window.alert(`You have succesfully made an account!`)
     }).catch((err) => {
         console.log(err)
     }) 

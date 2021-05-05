@@ -25,7 +25,7 @@ module.exports = async function (context, req) {
             var matchArr = []
             matchArr.push(match)
             context.res = {
-            body: {status: 'Success'},
+            body: {status: 200},
             }
         } catch(error) {
             context.res = {

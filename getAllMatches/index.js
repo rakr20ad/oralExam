@@ -1,10 +1,10 @@
-const matchModel = require('../Model/matchModel')
+const adminModel = require('../Model/adminModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await matchModel.startDB(); // Start DB connection
+        await adminModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
     //Dette er funktionen til vores get all users for ADMIN 
    async function get(context) {
         try {
-            let result = await matchModel.getAllMatches()
+            let result = await adminModel.getAllMatches()
             context.res = {
                 status: 200,
                 body: result,

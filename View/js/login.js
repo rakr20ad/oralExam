@@ -30,6 +30,7 @@ login.addEventListener("click", function() {
             localStorage.setItem("online", data[i].online = true);
             console.log(data)
             window.location = 'profile.html'
+            
          //How we stay logged i
         }
 })

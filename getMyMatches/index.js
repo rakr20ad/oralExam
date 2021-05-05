@@ -20,7 +20,7 @@ module.exports = async function (context, req) {
         try {
             let id = (req.query.id || (req.body && req.body.id));
             //let user = new User(firstName)
-            let result = await matchModel.getMyMatches(id)
+            let result = await matchModel.getMatchById(id)
             context.res = {
                 status: 200,
                 body: result,
