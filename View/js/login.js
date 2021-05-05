@@ -26,6 +26,7 @@ login.addEventListener("click", function() {
             localStorage.setItem("id", data[i].id)
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);
+            localStorage.setItem("city", data[i].city);
             localStorage.setItem("online", data[i].online = true);
             console.log(data)
             window.location = 'profile.html'

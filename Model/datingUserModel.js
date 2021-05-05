@@ -148,12 +148,9 @@ module.exports.update = update;
 function getUsersNearby(id){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.country, B.gender, B.preferred_gender
-                        FROM GK7.datingUser AS A, GK7.datingUser AS B
-                        WHERE A.id <> B.id
-                        AND A.city = B.city
-                        AND A.id = @id
-                    END`
+        SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender
+        FROM GK7.datingUser 
+    END`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)

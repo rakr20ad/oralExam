@@ -95,28 +95,30 @@ getUsersNearbyBtn.addEventListener('click', function(){
                       }
                       //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
                       //Derefter displayer vi objekterne ved at bruge JSON.stringify
-                      response.json().then(function (data) {
-                          document.getElementById("usersNearby").innerHTML = `
+                      
+                      response.json().then(function (data){
+                        document.getElementById("usersNearby").innerHTML = `
                           ${data.map(function(user) {
-                              return `<h3>${user.firstName} ${user.lastName} </h3> 
-                              <span> Gender: ${user.gender} </span> <br>
-                              <span> Age: ${user.age} </span> <br>
-                              <span> Living in ${user.city}, ${user.country} </span> <br>
-                              <span> Email for contact: </span> 
-                              <a href> ${user.email}</a><br>
-                              <span> Looking for a ${user.preferred_gender} to date</span> <br>
-                              <span> Lucky number: ${user.id} </span> <br><br>
-                              `
-                          }).join('')}
-                          `
-                    
-                      })
+                            var city = localStorage.getItem("city")
+                            for( i = 0; i < data.length; i ++){
+                            if(user.city === city){
+                                 return `<h3>${user.firstName} ${user.lastName} </h3> 
+                                 <span> Gender: ${user.gender} </span> <br>
+                                 <span> Age: ${user.age} </span> <br>
+                                 <span> Living in ${user.city} </span> <br>
+                                 <span> Email for contact: </span> 
+                                 <a href> ${user.email}</a><br>
+                                 <span> Looking for a ${user.preferred_gender} to date</span> <br>
+                                 <span> Lucky number: ${user.id} </span> <br><br>
+                                 `
+                          }}}).join('')}` 
+                    })
                   }
               )
                   .catch(function (err) {
                       console.log(err);
           });
-      });
+        });
 
 //Filtering users by gender 
 var genderBtn = document.getElementById("getUserByGender"); 
