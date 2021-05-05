@@ -48,8 +48,32 @@ function likeUser(like){
         request.on('requestCompleted', (row) => {
             console.log('Like inserted', row); 
             resolve('Like inserted', row)
+            checkMatch()
         });
         connection.execSql(request);
     });
 }
 module.exports.likeUser = likeUser;
+
+//catch user skal skrives her: 
+    function checkMatch(){
+    return new Promise((resolve, reject) => {
+        var sql = `SELECT l1.id as like_id, l1.sender_id as user1, l1.receiver_id as user2
+        FROM GK7.likes l1, GK7.likes l2
+        WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('sender_id', TYPES.Int, like.sender_id)
+        request.addParameter('receiver_id', TYPES.Int, like.receiver_id)
+        request.on('requestCompleted', (row) => {
+            console.log('Like inserted', row); 
+            resolve('Like inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.checkMatch = checkMatch;
