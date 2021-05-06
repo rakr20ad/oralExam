@@ -1,4 +1,4 @@
-const datingUserModel = require("../Model/datingUserModel.js");
+const adminModel = require("../Model/adminModel.js");
 
 module.exports = async function (context, req) {
 context.log('JavaScript HTTP trigger function processed a request.');
@@ -11,7 +11,6 @@ try{
 }
 switch(req.method){ 
     case 'GET':
-        console.log("test")
         await get(context, req);
         break; 
     }
@@ -22,7 +21,7 @@ switch(req.method){
     async function get(context, req){
         try {
             let id = (req.query.id || req.body && req.body.id);
-            let offline = await datingUserModel.logout(id);
+            let offline = await adminModel.logout(id);
             
             context.res = {
                 status: 200, 

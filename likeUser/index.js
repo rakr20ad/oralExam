@@ -1,11 +1,11 @@
 const Like = require('../Model/likeModel');
-const likeModel = require('../Model/likeModel')
+const datingUserModel = require('../Model/datingUserModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await likeModel.startDB(); // Start DB connection
+        await datingUserModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -18,8 +18,7 @@ module.exports = async function (context, req) {
     async function post(context, req) {
         try {
             var like = new Like(req)
-            console.log(like)
-            await likeModel.likeUser(like)
+            await datingUserModel.likeUser(like)
             context.res = {
             body: {status: 'Success'}
             

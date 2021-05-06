@@ -121,55 +121,6 @@ function logout(id) {
 }
 module.exports.logout = logout;
 
-//update an user
-function update(age, email, password) {
-    return new Promise((resolve, reject) => {
-         let sql = `UPDATE [GK7].[datingUser] SET age = @age
-         WHERE email = @email AND password = @password`
-         let request = new Request(sql, (err) => {
-         if (err) {
-            reject(err);}
-        });
-        request.addParameter('age', TYPES.Int, age);
-        request.addParameter('email', TYPES.VarChar, email);
-        request.addParameter('password', TYPES.VarChar, password);
-        request.on('requestCompleted', (row) => {
-            resolve ('User updated', row)
-            console.log('row')
-       
-        });
-
-        connection.execSql(request);
-    })
-};
-module.exports.update = update;
-
-//GetFullUser based on city - may be used when finding a match
-function getUsersNearby(id){
-    return new Promise((resolve, reject) => {
-        const sql = `BEGIN
-        SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender
-        FROM GK7.datingUser 
-    END`
-        const request = new Request(sql, err => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }})      
-            request.addParameter('id', TYPES.VarChar, id)
-            let results = [];
-            request.on('row', async function(columns)  {
-            let result = {};
-            await columns.forEach(column => {  
-            result[column.metadata.colName] = column.value;          
-        });results.push(result);         
-        
-      });request.on('doneProc', (rowCount) => {
-             resolve(results) 
-        });  
-        connection.execSql(request)
-})}
-module.exports.getUsersNearby = getUsersNearby;
 
 //Filter datingUser by gender and age
 function filterGender(gender){
@@ -225,4 +176,170 @@ function filterAge(minAge, maxAge){
 module.exports.filterAge = filterAge;
 
 
+//Like user by entering your ID and the interesting user's ID
+function likeUser(like) {
+    return new Promise((resolve, reject) => {
+        var sql = `INSERT INTO [GK7].likes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`
+        const request = new Request(sql, (err) => {
+            if (err) {
+                reject(err)
+                console.log(err)
+            }
+        });
+        request.addParameter('sender_id', TYPES.Int, like.sender_id)
+        request.addParameter('receiver_id', TYPES.Int, like.receiver_id)
+        request.on('requestCompleted', (row) => {
+            resolve('Like inserted', row)
+        });
+        connection.execSql(request);
+    });
+}
+module.exports.likeUser = likeUser;
+    
+//User will get notification, if it's a match
+function checkMatch(sender_id, receiver_id){
+    return new Promise((resolve, reject) => {
+        var sql = `SELECT l1.sender_id, l1.receiver_id
+                    FROM GK7.likes l1, GK7.likes l2
+                    WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
+                    AND l1.sender_id =@sender_id AND l1.receiver_id = @receiver_id`
+            const request = new Request(sql, (err) => {
+                if (err) {
+                    reject(err)
+                    throw(err)
+                }
+            });
+        request.addParameter('sender_id', TYPES.Int, sender_id)
+        request.addParameter('receiver_id', TYPES.Int, receiver_id)
+        let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+          console.log(results)
+            resolve(results) 
+            //createMatch()
+        .catch(err)});  
+        
+    connection.execSql(request)
+    })
+}
+module.exports.checkMatch = checkMatch;
+ 
+//Confirm match()
+//A match is inserted, when the user confirms that he want it to be a match, after knowing that both datingUsers have liked each other 
+function createMatch(){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                    INSERT INTO GK7.matches (like_id, user1, user2)
+                    SELECT l1.id as like_id, l1.sender_id as user1, l1.receiver_id as user2
+                    FROM GK7.likes l1, GK7.likes l2
+                    WHERE (l1.sender_id = l2.receiver_id AND l2.sender_id = l1.receiver_id)
+                    AND l1.id < l2.id AND l1.id NOT IN (
+                        SELECT like_id FROM GK7.matches)
+                    END`
+                const request = new Request(sql, err => {
+                    if (err) {
+                        reject (err)
+                        console.log(err)
+                    }
+                    
+            });request.on('requestCompleted', (row) => {
+                console.log('Match inserted', row); 
+                resolve('match inserted', row)
+        });
+        connection.execSql(request) 
+    
+})}
 
+module.exports.createMatch = createMatch
+
+//View all matches that the logged in user has (email found in localStorage)
+function getMatchById(id){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                    SELECT u.firstName, u.lastName, l.receiver_id, l.sender_id, m.like_id
+                    FROM ((GK7.likes AS l
+                    INNER JOIN GK7.matches AS m ON l.id = m.like_id)
+                    INNER JOIN GK7.datingUser AS u ON u.id = l.sender_id OR u.id = l.receiver_id)
+                    WHERE u.id = @id
+                    END`
+              const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('id', TYPES.Int, id)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             /*let recursiveFunction = function (data, like_id, start, end) {
+       console.log('hej')
+            // Base Condition
+            if (start > end) return false;
+           
+            // Find the middle index
+            let mid=Math.floor((start + end)/2);
+            console.log('hej2')
+
+            // Compare mid with given key x
+            if (data[mid]===like_id) return true;
+                  
+            // If element at mid is greater than x,
+            // search in the left half of mid
+            if(data[mid] > like_id) 
+                return recursiveFunction(data, like_id, start, mid-1);
+            else
+          
+                // If element at mid is smaller than x,
+                // search in the right half of mid
+                return recursiveFunction(data, like_id, mid+1, end);
+        }
+        data = results
+        console.log('hej3')
+        recursiveFunction(data, like_id, 0, data.length-1)
+        console.log("We found it")*/
+    resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.getMatchById = getMatchById
+
+//Delete a match by like_id (user sees it as Match Number)
+function deleteMatch(matchNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                        SELECT *
+                        from GK7.matches as m
+                        inner join GK7.likes as l on l.id = m.like_id
+
+                        delete from  GK7.matches where like_id = @matchNumber;
+                        delete from GK7.likes where id = @matchNumber
+                    END`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }})      
+            request.addParameter('matchNumber', TYPES.VarChar, matchNumber)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.deleteMatch = deleteMatch

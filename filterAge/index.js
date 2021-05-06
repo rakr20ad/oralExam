@@ -20,8 +20,6 @@ module.exports = async function (context, req) {
         try {
             let minAge = (req.query.minAge || (req.body && req.body.minAge));
             let maxAge = (req.query.maxAge || (req.body && req.body.maxAge));
-            //let user = new User(firstName)
-            console.log(minAge, maxAge)
             let result = await datingUserModel.filterAge(minAge, maxAge)
             context.res = {
                 status: 200,

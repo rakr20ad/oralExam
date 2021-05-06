@@ -2,7 +2,7 @@
 var getUsersBtn = document.getElementById("getUsers")
 
 getUsersBtn.addEventListener("click", function() {
-    fetch(`http://localhost:7071/api/statistics`)
+    fetch(`http://localhost:7071/api/getUsers`)
     .then(
        function(response){
             if(response.status !== 200){
@@ -52,3 +52,35 @@ getMatchesBtn.addEventListener("click", function() {
         console.log(err);
   });
 });
+
+//Log out function
+var logoutBtn = document.getElementById("logout")
+
+logoutBtn.addEventListener("click", function() {
+    var id = localStorage.getItem("id")
+    //console.log(id)
+    fetch(`http://localhost:7071/api/logoutAdmin?id=${id}`)
+    .then(
+        function(response){
+            if(response.status !== 200){
+                console.log("noget gik galt" + response.status);
+                return;  
+            }
+            //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
+            //Derefter displayer vi objekterne ved at bruge JSON.stringify
+            response.json().then(function (data) {
+            for (var i=0;i<data.length;i++) {
+                localStorage.removeItem("id", data[i].id)
+                localStorage.removeItem("email", email);
+                localStorage.removeItem("password", password);
+                localStorage.setItem("online", data[i].online = false);
+                console.log(data + 'User logged out')
+                window.location = 'index.html'
+            }
+            })  
+        .catch((err) => {
+          console.log(err)
+          window.alert("Vi kunne desværre ikke finde dig i systemet")
+    });
+})
+})

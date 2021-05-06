@@ -1,9 +1,9 @@
-const datingUserModel = require('../Model/datingUserModel')
+const userModel = require('../Model/userModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     try{
-        await datingUserModel.startDB(); // Start DB connection
+        await userModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -15,17 +15,12 @@ module.exports = async function (context, req) {
     };
 }
 
-    //Show nearby users
-    async function get(context, req) {
+    //Show users 
+    async function get(context) {
         try {
-            //var user = new datingUser(req)
-            let id = (req.query.id || (req.body && req.body.id));
-            //let user = new User(firstName)
-            console.log(id)
-            let result = await datingUserModel.getUsersNearby(id)
+            let result = await userModel.getUsers()
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

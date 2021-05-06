@@ -1,4 +1,4 @@
-const matchModel = require('../Model/matchModel');
+const datingUserModel = require('../Model/datingUserModel');
 const Match = require('../Model/matchModel')
 
 module.exports = async function (context, req) {
@@ -21,7 +21,7 @@ module.exports = async function (context, req) {
         try {
             var match = new Match()
             console.log(match)
-            await matchModel.createMatch();
+            await datingUserModel.createMatch();
             var matchArr = []
             matchArr.push(match)
             context.res = {

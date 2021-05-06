@@ -109,7 +109,7 @@ var getUsersNearbyBtn = document.getElementById("usersNearby");
 
 getUsersNearbyBtn.addEventListener('click', function(){
               //var id = localStorage.getItem("id")
-              fetch(`http://localhost:7071/api/getUsersNearby`)
+              fetch(`http://localhost:7071/api/getUsers`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -120,22 +120,18 @@ getUsersNearbyBtn.addEventListener('click', function(){
                       //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       
                       response.json().then(function (data){
-                        document.getElementById("usersNearby").innerHTML = `
-                          ${data.map(function(user) {
-                            var city = localStorage.getItem("city")
-                            var id = localStorage.getItem('id')
-                            for( i = 0; i < data.length; i ++){
-                            if(user.city === city && user.id != id){
-                                 return `<h3>${user.firstName} ${user.lastName} </h3> 
-                                 <span> Gender: ${user.gender} </span> <br>
-                                 <span> Age: ${user.age} </span> <br>
-                                 <span> Living in ${user.city} </span> <br>
-                                 <span> Email for contact: </span> 
-                                 <a href> ${user.email}</a><br>
-                                 <span> Looking for a ${user.preferred_gender} to date</span> <br>
-                                 <span> Lucky number: ${user.id} </span> <br><br>
+                        var city = localStorage.getItem("city")
+                        var id = localStorage.getItem("id")
+                        for( i = 0; i < data.length; i ++){
+                        if(data[i].city === city && data[i].id != id){
+                                document.getElementById("usersNearby").innerHTML += `
+                                <h3>${data[i].firstName} ${data[i].lastName} </h3> 
+                                 <span> Gender: ${data[i].gender} </span> <br>
+                                 <span> Age: ${data[i].age} </span> <br>
+                                 <span> Living in ${data[i].city} </span> <br
                                  `
-                          }}}).join('')}` 
+                            }
+                        }
                     })
                   }
               )

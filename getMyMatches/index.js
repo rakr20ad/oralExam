@@ -1,9 +1,9 @@
-const matchModel = require('../Model/matchModel')
+const datingUserModel = require('../Model/datingUserModel');
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     try{
-        await matchModel.startDB(); // Start DB connection
+        await datingUserModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -14,13 +14,10 @@ module.exports = async function (context, req) {
 
     };
 }
-
-
     async function get(context, req) {
         try {
             let id = (req.query.id || (req.body && req.body.id));
-            //let user = new User(firstName)
-            let result = await matchModel.getMatchById(id)
+            let result = await datingUserModel.getMatchById(id)
             context.res = {
                 status: 200,
                 body: result,
