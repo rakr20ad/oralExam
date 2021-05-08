@@ -124,12 +124,18 @@ getUsersNearbyBtn.addEventListener('click', function(){
                         var id = localStorage.getItem("id")
                         for( i = 0; i < data.length; i ++){
                         if(data[i].city === city && data[i].id != id){
-                                document.getElementById("usersNearby").innerHTML += `
-                                <h3>${data[i].firstName} ${data[i].lastName} </h3> 
-                                 <span> Gender: ${data[i].gender} </span> <br>
+                                document.getElementById("usersNearby").insertAdjacentHTML ("beforeend", `
+                                <br>
+                                <h3>${data[i].firstName} ${data[i].lastName} </h3> <br>
+                                <span> Email for contact: </span> 
+                                    <a href> ${data[i].email}</a><br>
                                  <span> Age: ${data[i].age} </span> <br>
-                                 <span> Living in ${data[i].city} </span> <br
+                                 <span> Gender: ${data[i].gender} </span> <br>
+                                 <span> Looking for a ${data[i].preferred_gender} to date</span> <br>
+                                 <span> Living in ${data[i].city}, ${data[i].country} </span> <br>
+                                 <span> Lucky number: ${data[i].id} </span> <br><br>
                                  `
+                                )
                             }
                         }
                     })
@@ -159,7 +165,7 @@ genderBtn.addEventListener('click', function(e){
                                     return `<h3>${user.firstName} ${user.lastName} </h3> 
                                     <span> Gender: ${user.gender} </span> <br>
                                     <span> Age: ${user.age} </span> <br>
-                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Living in ${user.city}</span> <br>
                                     <span> Email for contact: </span> 
                                     <a href> ${user.email}</a><br>
                                     <span> Looking for a ${user.preferred_gender} to date</span> <br>
@@ -195,7 +201,7 @@ ageBtn.addEventListener('click', function(e){
                                     return `<h3>${user.firstName} ${user.lastName} </h3> 
                                     <span> Gender: ${user.gender} </span> <br>
                                     <span> Age: ${user.age} </span> <br>
-                                    <span> Living in ${user.city}, ${user.country} </span> <br>
+                                    <span> Living in ${user.city}</span> <br>
                                     <span> Email for contact: </span> 
                                     <a href> ${user.email}</a><br>
                                     <span> Looking for a ${user.preferred_gender} to date</span> <br>

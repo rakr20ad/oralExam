@@ -5,27 +5,26 @@ module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
     try{
-        await matchModel.startDB(); // Start DB connection
+        await datingUserModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
     switch(req.method){
         case 'POST':
             console.log("test")
-            await post(context, req);
+            await post(context);
             break; 
         }
     }
 
-    async function post(context, req) {
+    async function post(context) {
         try {
             var match = new Match()
-            console.log(match)
             await datingUserModel.createMatch();
             var matchArr = []
             matchArr.push(match)
             context.res = {
-            body: {status: 200},
+            body: matchArr,
             }
         } catch(error) {
             context.res = {

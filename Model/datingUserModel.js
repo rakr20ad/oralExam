@@ -39,8 +39,15 @@ module.exports.startDB = startDB;
 //A user creates an account, when his information is posted to the database
 function insert(datingUser){
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO [GK7].[datingUser] (firstName, lastName, email, password, age, city, country, gender, preferred_gender)
-         VALUES (@firstName, @lastName, @email, @password, @age, @city, @country, @gender, @preferred_gender)`
+        const sql = `BEGIN
+                        DECLARE @address TABLE  (id Int, country VARCHAR(3));
+                        INSERT INTO GK7.datingUser(firstName, lastName, email, password, age, city, gender, preferred_gender)
+                        OUTPUT inserted.id, 'Den'
+                        INTO @address
+                        VALUES (@firstName, @lastName, @email, @password, @age, @city, @gender, @preferred_gender)
+                        INSERT INTO GK7.address (keycol, country) (
+                        SELECT id, country FROM @address)
+                    END`
         const request = new Request(sql, (err) => {
             if (err) {
                 reject(err)
@@ -52,8 +59,7 @@ function insert(datingUser){
         request.addParameter('email', TYPES.VarChar, datingUser.email)
         request.addParameter('password', TYPES.VarChar, datingUser.password)
         request.addParameter('age', TYPES.Int, datingUser.age)
-        request.addParameter('city', TYPES.VarChar, datingUser.city)        
-        request.addParameter('country', TYPES.VarChar, datingUser.country)        
+        request.addParameter('city', TYPES.VarChar, datingUser.city)       
         request.addParameter('gender', TYPES.VarChar, datingUser.gender)
         request.addParameter('preferred_gender', TYPES.VarChar, datingUser.preferred_gender)
         request.on('requestCompleted', (row) => {
@@ -71,9 +77,15 @@ module.exports.insert = insert;
 //This function is also triggered, when getting one's profileid, firstName, lastName, email, age, city, country, gender, preferred_gender 
 function select(email, password){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, password, age, city, country, gender, preferred_gender, online
-                    FROM [GK7].[datingUser]  
-                    WHERE email = @email AND password = @password`
+        const sql = `BEGIN
+                        UPDATE GK7.datingUser
+                        SET online = 1
+                        OUTPUT
+                        inserted.id, inserted.firstName, inserted.lastName, inserted.email, 
+                        inserted.age, inserted.city, inserted.gender, inserted.preferred_gender,
+                        inserted.online
+                        WHERE email = @email AND password = @password
+                    END`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -98,7 +110,15 @@ module.exports.select = select;
 //Logout
 function logout(id) {
     return new Promise((resolve, reject) => {
-         let sql = `SELECT id, online FROM [GK7].[datingUser] WHERE id = @id`
+         let sql = `BEGIN
+                    UPDATE GK7.datingUser
+                    SET online = 0
+                    OUTPUT
+                    inserted.id,
+                    deleted.online,
+                    inserted.online
+                    WHERE id = @id
+                    END`
          let request = new Request(sql, (err) => {
          if (err) {
             reject(err);

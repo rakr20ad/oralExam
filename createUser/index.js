@@ -21,7 +21,6 @@ module.exports = async function (context, req) {
     async function post(context, req) {
         try {
             var user = new datingUser(req)
-            console.log(user)
             await datingUserModel.insert(user)
             context.res = {
             body: user

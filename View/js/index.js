@@ -8,10 +8,9 @@ form.addEventListener("submit", function(e) {
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
     var age = document.getElementById("age").value
-    var city = document.getElementById("city").value     
-    var country = document.getElementById("country").value    
-    var gender = document.getElementById("gender").value
-    var preferred_gender = document.getElementById("preferred_gender").value
+    var city = document.getElementById("city").value    
+    var gender = document.querySelector('input[name="gender"]:checked').value
+    var preferred_gender = document.querySelector('input[name="preferred_gender"]:checked').value
     fetch("http://localhost:7071/api/createUser", {
         method: "POST",
         body: JSON.stringify({
@@ -21,7 +20,6 @@ form.addEventListener("submit", function(e) {
             password: password,
             age: age,            
             city: city,
-            country: country,
             gender: gender,
             preferred_gender: preferred_gender
         }),

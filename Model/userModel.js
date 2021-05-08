@@ -62,8 +62,9 @@ module.exports.updateUser = updateUser;
 function getUsers(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender
-                        FROM GK7.datingUser 
+                        SELECT firstName, lastName, email, age, city, gender, preferred_gender, id, country
+                        FROM GK7.datingUser d
+                        LEFT JOIN GK7.address a on d.id = a.keycol 
                     END`
         const request = new Request(sql, err => {
             if(err) {

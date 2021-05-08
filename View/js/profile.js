@@ -19,7 +19,7 @@ getMyProfile.addEventListener('click', function(){
                               return `<h3>${user.firstName} ${user.lastName} </h3> 
                                       <span> Gender: ${user.gender} </span> <br>
                                       <span> Age: ${user.age} </span> <br>
-                                      <span> Living in ${user.city}, ${user.country} </span> <br>
+                                      <span> Living in ${user.city} </span> <br>
                                       <span> Email for contact: </span> 
                                       <a href> ${user.email}</a><br>
                                       <span> Looking for a ${user.preferred_gender} to date</span> <br>
@@ -56,6 +56,7 @@ logoutBtn.addEventListener("click", function() {
                 localStorage.removeItem("id", data[i].id)
                 localStorage.removeItem("email", email);
                 localStorage.removeItem("password", password);
+                localStorage.removeItem("city", city);
                 localStorage.setItem("online", data[i].online = false);
                 console.log(data + 'User logged out')
                 window.location = 'index.html'

@@ -15,7 +15,7 @@ module.exports = async function (context, req) {
         }
     }
 
-    //Dette er funktionen til vores get all users for ADMIN 
+//Admin can get all matches
    async function get(context) {
         try {
             let result = await adminModel.getAllMatches()
