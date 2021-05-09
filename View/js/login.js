@@ -11,8 +11,7 @@ login.addEventListener("click", function() {
         method: "POST",
         body: JSON.stringify({
             email: email,
-            password: password,
-            online: false
+            password: password
         }),
         headers: {
             "Content-Type": "application/json; charset-UTG-8"
@@ -27,7 +26,6 @@ login.addEventListener("click", function() {
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);
             localStorage.setItem("city", data[i].city);
-            localStorage.setItem("online", data[i].online = true);
             window.location = 'profile.html'
             }
         })

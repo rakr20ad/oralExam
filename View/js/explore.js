@@ -1,6 +1,5 @@
 //Like user by id
 var likeUserBtn = document.getElementById("likeUser"); 
-
 likeUserBtn.addEventListener("submit", function(e) {
     e.preventDefault()
               var sender_id = localStorage.getItem("id")
@@ -17,11 +16,11 @@ likeUserBtn.addEventListener("submit", function(e) {
             })
             .then((response) => {
                 return response.json()
-       })
-       .then((user) => {
-         console.log(user)
-         window.alert(`You have liked ${receiver_id}. Type in the user's lucky number to see if it's a match`)
-        
+        })
+        .then((user) => {
+            console.log(user)
+            window.alert(`You have liked ${receiver_id}. Check if it's a match below!`)
+            
     }).catch((err) => {
         console.log(err)
    })
@@ -31,7 +30,7 @@ likeUserBtn.addEventListener("submit", function(e) {
 var checkMatchBtn = document.getElementById("checkMatch")
 checkMatchBtn.addEventListener("click", function() {
     var sender_id = localStorage.getItem("id")
-    var receiver_id = document.getElementById("likedUser_id").value
+    var receiver_id = document.getElementById("receiver_id").value
     fetch(`http://localhost:7071/api/checkMatch?sender_id=${sender_id}&receiver_id=${receiver_id}`)
     .then(
         function(response){
@@ -41,7 +40,7 @@ checkMatchBtn.addEventListener("click", function() {
             }
             response.json().then(function (data){
                 if (data.length > 0) {
-                    window.alert("It was a match!")
+                    window.alert("It was a match! You can now confirm that you're still interested below")
                     }
                     else {
                         window.alert("This user has not liked you back yet")
@@ -116,9 +115,6 @@ getUsersNearbyBtn.addEventListener('click', function(){
                           console.log("noget gik galt" + response.status);
                           return;  
                       }
-                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
-                      
                       response.json().then(function (data){
                         var city = localStorage.getItem("city")
                         var id = localStorage.getItem("id")
@@ -151,7 +147,7 @@ var genderBtn = document.getElementById("getUserByGender");
 
 genderBtn.addEventListener('click', function(e){
     e.preventDefault();
-            var gender = document.getElementById("gender").value
+    var gender = document.querySelector('input[name="gender"]:checked').value
             fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
                     .then(
                         function(response){

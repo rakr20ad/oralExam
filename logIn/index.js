@@ -25,13 +25,9 @@ switch(req.method){
     // Our login 
     async function post(context, req){
         try {
-            //var user = new datingUser(req)
             let email = (req.query.email || req.body && req.body.email);
             let password = (req.query.password || req.body && req.body.password);
             let userArr = await datingUserModel.select(email, password);
-           //console.log(user)
-            //let userArr = [];
-            //userArr.push(user)
             context.res = {
                 status: 200, 
                 body: userArr,

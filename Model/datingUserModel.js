@@ -40,13 +40,13 @@ module.exports.startDB = startDB;
 function insert(datingUser){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        DECLARE @address TABLE  (id Int, country VARCHAR(3));
-                        INSERT INTO GK7.datingUser(firstName, lastName, email, password, age, city, gender, preferred_gender)
-                        OUTPUT inserted.id, 'Den'
-                        INTO @address
+                        DECLARE @tempCountry TABLE  (id Int);
+                        insert into GK7.datingUser(firstName, lastName, email, password, age, city, gender, preferred_gender)
+                        OUTPUT inserted.id
+                        INTO @tempCountry
                         VALUES (@firstName, @lastName, @email, @password, @age, @city, @gender, @preferred_gender)
-                        INSERT INTO GK7.address (keycol, country) (
-                        SELECT id, country FROM @address)
+                        INSERT INTO GK7.country (keycol)(
+                            SELECT id FROM @tempCountry)
                     END`
         const request = new Request(sql, (err) => {
             if (err) {
@@ -81,9 +81,8 @@ function select(email, password){
                         UPDATE GK7.datingUser
                         SET online = 1
                         OUTPUT
-                        inserted.id, inserted.firstName, inserted.lastName, inserted.email, 
-                        inserted.age, inserted.city, inserted.gender, inserted.preferred_gender,
-                        inserted.online
+                        inserted.id, inserted.firstName, inserted.lastName, inserted.email, inserted.password,
+                        inserted.age, inserted.city, inserted.gender, inserted.preferred_gender, inserted.online
                         WHERE email = @email AND password = @password
                     END`
         const request = new Request(sql, err => {
@@ -145,7 +144,7 @@ module.exports.logout = logout;
 //Filter datingUser by gender and age
 function filterGender(gender){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, age, city, country, gender, preferred_gender, online 
+        const sql = `SELECT id, firstName, lastName, email, age, city, gender, preferred_gender 
                     FROM [GK7].[datingUser] 
                     WHERE gender = @gender`
         const request = new Request(sql, err => {
@@ -196,7 +195,7 @@ function filterAge(minAge, maxAge){
 module.exports.filterAge = filterAge;
 
 
-//Like user by entering your ID and the interesting user's ID
+//Like user by ID. sender_id is generated from localStorage, receiver_id is typed in in frontend
 function likeUser(like) {
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO [GK7].likes (sender_id, receiver_id) VALUES (@sender_id, @receiver_id)`

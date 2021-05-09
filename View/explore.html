@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <style>
-        h1, h2, h3, h4, h5, p, span, div {text-align: center;}
+        h1, h2, h3, h4, h5, p, span, div, form, button, body{text-align: center;}
     </style>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/index.css">
@@ -22,16 +22,15 @@
     <br>
     <p><h3>Explore Dating Universe now!</h3></p>
     <p>Find users below!</p>
-    <span>When you've found someone interesting, come back here and type in the lucky numbers!</span>
+    <p>When you've found someone interesting, come back here and type in the lucky numbers!</p>
     <div id= "likedUser">     
-        <form method ="POST" id="likeUser">
+        <form method ="POST" id="likeUser" >
         <input type = "number" id="receiver_id" class="form-control" placeholder="The hottie's lucky number" required><br><br>
         <button type ="submit" class="btn btn-outline-success">Like a user</button>
         </form>
     </div>
     <br>
     <div id = "checkMatchNow">
-        <input type = "number" id="likedUser_id" class="form-control" placeholder="The lucky number of the user, you just liked" required>
     <button type="button" class ="btn btn-outline-danger" id="checkMatch">Check if it's a match
         </button>
         <span style="font-size:500%;color: #ad0632e1">&hearts;</span>
@@ -51,7 +50,7 @@
         </form>
     </div><br><br>
     
-    <p>Enter a city and see potential matches in your area below!</p>
+    <p>Find potential matches in your area below!</p>
     
     <div id = "usersNearby">
             <form method="get">
@@ -61,10 +60,15 @@
             </div>
 <br>
 
-<p>Select your preferences and find a match</p>
+<p>Select your dating preferences and find a match</p>
 <div id = "usersGender">
     <form method="get">
-        <input type="text" id="gender" class="form-control" placeholder="Sexual preferences" required>
+        <input type="radio" id="male1" name="gender" value="Male">
+            <label for="male">Male</label><br>
+            <input type="radio" id="female1" name="gender" value="Female">
+            <label for="female">Female</label><br>
+            <input type="radio" id="other1" name="gender" value="Other">
+            <label for="other">Other</label><br>
         <br>
         <button type="button" class="btn btn-outline-primary" id="getUserByGender" class="button">Filter users by gender!</a>
             </button>
@@ -75,7 +79,7 @@
     <form method="get" >
     <input type="number" id="minAge" placeholder="Minimum age" >
     <input type="number" id="maxAge" placeholder="Maximum age" >
-    <br>
+    <br><br>
     <button type="button" class="btn btn-outline-primary" id="getUserByAge" class="button">Filter users by age!</a><br>
         </button>
 </div>
@@ -91,6 +95,8 @@
 </div>-->
 
 <!--Indsæt nye script med firstname match delen når det er der-->
+
+
 <script src="js/explore.js"></script>
 </body>
 </html>

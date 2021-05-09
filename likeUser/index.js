@@ -20,8 +20,7 @@ module.exports = async function (context, req) {
             var like = new Like(req)
             await datingUserModel.likeUser(like)
             context.res = {
-            body: {status: 'Success'}
-            
+            body: {status: 'Success'}            
             }
         } catch(error) {
             context.res = {

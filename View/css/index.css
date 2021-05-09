@@ -25,7 +25,9 @@
     background-color: #aa3d5ae1;
     color: black;
     }
-
+.whole {
+  text-align: center;
+}
     #myBtn {
         display: none; /* Hidden by default */
         position: fixed; /* Fixed/sticky position */
