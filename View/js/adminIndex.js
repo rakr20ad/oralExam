@@ -24,6 +24,7 @@ adminForm.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
+        window.alert("Account created. You can now login by clicking the link")
     }).catch((err) => {
         console.log(err)
     }) 
