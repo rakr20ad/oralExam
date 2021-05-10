@@ -17,16 +17,16 @@ adminLogin.addEventListener("submit", function(e) {
     .then((response) => {
         return response.json()
     })
-    .then((data) => {
-        console.log(data)
-            localStorage.setItem("loggedin", JSON.stringify(true));
-            localStorage.setItem("email", email);
-            localStorage.setItem("password", password);
+    .then(function (data) {
+        for (var i=0;i<data.length;i++) {
+            localStorage.setItem("id", data[i].id)
+            localStorage.setItem("email", data[i].email);
+            localStorage.setItem("password", data[i].password);
             window.location = 'adminPage.html'
-
+            }
         })
         .catch((err) => {
           console.log(err)
           window.alert("Vi kunne desværre ikke finde dig i systemet")
         });
-    });
+    })

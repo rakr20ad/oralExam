@@ -59,22 +59,32 @@ module.exports.insertAdmin = insertAdmin;
 //Admin login
 function selectAdmin(email, password){
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM [GK7].[admin] WHERE email = @email AND password = @password'
+        const sql = `BEGIN
+                        UPDATE GK7.admin
+                        SET online = 1
+                        OUTPUT
+                        inserted.id, inserted.email, inserted.password, inserted.online
+                        WHERE email = @email AND password = @password
+                    END`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
-            }
-            })
-        request.addParameter('email', TYPES.VarChar, email)
-        request.addParameter('password', TYPES.VarChar, password)
-        request.on("row", (coloumns) => {
-            console.log('Admin logged in'); 
-            resolve(coloumns)
-        });
-        connection.execSql(request);
-    });
-}
+            }})      
+            request.addParameter('email', TYPES.VarChar, email)
+            request.addParameter('password', TYPES.VarChar, password)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
 module.exports.selectAdmin = selectAdmin;
 
 //Private method
@@ -106,7 +116,7 @@ function getAllMatches() {
 module.exports.getAllMatches = getAllMatches;
 
 //Logout
-function logout(id) {
+function logoutAdmin(id) {
     return new Promise((resolve, reject) => {
          let sql = `SELECT id, online FROM [GK7].[admin] WHERE id = @id`
          let request = new Request(sql, (err) => {
@@ -129,7 +139,7 @@ function logout(id) {
     connection.execSql(request)
     })
 }
-module.exports.logout = logout;
+module.exports.logoutAdmin = logoutAdmin;
 
 
 

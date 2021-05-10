@@ -54,7 +54,7 @@ logoutBtn.addEventListener("click", function() {
                 localStorage.removeItem("password", data[i].password);
                 localStorage.removeItem("city", data[i].city);
                 //Just to show, that you can change value to key in frontend
-                localStorage.setItem("online", data[i].online = false);
+                //localStorage.setItem("online", data[i].online = false);
                 console.log(data + 'User logged out')
                 window.location = 'index.html'
             }

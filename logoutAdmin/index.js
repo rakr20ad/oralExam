@@ -5,7 +5,7 @@ context.log('JavaScript HTTP trigger function processed a request.');
 
 
 try{
-    await datingUserModel.startDB(); // Start DB connection
+    await adminModel.startDB(); // Start DB connection
 } catch(error) {
     console.log("Error connecting to the database", error.message)
 }
@@ -21,7 +21,7 @@ switch(req.method){
     async function get(context, req){
         try {
             let id = (req.query.id || req.body && req.body.id);
-            let offline = await adminModel.logout(id);
+            let offline = await adminModel.logoutAdmin(id);
             
             context.res = {
                 status: 200, 

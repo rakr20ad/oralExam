@@ -54,7 +54,7 @@ getMatchesBtn.addEventListener("click", function() {
 });
 
 //Log out function
-var logoutBtn = document.getElementById("logout")
+var logoutBtn = document.getElementById("logoutAdmin")
 
 logoutBtn.addEventListener("click", function() {
     var id = localStorage.getItem("id")
@@ -69,9 +69,8 @@ logoutBtn.addEventListener("click", function() {
             response.json().then(function (data) {
             for (var i=0;i<data.length;i++) {
                 localStorage.removeItem("id", data[i].id)
-                localStorage.removeItem("email", email);
-                localStorage.removeItem("password", password);
-                localStorage.setItem("online", data[i].online = false);
+                localStorage.removeItem("email", data[i].email);
+                localStorage.removeItem("password", data[i].password);
                 console.log(data + 'User logged out')
                 window.location = 'index.html'
             }
