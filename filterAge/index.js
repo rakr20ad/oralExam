@@ -23,7 +23,6 @@ module.exports = async function (context, req) {
             let result = await datingUserModel.filterAge(minAge, maxAge)
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

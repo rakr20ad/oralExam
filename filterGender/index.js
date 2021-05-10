@@ -19,12 +19,10 @@ module.exports = async function (context, req) {
     async function get(context, req) {
         try {
             let gender = (req.query.gender || (req.body && req.body.gender));
-            //let user = new User(firstName)
             console.log(gender)
             let result = await datingUserModel.filterGender(gender)
             context.res = {
                 status: 200,
-                //isRaw: true,
                 body: result,
                 headers: {
                     'Content-Type': 'application/json'

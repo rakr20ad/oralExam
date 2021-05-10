@@ -61,7 +61,7 @@ function checkMatch(sender_id, receiver_id){
       });request.on('doneProc', (rowCount) => {
           console.log(results)
             resolve(results) 
-            createMatch()
+            //createMatch()
         .catch(err)});  
         
     connection.execSql(request)

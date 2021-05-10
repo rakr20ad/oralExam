@@ -2,7 +2,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const should = chai.should();
-const config = require("../database/config.json")
 
 const baseURL = "http://localhost:7071/api"
 
@@ -27,7 +26,6 @@ describe("/POST", () => {
                         should.not.exist(err)
                         console.log(res.status)
                         res.status.should.equal(200);
-                        res.body.should.have.property.firstName
                         done();
         })
     })

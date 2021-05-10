@@ -94,13 +94,13 @@ dislikeUserBtn.addEventListener("submit", function(e) {
             .then((response) => {
                 return response.json()
        })
-       .then((user) => {
-         console.log(user)
-         window.alert(`You have disliked ${dislikeReceiver_id}`)
+       .then((dislike) => {
+        console.log(dislike)
+        window.alert(`You have disliked ${receiver_id}`)
         
-    }).catch((err) => {
-        console.log(err)
-   })
+        }).catch((err) => {
+            console.log(err)
+    })
 })
 
 //Users can find other users in their city
