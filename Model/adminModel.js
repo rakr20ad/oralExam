@@ -2,6 +2,8 @@ const User = require('./userModel')
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('../database/config.json'); 
 
+//admin related methods in here
+
 class Admin extends User {
     constructor(req) {
         super(req)

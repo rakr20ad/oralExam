@@ -1,12 +1,9 @@
-//const datingUser = require('../../Model/user')
-
+//login datingUser - stay signed in
 var login = document.getElementById("loginNow")
 
 login.addEventListener("click", function() {
     var email = document.getElementById("email").value
     var password = document.getElementById("password").value
-    //let user = new datingUser(firstName, lastName, email, password, age, city, country, gender, preferred_gender, false)
-    //console.log(datingUser1)
     fetch(`http://localhost:7071/api/login`, {
         method: "POST",
         body: JSON.stringify({

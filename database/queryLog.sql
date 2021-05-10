@@ -102,3 +102,10 @@ create table matches
 go
 
 
+BEGIN
+SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.gender, B.preferred_gender
+FROM GK7.datingUser AS A, GK7.datingUser AS B
+WHERE A.id = @id
+AND A.city = B.city
+AND A.id <> B.id
+END

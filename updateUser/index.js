@@ -21,6 +21,7 @@ module.exports = async function (context, req) {
             try {
                 let email = (req.query.email || (req.body && req.body.email));
                 let password = (req.query._password || (req.body && req.body.password));
+                //function is under userModel, as it is both used by admin and datingUser (nedarvet af User)
                 let result = await userModel.updateUser(email, password);
                 context.res = {
                     status: 200,

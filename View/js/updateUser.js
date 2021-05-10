@@ -1,3 +1,5 @@
+//Both admin and user can update a user's password with this
+
 var updateUser = document.getElementById("updateUser")
 updateUser.addEventListener("click", function(e) {
     e.preventDefault()

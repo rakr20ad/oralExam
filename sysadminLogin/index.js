@@ -13,12 +13,6 @@ module.exports = async function (context, req) {
             console.log("test")
             await post(context, req);
             break; }
-        /*default:
-            context.res = {
-                body: "Please get or post"
-            };
-            break
-        }*/
     }
 
     async function post(context, req) {

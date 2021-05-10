@@ -1,4 +1,5 @@
 
+//Fetches the login function with GET request
 var getMyProfile = document.getElementById("getProfile"); 
 
 getMyProfile.addEventListener('click', function(){
@@ -11,8 +12,6 @@ getMyProfile.addEventListener('click', function(){
                           console.log("noget gik galt" + response.status);
                           return;  
                       }
-                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       response.json().then(function (data) {
                           document.getElementById("myProfile").innerHTML = `
                           ${data.map(function(user) {
@@ -41,7 +40,6 @@ var logoutBtn = document.getElementById("logout")
 
 logoutBtn.addEventListener("click", function() {
     var id = localStorage.getItem("id")
-    //console.log(id)
     fetch(`http://localhost:7071/api/logout?id=${id}`)
     .then(
         function(response){
@@ -49,14 +47,13 @@ logoutBtn.addEventListener("click", function() {
                 console.log("noget gik galt" + response.status);
                 return;  
             }
-            //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-            //Derefter displayer vi objekterne ved at bruge JSON.stringify
             response.json().then(function (data) {
             for (var i=0;i<data.length;i++) {
                 localStorage.removeItem("id", data[i].id)
                 localStorage.removeItem("email", data[i].email);
                 localStorage.removeItem("password", data[i].password);
                 localStorage.removeItem("city", data[i].city);
+                //Just to show, that you can change value to key in frontend
                 localStorage.setItem("online", data[i].online = false);
                 console.log(data + 'User logged out')
                 window.location = 'index.html'

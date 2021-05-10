@@ -13,12 +13,12 @@ getUsersBtn.addEventListener("click", function() {
                     let counter = 0;
                     for (let i = 0; i < data.length; i++) {
                     counter++;
-                } 
+                    } 
                 document.getElementById("allUsers").innerHTML = `
                 <span> There are currently ${counter} registered dating users in Dating Universe</span>
                     `
-                        });   
-                  }
+                    });   
+                }
               )
     .catch(function (err) {
         console.log(err);
@@ -66,8 +66,6 @@ logoutBtn.addEventListener("click", function() {
                 console.log("noget gik galt" + response.status);
                 return;  
             }
-            //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-            //Derefter displayer vi objekterne ved at bruge JSON.stringify
             response.json().then(function (data) {
             for (var i=0;i<data.length;i++) {
                 localStorage.removeItem("id", data[i].id)

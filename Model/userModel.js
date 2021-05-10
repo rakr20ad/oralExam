@@ -1,5 +1,6 @@
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('../database/config.json'); 
+//both admin and datingUser methods here (nedarvning)
 
 class User{
     constructor(req) {
@@ -58,13 +59,12 @@ function updateUser(email, password) {
 };
 module.exports.updateUser = updateUser;
 
-//Get all users - may be used when finding a match
+//Get all users - part of the matching algorithm but also admin's method for getting number of users
 function getUsers(){
     return new Promise((resolve, reject) => {
         const sql = `BEGIN
-                        SELECT firstName, lastName, email, age, city, gender, preferred_gender, id, country
-                        FROM GK7.datingUser d
-                        LEFT JOIN GK7.country a on d.id = a.keycol 
+                        SELECT id, firstName, lastName, email, age, city, gender, preferred_gender
+                        FROM GK7.datingUser  
                     END`
         const request = new Request(sql, err => {
             if(err) {
@@ -85,8 +85,8 @@ function getUsers(){
 })}
 module.exports.getUsers = getUsers;
 
-//Delete user account
-function deleteUser(email, password){
+//Delete user account - both for admin and datingUser
+function deleteAccount(email, password){
     return new Promise((resolve, reject) => {
         const sql = 'DELETE FROM [GK7].[datingUser] where email = @email AND password = @password'
         const request = new Request(sql, (err, rowcount) => {
@@ -105,7 +105,7 @@ function deleteUser(email, password){
         connection.execSql(request)
     })
 }
-module.exports.deleteUser = deleteUser;
+module.exports.deleteAccount = deleteAccount;
 
 
 

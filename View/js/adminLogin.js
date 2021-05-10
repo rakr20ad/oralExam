@@ -19,7 +19,6 @@ adminLogin.addEventListener("submit", function(e) {
     })
     .then((data) => {
         console.log(data)
-            console.log("Ja tak")
             localStorage.setItem("loggedin", JSON.stringify(true));
             localStorage.setItem("email", email);
             localStorage.setItem("password", password);

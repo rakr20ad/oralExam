@@ -1,5 +1,5 @@
 
-const datingUserModel = require('../Model/datingUserModel')
+const matchModel = require('../Model/matchModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
@@ -18,11 +18,12 @@ module.exports = async function (context, req) {
 
     async function deleteMatch(context, req) {
         try {
-            let matchNumber = (req.query.matchNumber || (req.body && req.body.matchNumber));
-            console.log(matchNumber)
-            let user = await datingUserModel.deleteMatch(matchNumber)
+            let like_id = (req.query.like_id || (req.body && req.body.like_id));
+            console.log(like_id)
+            let delete_match = await matchModel.deleteMatch(like_id)
             context.res = {
-                body: user
+                status: 200,
+                body: delete_match
             }
         } catch(error) {
             context.res = {

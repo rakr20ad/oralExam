@@ -1,6 +1,9 @@
 const { Connection, Request, TYPES } = require('tedious'); 
 const config = require('../database/config.json'); 
 
+
+//Dislike related methods here
+
 class Dislike {
     constructor(req) {
         this.id = req.body.id,
@@ -11,6 +14,7 @@ class Dislike {
 
 module.exports = Dislike
 
+//Connect to DB
 var connection = new Connection(config); 
 
 function startDB(){
@@ -32,8 +36,7 @@ function startDB(){
 module.exports.sqlConnection = connection; 
 module.exports.startDB = startDB;
 
-
-//Like user by entering their Lucky number (ID)
+//Dislike user by entering their Lucky number (ID)
 function dislikeUser(dislike){
     return new Promise((resolve, reject) => {
         var sql = `INSERT INTO [GK7].dislikes (dislikeSender_id, dislikeReceiver_id) VALUES (@dislikeSender_id, @dislikeReceiver_id)`

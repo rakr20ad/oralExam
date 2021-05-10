@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "func start Controller",
-    "test": "mocha test/test"
+    "test": "mocha createUser/index-test"
   },
   "dependencies": {
     "chai": "^4.3.4",

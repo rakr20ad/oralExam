@@ -105,9 +105,7 @@ dislikeUserBtn.addEventListener("submit", function(e) {
 
 //Users can find other users in their city
 var getUsersNearbyBtn = document.getElementById("usersNearby"); 
-
 getUsersNearbyBtn.addEventListener('click', function(){
-              //var id = localStorage.getItem("id")
               fetch(`http://localhost:7071/api/getUsers`)
               .then(
                   function(response){
@@ -128,19 +126,18 @@ getUsersNearbyBtn.addEventListener('click', function(){
                                  <span> Age: ${data[i].age} </span> <br>
                                  <span> Gender: ${data[i].gender} </span> <br>
                                  <span> Looking for a ${data[i].preferred_gender} to date</span> <br>
-                                 <span> Living in ${data[i].city}, ${data[i].country} </span> <br>
+                                 <span> Living in ${data[i].city} </span> <br>
                                  <span> Lucky number: ${data[i].id} </span> <br><br>
                                  `
                                 )
                             }
                         }
                     })
-                  }
-              )
-                  .catch(function (err) {
+                  })
+                .catch(function (err) {
                       console.log(err);
           });
-        });
+    });
 
 //Filtering users by gender 
 var genderBtn = document.getElementById("getUserByGender"); 
@@ -161,7 +158,7 @@ genderBtn.addEventListener('click', function(e){
                                     return `<h3>${user.firstName} ${user.lastName} </h3> 
                                     <span> Gender: ${user.gender} </span> <br>
                                     <span> Age: ${user.age} </span> <br>
-                                    <span> Living in ${user.city}</span> <br>
+                                    <span> Living in ${user.city}, ${user.country}</span> <br>
                                     <span> Email for contact: </span> 
                                     <a href> ${user.email}</a><br>
                                     <span> Looking for a ${user.preferred_gender} to date</span> <br>

@@ -1,5 +1,5 @@
 .topnavAdmin {
-    background-color: #8b0025;
+    background-color: #ad0632e1;
     overflow: hidden;
     margin-bottom: 100px;
     float: 100%;
@@ -22,6 +22,6 @@
     box-sizing: border-box;
     }
     .topnavAdmin a:hover {
-    background-color: #ddd;
+    background-color: #aa3d5ae1;
     color: black;
     }

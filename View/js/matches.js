@@ -1,3 +1,4 @@
+//Get a list of user's matches
 var getMyMatchesBtn = document.getElementById("getMyMatches"); 
 
 getMyMatchesBtn.addEventListener('click', function(){
@@ -9,16 +10,13 @@ getMyMatchesBtn.addEventListener('click', function(){
                           console.log("noget gik galt" + response.status);
                           return;  
                       }
-                      //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-                      //Derefter displayer vi objekterne ved at bruge JSON.stringify
                       response.json().then(function (data) {
                           document.getElementById("myMatches").innerHTML = `
-                          ${data.map(function(match) {  
-                                                 
+                          ${data.map(function(match) {                                                
                               return `
                                       <h4> Match number: ${match.like_id} </h4> 
-                                      <span> Sender: ${match.sender_id} <br>
-                                      <span> Receiver: ${match.receiver_id} </span> <br>
+                                      <span> Sender: ${match.user1} <br>
+                                      <span> Receiver: ${match.user2} </span> <br>
                                       ` 
                       }).join('')}` 
                         })
@@ -27,16 +25,16 @@ getMyMatchesBtn.addEventListener('click', function(){
                   console.log(err);
           });
       });
-
+//Delete match by typing in match number (like_id)
 var deleteMatchBtn = document.getElementById("deleteMatch"); 
 
 deleteMatchBtn.addEventListener('click', function(e) {
         e.preventDefault()
-        var matchNumber = document.getElementById("matchNumber").value
-        fetch(`http://localhost:7071/api/deleteMatch?matchNumber=${matchNumber}`, {
+        var like_id = document.getElementById("matchNumber").value
+        fetch(`http://localhost:7071/api/deleteMatch?like_id=${like_id}`, {
             method: "DELETE",
             body: JSON.stringify({
-                matchNumber: matchNumber
+                like_id: like_id
             }),
             headers: {
                 "Content-Type": "application/json; charset-UTG-8"
@@ -44,45 +42,10 @@ deleteMatchBtn.addEventListener('click', function(e) {
         })
         .then((data) => {
             console.log(data)
-            window.alert(`Match number: ${matchNumber} has been deleted`)
+            window.alert(`Match number: ${like_id} has been deleted`)
             
             })
             .catch((err) => {
               console.log(err)
         });
     })
-        /*
-    var getMyMatchesBtn = document.getElementById("getMyMatches"); 
-
-    getMyMatchesBtn.addEventListener('click', function(){
-                  var like_id = document.getElementById('id').value
-                  fetch(`http://localhost:7071/api/getMyMatches?id=${id}`)
-                  .then(
-                      function(response){
-                          if(response.status !== 200){
-                              console.log("noget gik galt" + response.status);
-                              return;  
-                          }
-                          //Det er her funktionaliteten er, da vi referer til statistics med getUser, ved at bruge samme ID.
-                          //Derefter displayer vi objekterne ved at bruge JSON.stringify
-                          response.json().then( 
-                            function binarySearchIndex (data, id, low = 0, high = data.length - 1) {
-                                if (low > high) {
-                                  return -1
-                                }
-                                const midPoint = Math.floor((low + high) / 2)
-                              
-                                if (id < data[midPoint]) {
-                                  return binarySearchIndex(data, id, low, midPoint - 1)
-                                } else if (id > data[midPoint]) {
-                                  return binarySearchIndex(data, id, midPoint + 1, high)
-                                } else {
-                                  return midPoint
-                                }
-                              })   
-                            })
-                    .catch(function (err) {
-                      console.log(err);
-              });
-      });
-    */
