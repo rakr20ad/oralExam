@@ -88,10 +88,16 @@ module.exports.getUsers = getUsers;
 //Delete user account - both for admin and datingUser
 function deleteAccount(id){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id
-                    FROM GK7.datingUser AS u
+        const sql = `SELECT * FROM GK7.datingUser AS u
                     INNER JOIN GK7.country AS c ON c.keycol = u.id
+                    INNER JOIN GK7.dislikes d ON u.id = d.dislikeReceiver_id OR u.id = dislikeSender_id
+                    INNER JOIN GK7.likes l ON u.id = l.receiver_id OR u.id = l.sender_id
+                    INNER JOIN GK7.matches m ON u.id = m.user1 OR u.id = m.user2
+                    
                     DELETE FROM GK7.country WHERE keycol = @id
+                    DELETE FROM GK7.matches WHERE user2 = @id OR user1 = @id
+                    DELETE FROM GK7.likes WHERE sender_id = @id OR receiver_id= @id
+                    DELETE FROM GK7.dislikes WHERE dislikeReceiver_id = @id OR dislikeSender_id = @id
                     DELETE FROM  GK7.datingUser WHERE id =  @id;
                     `
         const request = new Request(sql, (err, rowcount) => {
