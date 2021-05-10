@@ -21,7 +21,7 @@ module.exports = async function (context, req) {
             console.log(dislike)
             await dislikeModel.dislikeUser(dislike)
             context.res = {
-            body: {status: 'Success'}
+            status: 200
             
             }
         } catch(error) {

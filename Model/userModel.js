@@ -86,9 +86,14 @@ function getUsers(){
 module.exports.getUsers = getUsers;
 
 //Delete user account - both for admin and datingUser
-function deleteAccount(email, password){
+function deleteAccount(id){
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM [GK7].[datingUser] where email = @email AND password = @password'
+        const sql = `SELECT id
+                    FROM GK7.datingUser AS u
+                    INNER JOIN GK7.country AS c ON c.keycol = u.id
+                    DELETE FROM GK7.country WHERE keycol = @id
+                    DELETE FROM  GK7.datingUser WHERE id =  @id;
+                    `
         const request = new Request(sql, (err, rowcount) => {
             if(err) {
                 reject(err)
@@ -97,8 +102,7 @@ function deleteAccount(email, password){
                 reject ({message: 'User does not exist'})
             }
         })
-        request.addParameter('email', TYPES.VarChar, email)
-        request.addParameter('password', TYPES.VarChar, password)
+        request.addParameter('id', TYPES.Int, id)
         request.on('row', (columns) => {
             resolve(columns)
         })

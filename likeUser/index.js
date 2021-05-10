@@ -21,6 +21,7 @@ module.exports = async function (context, req) {
             console.log(like)
             await likeModel.likeUser(like)
             context.res = {
+            status: 200,
             body: {status: 'Success'}            
             }
         } catch(error) {

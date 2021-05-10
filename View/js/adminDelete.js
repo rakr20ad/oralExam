@@ -3,13 +3,11 @@ var deleteUserBtn = document.getElementById("deleteUser")
 
 deleteUserBtn.addEventListener('click', function(e) {
     e.preventDefault()
-    var email = document.getElementById("email").value
-    var password = document.getElementById("password").value
-    fetch(`http://localhost:7071/api/deleteUser?email=${email}&password=${password}`, {
+    var id = document.getElementById("id").value
+    fetch(`http://localhost:7071/api/deleteUser?id${id}`, {
     method: "DELETE",
     body: JSON.stringify({
-        email: email,
-        password: password,
+        id: id
     }),
     headers: {
         "Content-Type": "application/json; charset-UTG-8"
@@ -17,7 +15,7 @@ deleteUserBtn.addEventListener('click', function(e) {
     })
     .then((data) => {
         console.log(data)
-        window.alert(`The account with email: ${email} and password: ${password} has been deleted`)
+        window.alert(`The account has been deleted`)
         //window.location = "index.html"
         
         })
