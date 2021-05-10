@@ -9,13 +9,13 @@ const baseURL = "http://localhost:7071/api"
 
 //const POST = require("../shared/db")
 
-//Her testes om en bruger rent faktisk oprettes til databasen
+// We're testing if the post request is working on the create user functionality
 // Describing method and route
 describe("/POST", () => {
     // What do we expect? 
     it("it should post a user from the database", (done) => {
         let user = {
-            firstName: "Emilie", lastName:"Larsson", email: "el@gmail.com", password: "1234", age: "26", city: "Hornbæk", country: "den", gender: "female", preferred_gender: "female"
+            firstName: "Melina", lastName:"Wayne", email: "Mel@gmail.com", password: "1234", age: 30, city: "Frederiksberg", gender: "Female", preferred_gender: "Male"
         }
         // Chai request is chained
         chai 
@@ -26,29 +26,21 @@ describe("/POST", () => {
                     //Handling response 
                     .end((err, res) => {
                         //Validating http status code 
-                        console.log(res.body, 'hej')
+                        console.log(res.body)
                         should.not.exist(err)
-                        console.log(res.status, "nice")
+                        console.log(res.status)
                         res.status.should.equal(200);
-                        res.body.should.be.a("object")
-                        /*res.body.should.have.property('name')
-                        res.body.should.have.property('email')
-                        res.body.should.have.property('gender')
-                        res.body.should.have.property('country')
-                        res.body.should.have.property('birthday')
-                        res.body.should.have.property('image')*/
                         done();
         })
     })
 })
 
-// Her tjekkes om fornavnet må være null
-// Describing method and route
-describe("Firstname must not be null", () => {
+// Checking if a certain amount of attributes are correct
+describe("Checking a users attributes", () => {
     // What do we expect? 
     it("it should throw an error, because firstname is null", (done) => {
         let user = {
-            firstName: null, lastName:"Carlsen", email: "hejjjj@gmail.com", password: "1234", age: "21", city: "Hørsholm", country: "den", gender: "male", preferred_gender: "female"
+            firstName: null, lastName:"Carlsen", email: "hejjjj@gmail.com", password: "1234", age: 21, city: "Hørsholm", gender: "male", preferred_gender: "female"
         }
         // Chai request is chained
         chai 
@@ -59,22 +51,16 @@ describe("Firstname must not be null", () => {
                     //Handling response 
                     .end((err, res) => {
                         //Validating http status code 
-                        console.log(res.body, 'cool')
-                        console.log(res.status, 'nice')
+                        //should.exist(err)
+                        console.log(res.body)
+                        console.log(res.status)
                         res.status.should.equal(400);
-                        res.body.should.be.a("object")
                         done();
         })
     })
-})
-
-// Her tjekkes om "country"-attributten må være længere end 3 karakterer
-// Describing method and route
-describe("Country can't be more than 3 letters", () => {
-    // What do we expect? 
-    it("it should throw an error, because country's length is more than 3 characters", (done) => {
+    it("It should throw an error, because email doesnt have an @", (done) => {
         let user = {
-            firstName: "Simon", lastName:"Carlsen", email: "heiiij@gmail.com", password: "1234", age: "21", city: "Hørsholm", country: "denmark", gender: "male", preferred_gender: "female"
+            firstName: "Simon", lastName:"Carlsen", email: "thisIsNotAnEmail", password: "1234", age: 21, city: "Hørsholm", gender: "male", preferred_gender: "female"
         }
         // Chai request is chained
         chai 
@@ -85,22 +71,16 @@ describe("Country can't be more than 3 letters", () => {
                     //Handling response 
                     .end((err, res) => {
                         //Validating http status code 
-                        console.log(res.body, 'cool')
-                        console.log(res.status, 'nice')
+                        //should.exist(err)
+                        console.log(res.body)
+                        console.log(res.status)
                         res.status.should.equal(400);
-                        res.body.should.be.a("object")
                         done();
         })
     })
-})
-
-// Her tjekkes om alder må være tekst
-// Describing method and route
-describe("age has to be an integer", () => {
-    // What do we expect? 
     it("it should throw an error, because age is not an integer", (done) => {
         let user = {
-            firstName: "Simon", lastName:"Carlsen", email: "heiiij@gmail.com", password: "1234", age: "enogtyve", city: "Hørsholm", country: "denmark", gender: "male", preferred_gender: "female"
+            firstName: "Simon", lastName:"Carlsen", email: "heiiij@gmail.com", password: "1234", age: "enogtyve", city: "Hørsholm", gender: "male", preferred_gender: "female"
         }
         // Chai request is chained
         chai 
@@ -111,11 +91,12 @@ describe("age has to be an integer", () => {
                     //Handling response 
                     .end((err, res) => {
                         //Validating http status code 
-                        console.log(res.body, 'cool')
-                        console.log(res.status, 'nice')
+                        //should.exist(err)
+                        console.log(res.body)
+                        console.log(res.status)
                         res.status.should.equal(400);
-                        res.body.should.be.a("object")
                         done();
         })
     })
 })
+
