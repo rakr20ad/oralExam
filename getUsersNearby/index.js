@@ -15,13 +15,12 @@ module.exports = async function (context, req) {
     };
 }
 
-    //Filter by age 
+    //Filter by id
     async function get(context, req) {
         try {
             let id = (req.query.id || (req.body && req.body.id));
-            let minAge = (req.query.minAge || (req.body && req.body.minAge));
-            let maxAge = (req.query.maxAge || (req.body && req.body.maxAge));
-            let result = await datingUserModel.filterAge(id, minAge, maxAge)
+            console.log(id)
+            let result = await datingUserModel.getUsersNearby(id)
             context.res = {
                 status: 200,
                 body: result,

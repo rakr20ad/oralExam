@@ -1,9 +1,9 @@
-const userModel = require('../Model/userModel')
+const adminModel = require('../Model/adminModel')
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
     try{
-        await userModel.startDB(); // Start DB connection
+        await adminModel.startDB(); // Start DB connection
     } catch(error) {
         console.log("Error connecting to the database", error.message)
     }
@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
     //Show users 
     async function get(context) {
         try {
-            let result = await userModel.getUsers()
+            let result = await adminModel.getUsers()
             context.res = {
                 status: 200,
                 body: result,

@@ -59,31 +59,6 @@ function updateUser(email, password) {
 };
 module.exports.updateUser = updateUser;
 
-//Get all users - part of the matching algorithm but also admin's method for getting number of users
-function getUsers(){
-    return new Promise((resolve, reject) => {
-        const sql = `BEGIN
-                        SELECT id, firstName, lastName, email, age, city, gender, preferred_gender
-                        FROM GK7.datingUser  
-                    END`
-        const request = new Request(sql, err => {
-            if(err) {
-                reject(err)
-                console.log(err)
-            }}) 
-            let results = [];
-            request.on('row', async function(columns)  {
-            let result = {};
-            await columns.forEach(column => {  
-            result[column.metadata.colName] = column.value;          
-        });results.push(result);         
-        
-      });request.on('doneProc', (rowCount) => {
-             resolve(results) 
-        });  
-        connection.execSql(request)
-})}
-module.exports.getUsers = getUsers;
 
 //Delete user account - both for admin and datingUser
 function deleteAccount(id){

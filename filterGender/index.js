@@ -18,9 +18,10 @@ module.exports = async function (context, req) {
     //Filter by gender
     async function get(context, req) {
         try {
+            let id = (req.query.id || (req.body && req.body.id));
             let gender = (req.query.gender || (req.body && req.body.gender));
             console.log(gender)
-            let result = await datingUserModel.filterGender(gender)
+            let result = await datingUserModel.filterGender(id, gender)
             context.res = {
                 status: 200,
                 body: result,

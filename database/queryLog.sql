@@ -105,7 +105,8 @@ go
 BEGIN
 SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.gender, B.preferred_gender
 FROM GK7.datingUser AS A, GK7.datingUser AS B
-WHERE A.id = @id
+WHERE A.id = @id AND A.id <> B.id
 AND A.city = B.city
-AND A.id <> B.id
+AND B.id NOT IN (SELECT dislikeReceiver_id FROM GK7.dislikes WHERE dislikeSender_id = @id)
+AND B.id NOT IN (SELECT receiver_id FROM GK7.likes WHERE sender_id = @id)
 END

@@ -104,9 +104,10 @@ dislikeUserBtn.addEventListener("submit", function(e) {
 })
 
 //Users can find other users in their city
-var getUsersNearbyBtn = document.getElementById("usersNearby"); 
+var getUsersNearbyBtn = document.getElementById("usersNearby");
 getUsersNearbyBtn.addEventListener('click', function(){
-              fetch(`http://localhost:7071/api/getUsers`)
+var id = localStorage.getItem("id")
+        fetch(`http://localhost:7071/api/getUsersNearby?id=${id}`)
               .then(
                   function(response){
                       if(response.status !== 200){
@@ -115,9 +116,8 @@ getUsersNearbyBtn.addEventListener('click', function(){
                       }
                       response.json().then(function (data){
                         var city = localStorage.getItem("city")
-                        var id = localStorage.getItem("id")
                         for( i = 0; i < data.length; i ++){
-                        if(data[i].city === city && data[i].id != id){
+                            if(data[i].city === city){
                                 document.getElementById("usersNearby").insertAdjacentHTML ("beforeend", `
                                 <br>
                                 <h3>${data[i].firstName} ${data[i].lastName} </h3> <br>
@@ -144,8 +144,9 @@ var genderBtn = document.getElementById("getUserByGender");
 
 genderBtn.addEventListener('click', function(e){
     e.preventDefault();
+    var id = localStorage.getItem("id")
     var gender = document.querySelector('input[name="gender"]:checked').value
-            fetch(`http://localhost:7071/api/filterGender?gender=${gender}`)
+            fetch(`http://localhost:7071/api/filterGender?id=${id}&gender=${gender}`)
                     .then(
                         function(response){
                             if(response.status !== 200){
@@ -179,9 +180,10 @@ var ageBtn = document.getElementById("getUserByAge");
 
 ageBtn.addEventListener('click', function(e){
     e.preventDefault()
+            var id = localStorage.getItem("id")
             var minAge = document.getElementById('minAge').value 
             var maxAge = document.getElementById('maxAge').value 
-            fetch(`http://localhost:7071/api/filterAge?minAge=${minAge}&maxAge=${maxAge}`)
+            fetch(`http://localhost:7071/api/filterAge?id=${id}&minAge=${minAge}&maxAge=${maxAge}`)
                     .then(
                         function(response){
                             if(response.status !== 200){

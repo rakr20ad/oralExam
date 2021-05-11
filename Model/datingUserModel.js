@@ -141,20 +141,54 @@ function logout(id) {
 }
 module.exports.logout = logout;
 
+//Get all users - part of the matching algorithm but also admin's method for getting number of users
+function getUsersNearby(id){
+    return new Promise((resolve, reject) => {
+        const sql = `BEGIN
+                    SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.gender, B.preferred_gender
+                    FROM GK7.datingUser AS A, GK7.datingUser AS B
+                    WHERE A.id = @id
+                    AND A.id <> B.id
+                        AND B.id NOT IN (SELECT dislikeReceiver_id FROM GK7.dislikes WHERE dislikeSender_id = @id)
+                        AND B.id NOT IN (SELECT receiver_id FROM GK7.likes WHERE sender_id = @id)
+                    END`
+        const request = new Request(sql, err => {
+            if(err) {
+                reject(err)
+                console.log(err)
+            }}) 
+            request.addParameter('id', TYPES.Int, id)
+            let results = [];
+            request.on('row', async function(columns)  {
+            let result = {};
+            await columns.forEach(column => {  
+            result[column.metadata.colName] = column.value;          
+        });results.push(result);         
+        
+      });request.on('doneProc', (rowCount) => {
+             resolve(results) 
+        });  
+        connection.execSql(request)
+})}
+module.exports.getUsersNearby = getUsersNearby;
 
 //Filter datingUser by gender and age
-function filterGender(gender){
+function filterGender(id, gender){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT firstName, lastName, email, age, city, gender, preferred_gender, id, country
-                     FROM GK7.datingUser d
-                    LEFT JOIN GK7.country a on d.id = a.keycol
-                    WHERE gender = @gender`
+        const sql = `SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.gender, B.preferred_gender
+                    FROM GK7.datingUser AS A, GK7.datingUser AS B
+                    WHERE A.id = @id 
+                    AND A.id <> B.id 
+                    AND B.gender = @gender
+                    AND B.id NOT IN (SELECT dislikeReceiver_id FROM GK7.dislikes WHERE dislikeSender_id = @id)
+                    AND B.id NOT IN (SELECT receiver_id FROM GK7.likes WHERE sender_id = @id)`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
                 console.log(err)
             }})      
             request.addParameter('gender', TYPES.VarChar, gender)
+            request.addParameter('id', TYPES.Int, id)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
@@ -170,11 +204,15 @@ function filterGender(gender){
 module.exports.filterGender = filterGender;
 
 //Filter datingUser by age
-function filterAge(minAge, maxAge){
+function filterAge(id, minAge, maxAge){
     return new Promise((resolve, reject) => {
-        const sql = `SELECT id, firstName, lastName, email, age, city, gender, preferred_gender
-                    FROM [GK7].[datingUser] 
-                    WHERE age >= @minAge AND age <= @maxAge`
+        const sql = `SELECT B.id, B.firstName, B.lastName, B.email, B.age, B.city, B.gender, B.preferred_gender
+                    FROM GK7.datingUser AS A, GK7.datingUser AS B
+                    WHERE A.id = @id 
+                    AND A.id <> B.id
+                    AND B.age >= @minAge AND B.age <= @maxAge
+                    AND B.id NOT IN (SELECT dislikeReceiver_id FROM GK7.dislikes WHERE dislikeSender_id = @id)
+                    AND B.id NOT IN (SELECT receiver_id FROM GK7.likes WHERE sender_id = @id)`
         const request = new Request(sql, err => {
             if(err) {
                 reject(err)
@@ -182,6 +220,7 @@ function filterAge(minAge, maxAge){
             }})      
             request.addParameter('minAge', TYPES.VarChar, minAge)
             request.addParameter('maxAge', TYPES.VarChar, maxAge)
+            request.addParameter('id', TYPES.Int, id)
             let results = [];
             request.on('row', async function(columns)  {
             let result = {};
